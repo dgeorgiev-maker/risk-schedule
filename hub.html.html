@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Моето работно място</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{--bg:#F6F8FA;--side:#FFFFFF;--surface:#FFFFFF;--ink:#18212C;--muted:#5F6B7A;--line:#E1E6EC;--hover:#EEF2F6;--accent:#1F3A5F;--accent-ink:#FFFFFF;--sel:#E3ECF7;--bad:#C2362B;box-sizing:border-box;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11151B;--side:#161B22;--surface:#181E26;--ink:#E5EAF0;--muted:#97A2B0;--line:#2A323D;--hover:#202833;--accent:#8FB4E3;--accent-ink:#0E1621;--sel:#1F2B3A;--bad:#FF8A7F;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#11151B;--side:#161B22;--surface:#181E26;--ink:#E5EAF0;--muted:#97A2B0;--line:#2A323D;--hover:#202833;--accent:#8FB4E3;--accent-ink:#0E1621;--sel:#1F2B3A;--bad:#FF8A7F;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 "Rubik",system-ui,"Segoe UI",Roboto,sans-serif}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+.app{display:flex;height:100%}
+aside{width:260px;flex:none;background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);transition:width .15s}
+.app.mini aside{width:60px}
+.top{display:flex;align-items:center;gap:8px;padding:14px 12px 10px}
+.brand{font-weight:600;font-size:15px;flex:1;white-space:nowrap;overflow:hidden}
+.ib{background:none;border:0;cursor:pointer;color:var(--muted);width:30px;height:30px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;flex:none}
+.ib:hover{background:var(--hover);color:var(--ink)}
+nav{flex:1;overflow-y:auto;padding:4px 0 10px}
+.home{display:flex;align-items:center;gap:10px;width:calc(100% - 16px);margin:0 8px 6px;padding:8px 10px;border:0;background:none;border-radius:8px;cursor:pointer;text-align:left}
+.home:hover{background:var(--hover)}.home.sel{background:var(--sel)}
+.ghead{display:flex;align-items:center;gap:6px;padding:6px 12px 4px}
+.caret{background:none;border:0;cursor:pointer;color:var(--muted);font-size:10px;width:16px;padding:0;transition:transform .12s}
+.group.closed .caret{transform:rotate(-90deg)}
+.chip{border:0;border-radius:6px;padding:2px 9px;font-size:12.5px;font-weight:500;cursor:pointer;white-space:nowrap}
+.gplus{margin-left:auto}.gmore{width:24px}
+.items{padding:2px 0 6px}
+.group.closed .items{display:none}
+.item{display:flex;align-items:center;gap:10px;width:calc(100% - 16px);margin:1px 8px;padding:7px 10px;border:0;background:none;border-radius:8px;cursor:pointer;text-align:left;position:relative}
+.item:hover{background:var(--hover)}
+.item.sel{background:var(--sel)}
+.ico{width:22px;height:22px;border-radius:6px;flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;overflow:hidden}
+.ico img{width:16px;height:16px}
+.lbl{min-width:0;flex:1}
+.lbl b{display:block;font-weight:400;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbl small{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ext{color:var(--muted);font-size:12px}
+.app.mini aside .brand,.app.mini aside .lbl,.app.mini aside .chip,.app.mini aside .gplus,.app.mini aside .gmore,.app.mini aside .caret,.app.mini aside .ext,.app.mini aside .addg,.app.mini aside .user{display:none}
+.app.mini .group .items{display:block}
+.app.mini .ghead{padding:4px 0;justify-content:center}
+.app.mini .ghead::before{content:"";width:24px;height:3px;border-radius:2px;background:var(--gc)}
+.app.mini .item,.app.mini .home{justify-content:center;padding:7px 0}
+.foot{border-top:1px solid var(--line);padding:10px 12px;display:flex;align-items:center;gap:8px}
+.addg{background:none;border:1px dashed var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;color:var(--muted);font-size:12.5px}
+.addg:hover{color:var(--ink);border-color:var(--muted)}
+.user{flex:1;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+main{flex:1;min-width:0;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+iframe{flex:1;border:0;width:100%;background:var(--bg)}
+.dash{flex:1;overflow:auto;padding:32px 36px 60px}
+.dash h1{font-size:26px;font-weight:600;margin:0 0 4px;letter-spacing:-.01em}
+.dash p.sub{color:var(--muted);margin:0 0 26px}
+.dgroup{margin-bottom:26px}
+.dgroup h2{font-size:14px;font-weight:500;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.dgroup h2 i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.tile{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);background:var(--surface);border-radius:12px;cursor:pointer;text-align:left}
+.tile:hover{border-color:var(--muted)}
+.tile .ico{width:34px;height:34px;border-radius:9px;font-size:14px}
+.tile .ico img{width:20px;height:20px}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:16px;color:var(--muted);font-size:13px;background:none;cursor:pointer;text-align:left}
+.menu{position:fixed;z-index:40;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px;min-width:160px;box-shadow:0 10px 28px rgba(15,25,40,.2)}
+.menu button{display:block;width:100%;text-align:left;background:none;border:0;padding:7px 10px;border-radius:7px;cursor:pointer;font-size:13px}
+.menu button:hover{background:var(--hover)}.menu .del{color:var(--bad)}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(10,16,24,.45);display:grid;place-items:center;padding:16px}
+.dialog{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;width:100%;max-width:380px;display:grid;gap:10px}
+.dialog h3{margin:0 0 4px;font-size:17px;font-weight:600}
+.dialog label{display:grid;gap:4px;font-size:12.5px;color:var(--muted)}
+.dialog input,.dialog select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:14px}
+.dialog .chk{display:flex;align-items:center;gap:8px;color:var(--ink);font-size:13px}
+.row{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+.btn{border:1px solid var(--line);background:var(--surface);padding:8px 14px;border-radius:9px;cursor:pointer;font-weight:500}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.err{color:var(--bad);font-size:12.5px;min-height:1em}
+.gate{height:100%;display:grid;place-items:center;padding:20px}
+.gatebox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:32px;max-width:420px;width:100%}
+.gatebox h1{margin:4px 0 8px;font-size:24px;font-weight:600}
+.gatebox p{color:var(--muted);margin:0 0 16px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:9px 15px;border-radius:9px;font-size:13.5px;z-index:60}
+@media (max-width:700px){aside{position:fixed;inset:0 auto 0 0;z-index:30;box-shadow:0 0 30px rgba(0,0,0,.25)}.app.mini aside{box-shadow:none;position:relative}.dash{padding:22px 16px}}
+@media (prefers-reduced-motion:reduce){aside,.caret{transition:none}}
+</style>
+</head>
+<body>
+<div class="gate" id="gate" hidden>
+  <div class="gatebox">
+    <p style="margin:0">Моето работно място</p>
+    <h1>Влез, за да продължиш</h1>
+    <p id="gatemsg">Достъп имат само одобрените акаунти.</p>
+    <button class="btn primary" id="login">Вход с Google</button>
+  </div>
+</div>
+<div class="app" id="app" hidden>
+  <aside>
+    <div class="top">
+      <span class="brand">Моето работно място</span>
+      <button class="ib" id="mini" aria-label="Свий или разгъни менюто" title="Свий менюто">⇤</button>
+    </div>
+    <nav id="nav" aria-label="Проекти"></nav>
+    <div class="foot">
+      <button class="addg" id="addGroup">+ група</button>
+      <span class="user" id="user"></span>
+      <button class="ib" id="logout" aria-label="Изход" title="Изход">⎋</button>
+    </div>
+  </aside>
+  <main id="main"></main>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="config.js"></script>
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const COLORS = [['#CDE9F7','#0E3A52'],['#D9CCF5','#33215E'],['#C8EECF','#1C4A27'],['#FFE08A','#5A4300'],['#F9D0CB','#6A1D15'],['#C6EEF0','#0D4448']];
+const HERE = location.origin + location.pathname.replace(/[^/]*$/, '');
+const DEFAULT = { groups: [{ name: 'Risk', color: 0, open: true, items: [{ title: 'График', url: HERE, inside: true }] }] };
+let db = null, data = null, current = null;
+const LS = { get(k, d) { try { const v = localStorage.getItem('hub:' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('hub:' + k, JSON.stringify(v)); } catch (e) {} } };
+const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return u; } };
+const sameSite = u => { try { return new URL(u).origin === location.origin; } catch (e) { return false; } };
+function toast(t) { const el = $('#toast'); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => el.hidden = true, 3000); }
+function h(tag, attrs = {}, ...kids) { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) { if (v == null || v === false) continue; if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else if (k === 'style') e.style.cssText = v; else e.setAttribute(k, v === true ? '' : v); } for (const c of kids) if (c != null) e.append(c); return e; }
+function icon(it, gcol) {
+  const c = COLORS[gcol % COLORS.length];
+  const box = h('span', { class: 'ico', style: `background:${c[0]};color:${c[1]}`, 'aria-hidden': 'true' });
+  if (sameSite(it.url)) { box.textContent = (it.title || '?').trim().charAt(0).toUpperCase(); return box; }
+  const img = h('img', { src: 'https://www.google.com/s2/favicons?sz=64&domain=' + host(it.url), alt: '' });
+  img.addEventListener('error', () => { img.remove(); box.textContent = (it.title || '?').trim().charAt(0).toUpperCase(); });
+  box.append(img); return box;
+}
+
+// ---------- data ----------
+let saveT = null, saving = false, again = false;
+function save() { clearTimeout(saveT); saveT = setTimeout(flush, 400); }
+async function flush() { if (saving) { again = true; return; } saving = true; try { await db.doc('sched/hub').set(JSON.parse(JSON.stringify(data))); } catch (e) { toast('Не успях да запазя: ' + e.message); } saving = false; if (again) { again = false; flush(); } }
+
+// ---------- render ----------
+function render() {
+  const nav = $('#nav'); nav.textContent = '';
+  nav.append(h('button', { class: 'home' + (current ? '' : ' sel'), onclick: () => openHome(), title: 'Начало' }, h('span', { class: 'ico', style: 'background:var(--hover)', 'aria-hidden': 'true' }, '⌂'), h('span', { class: 'lbl homelbl' }, h('b', {}, 'Начало'))));
+  data.groups.forEach((g, gi) => {
+    const c = COLORS[g.color % COLORS.length];
+    const toggle = () => { g.open = !g.open; save(); render(); };
+    const sec = h('section', { class: 'group' + (g.open ? '' : ' closed'), style: '--gc:' + c[0] });
+    sec.append(h('div', { class: 'ghead', oncontextmenu: e => groupMenu(e, gi) },
+      h('button', { class: 'caret', onclick: toggle, 'aria-label': g.open ? 'Скрий ' + g.name : 'Покажи ' + g.name, 'aria-expanded': String(!!g.open) }, '▼'),
+      h('button', { class: 'chip', style: `background:${c[0]};color:${c[1]}`, onclick: toggle }, g.name),
+      h('button', { class: 'ib gplus', title: 'Добави в ' + g.name, 'aria-label': 'Добави в ' + g.name, onclick: () => editItem(gi) }, '+'),
+      h('button', { class: 'ib gmore', title: 'Още', 'aria-label': 'Още за ' + g.name, onclick: e => groupMenu(e, gi) }, '⋯')));
+    const items = h('div', { class: 'items' });
+    g.items.forEach((it, ii) => {
+      const inside = it.inside;
+      items.append(h('button', { class: 'item' + (current && current.gi === gi && current.ii === ii ? ' sel' : ''), title: it.title + ' – ' + it.url, onclick: e => openItem(gi, ii, e), oncontextmenu: e => itemMenu(e, gi, ii) },
+        icon(it, g.color), h('span', { class: 'lbl' }, h('b', {}, it.title), h('small', {}, host(it.url))), inside ? null : h('span', { class: 'ext', 'aria-label': 'отваря се в нов таб' }, '↗')));
+    });
+    sec.append(items); nav.append(sec);
+  });
+}
+function openHome() {
+  current = null; LS.set('last', null); render();
+  const main = $('#main'); main.textContent = '';
+  const d = h('div', { class: 'dash' }, h('h1', {}, 'Здравей' + (firebase.auth().currentUser ? ', ' + (firebase.auth().currentUser.displayName || '').split(' ')[0] : '')), h('p', { class: 'sub' }, 'Всичките ти проекти на едно място. Добавяш нов с „+“ до групата.'));
+  data.groups.forEach((g, gi) => {
+    const c = COLORS[g.color % COLORS.length];
+    const sec = h('div', { class: 'dgroup' }, h('h2', {}, h('i', { style: 'background:' + c[0] }), g.name));
+    const tiles = h('div', { class: 'tiles' });
+    g.items.forEach((it, ii) => tiles.append(h('button', { class: 'tile', onclick: e => openItem(gi, ii, e) }, icon(it, g.color), h('span', { class: 'lbl' }, h('b', {}, it.title), h('small', {}, it.inside ? host(it.url) : host(it.url) + ' ↗')))));
+    tiles.append(h('button', { class: 'empty', onclick: () => editItem(gi) }, '+ Добави линк'));
+    sec.append(tiles); d.append(sec);
+  });
+  main.append(d);
+}
+function openItem(gi, ii, e) {
+  const it = data.groups[gi].items[ii];
+  if (!it.inside || (e && (e.ctrlKey || e.metaKey))) { window.open(it.url, '_blank', 'noopener'); return; }
+  current = { gi, ii }; LS.set('last', { gi, ii }); render();
+  const main = $('#main'); main.textContent = '';
+  main.append(h('iframe', { src: it.url, title: it.title, allow: 'clipboard-write; downloads' }));
+  if (innerWidth <= 700) $('#app').classList.add('mini');
+}
+
+// ---------- menus & dialogs ----------
+let menuEl = null;
+function closeMenu() { if (menuEl) { menuEl.remove(); menuEl = null; } }
+function menu(e, entries) {
+  e.preventDefault(); e.stopPropagation(); closeMenu();
+  menuEl = h('div', { class: 'menu', role: 'menu' }, ...entries.map(([t, fn, cls]) => h('button', { role: 'menuitem', class: cls, onclick: () => { closeMenu(); fn(); } }, t)));
+  document.body.append(menuEl);
+  const r = e.currentTarget && e.type === 'click' ? e.currentTarget.getBoundingClientRect() : { left: e.clientX, bottom: e.clientY };
+  menuEl.style.left = Math.min(r.left, innerWidth - 180) + 'px';
+  menuEl.style.top = Math.min(r.bottom + 4, innerHeight - menuEl.offsetHeight - 8) + 'px';
+  menuEl.querySelector('button').focus();
+}
+document.addEventListener('click', e => { if (menuEl && !menuEl.contains(e.target)) closeMenu(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMenu(); const m = $('.modal'); if (m) m.remove(); } });
+function move(arr, i, d) { const j = i + d; if (j < 0 || j >= arr.length) return; [arr[i], arr[j]] = [arr[j], arr[i]]; }
+function itemMenu(e, gi, ii) {
+  const g = data.groups[gi];
+  menu(e, [['Промени', () => editItem(gi, ii)], ['Отвори в нов таб', () => window.open(g.items[ii].url, '_blank', 'noopener')], ['Нагоре', () => { move(g.items, ii, -1); current = null; save(); render(); }], ['Надолу', () => { move(g.items, ii, 1); current = null; save(); render(); }],
+    ['Изтрий', () => { if (confirm('Да изтрия ли „' + g.items[ii].title + '“?')) { g.items.splice(ii, 1); current = null; save(); openHome(); } }, 'del']]);
+}
+function groupMenu(e, gi) {
+  const g = data.groups[gi];
+  menu(e, [['Преименувай', () => editGroup(gi)], ['Смени цвета', () => { g.color = (g.color + 1) % COLORS.length; save(); render(); }], ['Нагоре', () => { move(data.groups, gi, -1); current = null; save(); render(); }], ['Надолу', () => { move(data.groups, gi, 1); current = null; save(); render(); }],
+    ['Изтрий групата', () => { if (confirm('Да изтрия ли групата „' + g.name + '“ и линковете в нея?')) { data.groups.splice(gi, 1); current = null; save(); openHome(); } }, 'del']]);
+}
+function dialog(title, fields, onOk) {
+  const err = h('div', { class: 'err' });
+  const form = h('form', { class: 'dialog' }, h('h3', {}, title), ...fields, err, h('div', { class: 'row' }, h('button', { type: 'button', class: 'btn', onclick: () => modal.remove() }, 'Откажи'), h('button', { type: 'submit', class: 'btn primary' }, 'Запази')));
+  const modal = h('div', { class: 'modal', onclick: e => { if (e.target === modal) modal.remove(); } }, form);
+  form.addEventListener('submit', e => { e.preventDefault(); const m = onOk(); if (m) { err.textContent = m; return; } modal.remove(); });
+  document.body.append(modal); const f = form.querySelector('input'); f && f.focus();
+}
+function editItem(gi, ii) {
+  const it = ii != null ? data.groups[gi].items[ii] : null;
+  const title = h('input', { value: it ? it.title : '', placeholder: 'График' });
+  const url = h('input', { value: it ? it.url : '', placeholder: 'https://…' });
+  const inside = h('input', { type: 'checkbox' }); inside.checked = it ? !!it.inside : false;
+  const hint = h('small', { style: 'color:var(--muted);font-size:12px' }, 'Твоите страници от GitHub се отварят вътре. Notion, Google и повечето външни сайтове не позволяват – за тях остави неотметнато и ще се отварят в нов таб.');
+  url.addEventListener('input', () => { if (!it) inside.checked = sameSite(url.value.trim()); });
+  dialog(it ? 'Промени линк' : 'Нов линк в „' + data.groups[gi].name + '“', [h('label', {}, 'Име', title), h('label', {}, 'Адрес', url), h('label', { class: 'chk' }, inside, 'Отваряй вътре в това място'), hint], () => {
+    let u = url.value.trim(); if (!u) return 'Въведи адрес.';
+    if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+    try { new URL(u); } catch (e) { return 'Адресът не изглежда правилен.'; }
+    const t = title.value.trim() || host(u);
+    if (it) Object.assign(it, { title: t, url: u, inside: inside.checked }); else data.groups[gi].items.push({ title: t, url: u, inside: inside.checked });
+    data.groups[gi].open = true; save(); render(); if (!current) openHome();
+  });
+}
+function editGroup(gi) {
+  const g = gi != null ? data.groups[gi] : null;
+  const name = h('input', { value: g ? g.name : '', placeholder: 'Дашборди' });
+  dialog(g ? 'Преименувай групата' : 'Нова група', [h('label', {}, 'Име', name)], () => {
+    const n = name.value.trim(); if (!n) return 'Въведи име.';
+    if (g) g.name = n; else data.groups.push({ name: n, color: data.groups.length % COLORS.length, open: true, items: [] });
+    save(); render(); if (!current) openHome();
+  });
+}
+$('#addGroup').addEventListener('click', () => editGroup());
+$('#mini').addEventListener('click', () => { const a = $('#app'); a.classList.toggle('mini'); LS.set('mini', a.classList.contains('mini')); });
+
+// ---------- auth ----------
+(function init() {
+  if (!window.FIREBASE_CONFIG || !window.FIREBASE_CONFIG.apiKey) { $('#gate').hidden = false; $('#login').hidden = true; $('#gatemsg').textContent = 'Липсва config.js в същата папка.'; return; }
+  firebase.initializeApp(window.FIREBASE_CONFIG);
+  const auth = firebase.auth();
+  $('#login').addEventListener('click', () => auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e => $('#gatemsg').textContent = 'Входът не стана: ' + e.message));
+  $('#logout').addEventListener('click', () => auth.signOut());
+  let started = false;
+  auth.onAuthStateChanged(async u => {
+    if (!u) { $('#app').hidden = true; $('#gate').hidden = false; return; }
+    db = firebase.firestore();
+    let snap;
+    try { snap = await db.doc('sched/hub').get(); }
+    catch (e) { await auth.signOut(); $('#gatemsg').textContent = u.email + ' няма достъп.'; return; }
+    $('#gate').hidden = true; $('#app').hidden = false; $('#user').textContent = u.email;
+    if (started) return; started = true;
+    data = snap.exists ? snap.data() : JSON.parse(JSON.stringify(DEFAULT));
+    if (!snap.exists) save();
+    if (LS.get('mini', false)) $('#app').classList.add('mini');
+    const last = LS.get('last', null);
+    render();
+    if (last && data.groups[last.gi] && data.groups[last.gi].items[last.ii] && data.groups[last.gi].items[last.ii].inside) openItem(last.gi, last.ii); else openHome();
+  });
+})();
+})();
+</script>
+</body>
+</html>
