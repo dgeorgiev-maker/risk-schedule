@@ -93,16 +93,43 @@ tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)
 .rules{display:flex;flex-wrap:wrap;gap:14px 28px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
 .rules label{display:flex;align-items:center;gap:8px;font-size:14px}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:10px;font-size:14px;z-index:60}
-.switch{display:flex;flex-direction:column;align-items:center;margin:0 0 18px;padding-top:4px}
+.sphere{overflow:hidden;color:#F4F5F7;background:radial-gradient(circle at 50% 42%,#2B2E33 0%,#141518 40%,#060607 72%,#000 100%);box-shadow:0 16px 30px rgba(0,0,0,.38),0 3px 8px rgba(0,0,0,.25),inset 0 0 0 1px rgba(255,255,255,.05)}
+.sphere::before{content:"";position:absolute;left:21%;top:7%;width:58%;height:34%;border-radius:44% 44% 38% 38%/60% 60% 40% 40%;background:linear-gradient(180deg,rgba(255,255,255,.85) 0%,rgba(255,255,255,.42) 40%,rgba(255,255,255,.10) 80%,rgba(255,255,255,0) 100%);filter:blur(.6px);opacity:.75;pointer-events:none;z-index:0}
+.sphere::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(ellipse 60% 22% at 50% 96%,rgba(255,255,255,.22),transparent 70%),radial-gradient(ellipse 14% 30% at 9% 52%,rgba(255,255,255,.10),transparent 70%),radial-gradient(ellipse 14% 30% at 91% 52%,rgba(255,255,255,.10),transparent 70%)}
+.sphere > *{position:relative;z-index:1;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.sphere svg{filter:drop-shadow(0 1px 2px rgba(0,0,0,.8))}
+.spheres{display:flex;align-items:flex-start;justify-content:center;gap:110px}
+.mgroup,.vgroup{display:flex;flex-direction:column;align-items:center}
+.mrow{display:flex;align-items:center;gap:14px}
+.chev{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--muted);font-size:16px;line-height:1}
+.chev:hover{color:var(--ink);border-color:var(--muted)}
+.morb{position:relative;width:96px;height:96px}
+.mcore{position:absolute;inset:0;border-radius:50%;border:0;cursor:pointer;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.mcore:hover,.morb.open .mcore{transform:scale(1.05)}
+.mcore b{font-size:14px;font-weight:500;letter-spacing:.01em}.mcore span{font-size:11.5px;opacity:.7;margin-top:1px}
+.mring{position:absolute;left:50%;top:50%;width:0;height:0;z-index:3}
+.mo{position:absolute;left:0;top:0;width:54px;height:30px;margin:-15px 0 0 -27px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:13px;cursor:pointer;opacity:0;pointer-events:none;transform:translate(0,0) scale(.4);transition:transform .38s cubic-bezier(.3,1.3,.5,1),opacity .2s}
+.morb.open .mo{opacity:1;pointer-events:auto}
+.mo:hover{border-color:var(--muted)}
+.mo.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.mo.done::after{content:"";position:absolute;right:5px;top:4px;width:5px;height:5px;border-radius:50%;background:#2FA36B}
+.myr{position:absolute;left:50%;top:100%;transform:translate(-50%,10px);z-index:5;display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--muted);opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap}
+.morb.open .myr{opacity:1;pointer-events:auto}
+.myr button{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;padding:0;font-size:12px}
+.mrow:has(.morb.open) .chev{visibility:hidden}
+.vgroup{margin-top:14px}
+@media (max-width:700px){.spheres{gap:28px}}
+@media (prefers-reduced-motion:reduce){.mo,.mcore{transition:none}}
+.switch{display:flex;flex-direction:column;align-items:center;margin:4px 0 22px;padding-top:150px;margin-top:-130px}
 .orb{position:relative;width:68px;height:68px}
-.core{position:absolute;inset:0;border-radius:50%;border:0;cursor:pointer;z-index:2;color:#fff;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 34% 28%,#E3F2FB 0,#8EC3EC 22%,#3F7FC2 55%,#1F3A5F 100%);box-shadow:0 6px 18px rgba(31,58,95,.28),inset 0 -4px 10px rgba(10,25,45,.35);transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.core{position:absolute;inset:0;border-radius:50%;border:0;cursor:pointer;z-index:2;color:#fff;display:flex;align-items:center;justify-content:center;transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
 .orb:hover .core,.orb.open .core,.orb:focus-within .core{transform:scale(1.07)}
 .opt{position:absolute;top:50%;left:50%;white-space:nowrap;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:500;cursor:pointer;opacity:0;pointer-events:none;transform:translate(-50%,-50%) scale(.5);transition:transform .28s cubic-bezier(.3,1.3,.5,1),opacity .18s,background .15s}
 .orb:hover .opt,.orb.open .opt,.orb:focus-within .opt{opacity:1;pointer-events:auto}
 .orb:hover .o1,.orb.open .o1,.orb:focus-within .o1{transform:translate(calc(-100% - 46px),-50%) scale(1)}
 .orb:hover .o2,.orb.open .o2,.orb:focus-within .o2{transform:translate(46px,-50%) scale(1)}
 .opt:hover{border-color:var(--muted)}
-.opt[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.opt[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .cap{margin-top:8px;font-size:13px;color:var(--muted);letter-spacing:.01em}
 @media (prefers-reduced-motion:reduce){.core,.opt{transition:none}}
 [hidden]{display:none!important}
@@ -127,24 +154,35 @@ tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)
   <header class="top">
     <div>
       <p class="title">График на Risk екипа</p>
-      <div class="monthnav">
-        <button class="icon-btn" id="prevM" aria-label="Предишен месец">‹</button>
-        <h1 id="mname">…</h1>
-        <button class="icon-btn" id="nextM" aria-label="Следващ месец">›</button>
-      </div>
+      
     </div>
     <div class="spacer"></div>
     <button class="btn primary" id="gen">Генерирай</button>
     <button class="btn" id="export" disabled>Свали Excel</button>
     <button class="btn" id="logout" title="Изход">Изход</button>
   </header>
-  <nav class="switch" aria-label="Изглед">
+  <nav class="switch" aria-label="Месец и изглед">
+   <div class="spheres">
+    <div class="mgroup">
+      <div class="mrow">
+        <button class="chev" id="prevM" aria-label="Предишен месец">‹</button>
+        <div class="morb" id="morb">
+          <div class="mring" id="mring"></div>
+          <button class="mcore sphere" id="mcore" aria-label="Избери месец" aria-haspopup="true"><b id="mname">…</b><span id="myear"></span></button>
+          <div class="myr"><button id="pyr" aria-label="Предишна година">‹</button><span id="yl"></span><button id="nyr" aria-label="Следваща година">›</button></div>
+        </div>
+        <button class="chev" id="nextM" aria-label="Следващ месец">›</button>
+      </div>
+    </div>
+    <div class="vgroup">
     <div class="orb" id="orb">
       <button class="opt o1" role="tab" data-tab="month" aria-selected="true">Месец</button>
-      <button class="core" id="core" aria-label="Смени изгледа" aria-haspopup="true"><span id="coreIc"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span></button>
+      <button class="core sphere" id="core" aria-label="Смени изгледа" aria-haspopup="true"><span id="coreIc"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span></button>
       <button class="opt o2" role="tab" data-tab="team" aria-selected="false">Екип и правила</button>
     </div>
     <div class="cap" id="cap">Месец</div>
+    </div>
+   </div>
   </nav>
   <section id="pane-month">
     <div class="bar">
@@ -603,7 +641,7 @@ function toast(t) { const el = $('#toast'); el.textContent = t; el.hidden = fals
 
 // ---------- render ----------
 function renderHeader() {
-  $('#mname').textContent = MONTHS[M - 1] + ' ' + Y;
+  $('#mname').textContent = MONTHS[M - 1]; $('#myear').textContent = Y;
   $('#norm').value = norm();
   $('#normAuto').hidden = month.norm == null;
 }
@@ -738,6 +776,7 @@ async function generate() {
     if (!best || r.best.score < best.score) best = r.best;
   }
   month.result = {}; team.people.forEach((p, i) => month.result[p.name] = best.grid[i]);
+  doneCache[Y + '-' + M] = true;
   saveMonth();
   busy = false; $('#gen').disabled = false;
   render();
@@ -822,6 +861,43 @@ function tab(which) {
   $('#pane-month').hidden = which !== 'month'; $('#pane-team').hidden = which !== 'team';
   if (which === 'team') renderTeam(); else render();
 }
+
+// ---------- month sphere ----------
+const SHORT = ['Яну','Фев','Мар','Апр','Май','Юни','Юли','Авг','Сеп','Окт','Ное','Дек'];
+let VY = null; const doneCache = {};
+(function buildRing() {
+  const ring = $('#mring');
+  SHORT.forEach((n, i) => {
+    const b = document.createElement('button'); b.className = 'mo'; b.textContent = n; b.dataset.m = i + 1; b.setAttribute('aria-label', MONTHS[i]);
+    b.addEventListener('click', e => { e.stopPropagation(); if (busy) return; Y = VY; M = i + 1; closeRing(); openMonth(); });
+    ring.appendChild(b);
+  });
+})();
+function placeRing() {
+  const open = $('#morb').classList.contains('open');
+  document.querySelectorAll('.mo').forEach((b, i) => {
+    const a = (i / 12) * 2 * Math.PI - Math.PI / 2, r = 118;
+    b.style.transform = open ? `translate(${(Math.cos(a) * r).toFixed(1)}px,${(Math.sin(a) * r).toFixed(1)}px) scale(1)` : 'translate(0,0) scale(.4)';
+    b.classList.toggle('on', VY === Y && +b.dataset.m === M);
+    b.classList.toggle('done', !!doneCache[VY + '-' + (i + 1)]);
+  });
+  $('#yl').textContent = VY;
+}
+async function markDone(y) {
+  if (!db) return;
+  await Promise.all(Array.from({ length: 12 }, async (_, i) => {
+    const k = y + '-' + (i + 1); if (k in doneCache) return;
+    const d = await load(key(y, i + 1)); doneCache[k] = !!(d && d.result);
+  }));
+  if (VY === y) placeRing();
+}
+function openRing() { VY = Y; $('#morb').classList.add('open'); placeRing(); markDone(VY); }
+function closeRing() { $('#morb').classList.remove('open'); placeRing(); }
+$('#mcore').addEventListener('click', e => { e.stopPropagation(); if (busy) return; $('#morb').classList.contains('open') ? closeRing() : openRing(); });
+$('#pyr').addEventListener('click', e => { e.stopPropagation(); VY--; placeRing(); markDone(VY); });
+$('#nyr').addEventListener('click', e => { e.stopPropagation(); VY++; placeRing(); markDone(VY); });
+document.addEventListener('click', e => { if (!e.target.closest('#morb') && $('#morb').classList.contains('open')) closeRing(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#morb').classList.contains('open')) closeRing(); });
 const ICON_CAL = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>', ICON_USR = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14c2.3.2 4 1.7 4.5 4.5"/></svg>';
 document.querySelectorAll('.opt').forEach(t => t.addEventListener('click', e => { e.stopPropagation(); tab(t.dataset.tab); t.blur(); }));
 $('#core').addEventListener('click', e => { e.stopPropagation(); $('#orb').classList.toggle('open'); });
