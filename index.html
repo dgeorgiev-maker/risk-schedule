@@ -335,8 +335,10 @@ function agentPen(cfg, ctx, a, row, detail) {
     }
     // lone work day between days off
     if (i > P && i < P + D - 1 && WORK(ext[i]) && ext[i - 1] && !WORK(ext[i - 1]) && ext[i + 1] && !WORK(ext[i + 1])) soft += 6;
+    // single day off squeezed between two working days: keep as rare as possible
+    if (i >= P && i < P + D - 1 && c === 'O' && WORK(ext[i - 1]) && WORK(ext[i + 1])) soft += 25 + (ext[i - 1] === 'N' ? 10 : 0);
     // 15-00 -> 23-07 next day: allowed, but only when nothing else fits
-    if (i >= P && ext[i - 1] === 'A' && c === 'N') soft += 60;
+    if (i >= P && ext[i - 1] === 'A' && c === 'N') soft += 120;
     // volatility
     if (i > P && WORK(c) && WORK(ext[i - 1]) && c !== ext[i - 1]) soft += 1;
   }
