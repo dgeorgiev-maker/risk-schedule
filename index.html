@@ -78,6 +78,15 @@ table.g thead th.wkd{background:var(--wk)}
 .cell.fixed::after{content:"";position:absolute;top:3px;right:3px;width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.85}
 .cell.empty{color:var(--o-ink)}
 .cell.ro{cursor:default}
+:root{--glow:#22C3EE;--glow-bg:rgba(34,195,238,.10);--glow-hv:rgba(34,195,238,.05)}
+:root[data-skin="midnight"]{--glow:#6EA8FF;--glow-bg:rgba(110,168,255,.13);--glow-hv:rgba(110,168,255,.06)}
+:root[data-skin="obsidian"]{--glow:#5EEAD4;--glow-bg:rgba(94,234,212,.09);--glow-hv:rgba(94,234,212,.045)}
+:root[data-skin="betty"]{--glow:#FFC900;--glow-bg:rgba(255,201,0,.10);--glow-hv:rgba(255,201,0,.05)}
+table.g tr.ag:hover>td,table.g tr.ag:hover>th{background-image:linear-gradient(var(--glow-hv),var(--glow-hv))}
+table.g tr.ag.sel>td,table.g tr.ag.sel>th{background-image:linear-gradient(var(--glow-bg),var(--glow-bg));box-shadow:inset 0 1px 0 var(--glow),inset 0 -1px 0 var(--glow);transition:box-shadow .2s,background-image .2s}
+table.g tr.ag.sel>th.name{box-shadow:inset 3px 0 0 var(--glow),inset 0 1px 0 var(--glow),inset 0 -1px 0 var(--glow),inset 10px 0 14px -10px var(--glow)}
+table.g tr.ag.sel>td:last-child{box-shadow:inset -1px 0 0 var(--glow),inset 0 1px 0 var(--glow),inset 0 -1px 0 var(--glow)}
+table.g tr.ag.sel .namebtn{color:var(--glow);border-color:var(--glow);text-shadow:0 0 8px var(--glow-bg)}
 td.sum{padding:0 8px;color:var(--muted);font-size:12.5px}
 td.sum.first{border-left:1px solid var(--line)}
 td.sum.badv{color:var(--bad);font-weight:600}
@@ -135,6 +144,7 @@ tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)
 .mring{position:absolute;left:50%;top:50%;width:0;height:0;z-index:3}
 .mo{position:absolute;left:0;top:0;width:54px;height:30px;margin:-15px 0 0 -27px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:13px;cursor:pointer;opacity:0;pointer-events:none;transform:translate(0,0) scale(.4);transition:transform .38s cubic-bezier(.3,1.3,.5,1),opacity .2s}
 .morb.open .mo{opacity:1;pointer-events:auto}
+.morb.open::before{content:"";position:absolute;left:50%;top:50%;width:330px;height:330px;margin:-165px 0 0 -165px;border-radius:50%;z-index:2}
 .mo:hover{border-color:var(--muted)}
 .mo.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .mo.done::after{content:"";position:absolute;right:5px;top:4px;width:5px;height:5px;border-radius:50%;background:#2FA36B}
@@ -153,6 +163,8 @@ tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)
 .orb:hover .opt,.orb.open .opt,.orb:focus-within .opt{opacity:1;pointer-events:auto}
 .orb:hover .o1,.orb.open .o1,.orb:focus-within .o1{transform:translate(calc(-100% - 46px),-50%) scale(1)}
 .orb:hover .o2,.orb.open .o2,.orb:focus-within .o2{transform:translate(46px,-50%) scale(1)}
+.opt{z-index:3}
+.orb:hover::before{content:"";position:absolute;left:-56px;right:-56px;top:6px;bottom:6px;z-index:1}
 .opt:hover{border-color:var(--muted)}
 
 .cap{margin-top:8px;font-size:13px;color:var(--muted);letter-spacing:.01em}
@@ -285,7 +297,7 @@ bg: {
   'rules.hint': 'Винаги се спазват: поне 36 часа почивка всяка седмица, без 15-00 → 07-16, без 07-16 → 23-07 и без нощна → 07-16 или 15-00 на следващия ден. След нощна има поне 2 пълни почивни дни преди 07-16 (без „фалшив“ почивен ден). 15-00 → 23-07 се дава само ако няма друг вариант. Отпуските и болничните (SL) се броят към работните дни, както в Excel-а. Дните, в които човек не е в екипа, намаляват нормата му с работните дни от този период.',
   'team.h': 'Хората', 'team.add': 'Добави човек',
   'team.hint': '„Може да работи“ – цъкни смяната, за да я разрешиш или забраниш (оцветена = разрешена). „Предпочита“ – програмата ще дава тези смени, когато може. Нощният блок задава колко нощни подред: например 2–3 значи на блокове по 2 или 3. Редът тук е редът в Excel-а.',
-  'team.name': 'Име', 'team.allow': 'Може да работи', 'team.prefer': 'Предпочита', 'team.nights': 'Нощни (мин–макс)', 'team.nightWhen': 'Нощни кога', 'team.block': 'Нощен блок (дни)',
+  'team.name': 'Име', 'team.allow': 'Може да работи', 'team.prefer': 'Предпочита', 'team.nights': 'Нощни (мин–макс)', 'team.nightWhen': 'Нощни кога', 'team.dayWhen': 'Дневни (07-16) кога', 'team.aftWhen': 'Следобедни (15-00) кога', 'team.block': 'Нощен блок (дни)',
   'team.up': 'Нагоре', 'team.nightMin': 'Минимум нощни', 'team.nightMax': 'Максимум нощни', 'team.blockMin': 'Минимум поредни нощни', 'team.blockMax': 'Максимум поредни нощни',
   'team.remove': 'Премахни {name}', 'team.removeQ': 'Да премахна ли {name}?', 'team.thisRow': 'този ред', 'team.any': 'няма значение', 'team.and': 'и',
   'team.whenAny': 'през целия месец', 'team.whenEnd': 'в края на месеца', 'team.whenStart': 'в началото',
@@ -349,7 +361,7 @@ en: {
   'rules.hint': 'Always kept: at least 36 hours of rest every week, no 15-00 → 07-16, no 07-16 → 23-07 and no night → 07-16 or 15-00 the next day. After a night there are at least 2 full days off before a 07-16 (no "fake" day off). 15-00 → 23-07 is only given when there is no other option. Vacation and sick leave (SL) count as working days, as in the Excel. Days when someone is not in the team lower their target by the working days in that period.',
   'team.h': 'People', 'team.add': 'Add person',
   'team.hint': '"Can work" – click a shift to allow or forbid it (coloured = allowed). "Prefers" – the program gives these shifts when it can. The night block sets how many nights in a row: e.g. 2–3 means blocks of 2 or 3. The order here is the order in the Excel.',
-  'team.name': 'Name', 'team.allow': 'Can work', 'team.prefer': 'Prefers', 'team.nights': 'Nights (min–max)', 'team.nightWhen': 'Nights when', 'team.block': 'Night block (days)',
+  'team.name': 'Name', 'team.allow': 'Can work', 'team.prefer': 'Prefers', 'team.nights': 'Nights (min–max)', 'team.nightWhen': 'Nights when', 'team.dayWhen': 'Days (07-16) when', 'team.aftWhen': 'Afternoons (15-00) when', 'team.block': 'Night block (days)',
   'team.up': 'Up', 'team.nightMin': 'Minimum nights', 'team.nightMax': 'Maximum nights', 'team.blockMin': 'Minimum nights in a row', 'team.blockMax': 'Maximum nights in a row',
   'team.remove': 'Remove {name}', 'team.removeQ': 'Remove {name}?', 'team.thisRow': 'this row', 'team.any': 'no preference', 'team.and': 'and',
   'team.whenAny': 'all month', 'team.whenEnd': 'at the end of the month', 'team.whenStart': 'at the start',
@@ -413,7 +425,7 @@ el: {
   'rules.hint': 'Τηρούνται πάντα: τουλάχιστον 36 ώρες ξεκούρασης κάθε εβδομάδα, όχι 15-00 → 07-16, όχι 07-16 → 23-07 και όχι νυχτερινή → 07-16 ή 15-00 την επόμενη μέρα. Μετά από νυχτερινή υπάρχουν τουλάχιστον 2 πλήρεις ελεύθερες μέρες πριν από 07-16 (όχι «ψεύτικο» ρεπό). Το 15-00 → 23-07 δίνεται μόνο αν δεν υπάρχει άλλη επιλογή. Η άδεια και η αναρρωτική (SL) μετρούν ως εργάσιμες ημέρες, όπως στο Excel. Οι ημέρες που κάποιος είναι εκτός ομάδας μειώνουν τον στόχο του κατά τις εργάσιμες ημέρες εκείνης της περιόδου.',
   'team.h': 'Άτομα', 'team.add': 'Προσθήκη ατόμου',
   'team.hint': '«Μπορεί να δουλέψει» – κάντε κλικ σε μια βάρδια για να την επιτρέψετε ή να την απαγορεύσετε (χρωματισμένη = επιτρέπεται). «Προτιμά» – το πρόγραμμα δίνει αυτές τις βάρδιες όταν μπορεί. Το νυχτερινό μπλοκ ορίζει πόσες νυχτερινές στη σειρά: π.χ. 2–3 σημαίνει μπλοκ των 2 ή 3. Η σειρά εδώ είναι η σειρά στο Excel.',
-  'team.name': 'Όνομα', 'team.allow': 'Μπορεί να δουλέψει', 'team.prefer': 'Προτιμά', 'team.nights': 'Νυχτερινές (ελάχ.–μέγ.)', 'team.nightWhen': 'Πότε νυχτερινές', 'team.block': 'Νυχτερινό μπλοκ (ημέρες)',
+  'team.name': 'Όνομα', 'team.allow': 'Μπορεί να δουλέψει', 'team.prefer': 'Προτιμά', 'team.nights': 'Νυχτερινές (ελάχ.–μέγ.)', 'team.nightWhen': 'Πότε νυχτερινές', 'team.dayWhen': 'Πότε πρωινές (07-16)', 'team.aftWhen': 'Πότε απογευματινές (15-00)', 'team.block': 'Νυχτερινό μπλοκ (ημέρες)',
   'team.up': 'Πάνω', 'team.nightMin': 'Ελάχιστες νυχτερινές', 'team.nightMax': 'Μέγιστες νυχτερινές', 'team.blockMin': 'Ελάχιστες συνεχόμενες νυχτερινές', 'team.blockMax': 'Μέγιστες συνεχόμενες νυχτερινές',
   'team.remove': 'Αφαίρεση {name}', 'team.removeQ': 'Να αφαιρεθεί: {name};', 'team.thisRow': 'αυτή η γραμμή', 'team.any': 'αδιάφορο', 'team.and': 'και',
   'team.whenAny': 'όλο τον μήνα', 'team.whenEnd': 'στο τέλος του μήνα', 'team.whenStart': 'στην αρχή',
@@ -525,6 +537,10 @@ function agentPen(cfg, ctx, a, row, detail) {
       work++;
       if (!t.allow[c]) { hard++; note && note(tr('e.notAllowed', { s: L(c), d: d + 1 })); }
       if (t.prefer && t.prefer.length && t.prefer.indexOf(c) < 0) soft += 3;
+      if (c === 'M' || c === 'A') {
+        const wh = c === 'M' ? t.mHalf : t.aHalf, half = Math.floor(D / 2);
+        if ((wh === 'second' && d < half) || (wh === 'first' && d >= half)) soft += 6;
+      }
       if (c === 'N') {
         nights++;
         if (t.nightHalf === 'second' && d < Math.floor(D / 2)) { hard++; note && note(tr('e.nightSecond', { d: d + 1 })); }
@@ -909,7 +925,7 @@ const MONTHS = new Proxy([], { get: (_, k) => tr('months')[k] });
 const WD = new Proxy([], { get: (_, k) => tr('wd')[k] });
 const LBL = new Proxy({ M: '07-16', A: '15-00', N: '23-07', O: 'Off', S: 'SL', X: '—' }, { get: (o, k) => k === 'V' ? tr('lbl.V') : o[k] });
 const DEF_TEAM = { people: [], cover: { M: 2, A: 3, N: 3 }, maxRun: 5, maxWeek: 5 };
-const DEF_PERSON = () => ({ name: '', allow: 'MAN', prefer: '', nightMin: 0, nightMax: 10, nightHalf: 'any', blockMin: 1, blockMax: 5 });
+const DEF_PERSON = () => ({ name: '', allow: 'MAN', prefer: '', nightMin: 0, nightMax: 10, nightHalf: 'any', mHalf: 'any', aHalf: 'any', blockMin: 1, blockMax: 5 });
 
 let db = null;
 let team = JSON.parse(JSON.stringify(DEF_TEAM));
@@ -979,7 +995,7 @@ function cfg() {
   const prev = {}; team.people.forEach(p => prev[p.name] = prevTailFor(p.name));
   return {
     year: Y, month: M, norm: norm(), cover: team.cover, maxRun: team.maxRun, maxWeek: team.maxWeek, loneNight: team.loneNight || 'avoid',
-    team: team.people.map(p => ({ name: p.name, allow: { M: p.allow.includes('M'), A: p.allow.includes('A'), N: p.allow.includes('N') }, prefer: p.prefer ? p.prefer.split('') : [], nightMin: +p.nightMin || 0, nightMax: p.allow.includes('N') ? (+p.nightMax || 0) : 0, nightHalf: p.nightHalf, blockMin: +p.blockMin || 1, blockMax: +p.blockMax || 7, work: targetFor(p.name) })),
+    team: team.people.map(p => ({ name: p.name, allow: { M: p.allow.includes('M'), A: p.allow.includes('A'), N: p.allow.includes('N') }, prefer: p.prefer ? p.prefer.split('') : [], nightMin: +p.nightMin || 0, nightMax: p.allow.includes('N') ? (+p.nightMax || 0) : 0, nightHalf: p.nightHalf, mHalf: p.mHalf || 'any', aHalf: p.aHalf || 'any', blockMin: +p.blockMin || 1, blockMax: +p.blockMax || 7, work: targetFor(p.name) })),
     req: month.req, prev
   };
 }
@@ -1009,7 +1025,7 @@ function render() {
   h += `<th>07</th><th>15</th><th>23</th><th>${tr('g.vac')}</th><th>${tr('g.sl')}</th><th>${tr('g.days')}</th></tr></thead><tbody>`;
   const n0 = norm();
   team.people.forEach((p, i) => {
-    h += `<tr><th class="name" scope="row"><button class="namebtn" data-hours="${i}" title="${esc(tr('g.hours', { name: p.name }))}">${esc(p.name || '—')}</button></th>`;
+    h += `<tr class="ag${selRow === i ? ' sel' : ''}" data-row="${i}"><th class="name" scope="row"><button class="namebtn" data-hours="${i}" title="${esc(tr('g.hours', { name: p.name }))}">${esc(p.name || '—')}</button></th>`;
     const tail = prevTailFor(p.name);
     for (let k = showPrev; k >= 1; k--) {
       const c = tail[7 - k];
@@ -1058,6 +1074,12 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<':
 
 // ---------- popover ----------
 let popFor = null;
+let selRow = null;
+function selectRow(i) {
+  if (i == null || isNaN(i)) return; selRow = i;
+  document.querySelectorAll('#grid tr.ag').forEach(r => r.classList.toggle('sel', +r.dataset.row === i));
+}
+for (const ev of ['click', 'focusin']) $('#grid').addEventListener(ev, e => { const r = e.target.closest('tr.ag'); if (r) selectRow(+r.dataset.row); }, true);
 function openPop(btn) {
   closePop();
   const p = team.people[+btn.dataset.p]; if (!p) return;
@@ -1174,7 +1196,8 @@ async function doExport() {
 function renderTeam() {
   const c = team.cover;
   $('#covM').value = c.M; $('#covA').value = c.A; $('#covN').value = c.N; $('#maxRun').value = team.maxRun; $('#maxWeek').value = team.maxWeek; $('#loneNight').value = team.loneNight || 'avoid';
-  let h = `<table class="teamtbl"><thead><tr><th></th><th>${tr('team.name')}</th><th>${tr('team.allow')}</th><th>${tr('team.prefer')}</th><th>${tr('team.nights')}</th><th>${tr('team.nightWhen')}</th><th>${tr('team.block')}</th><th></th></tr></thead><tbody>`;
+  let h = `<table class="teamtbl"><thead><tr><th></th><th>${tr('team.name')}</th><th>${tr('team.allow')}</th><th>${tr('team.prefer')}</th><th>${tr('team.nights')}</th><th>${tr('team.nightWhen')}</th><th>${tr('team.dayWhen')}</th><th>${tr('team.aftWhen')}</th><th>${tr('team.block')}</th><th></th></tr></thead><tbody>`;
+  const whenSel = (i, f, v, lbl) => { v = v || 'any'; return `<td><select data-i="${i}" data-f="${f}" aria-label="${tr(lbl)}">${[['any', 'team.whenAny'], ['second', 'team.whenEnd'], ['first', 'team.whenStart']].map(([k, t]) => `<option value="${k}" ${v === k ? 'selected' : ''}>${tr(t)}</option>`).join('')}</select></td>`; };
   team.people.forEach((p, i) => {
     const chip = (s, kind) => {
       const on = kind === 'allow' ? p.allow.includes(s) : p.prefer.includes(s);
@@ -1185,7 +1208,9 @@ function renderTeam() {
       <td><div class="chips">${chip('M', 'allow')}${chip('A', 'allow')}${chip('N', 'allow')}</div></td>
       <td><select data-i="${i}" data-f="prefer" aria-label="${tr('team.prefer')}">${[['', tr('team.any')], ['M', '07-16'], ['A', '15-00'], ['N', '23-07'], ['MA', '07-16 ' + tr('team.and') + ' 15-00'], ['AN', '15-00 ' + tr('team.and') + ' 23-07'], ['MN', '07-16 ' + tr('team.and') + ' 23-07']].map(([v, t]) => `<option value="${v}" ${p.prefer === v ? 'selected' : ''}>${t}</option>`).join('')}</select></td>
       <td><div class="rng"><input type="number" min="0" max="31" value="${p.nightMin}" data-i="${i}" data-f="nightMin" aria-label="${tr('team.nightMin')}">–<input type="number" min="0" max="31" value="${p.nightMax}" data-i="${i}" data-f="nightMax" aria-label="${tr('team.nightMax')}"></div></td>
-      <td><select data-i="${i}" data-f="nightHalf" aria-label="${tr('team.nightWhen')}"><option value="any" ${p.nightHalf === 'any' ? 'selected' : ''}>${tr('team.whenAny')}</option><option value="second" ${p.nightHalf === 'second' ? 'selected' : ''}>${tr('team.whenEnd')}</option><option value="first" ${p.nightHalf === 'first' ? 'selected' : ''}>${tr('team.whenStart')}</option></select></td>
+      ${whenSel(i, 'nightHalf', p.nightHalf, 'team.nightWhen')}
+      ${whenSel(i, 'mHalf', p.mHalf, 'team.dayWhen')}
+      ${whenSel(i, 'aHalf', p.aHalf, 'team.aftWhen')}
       <td><div class="rng"><input type="number" min="1" max="7" value="${p.blockMin}" data-i="${i}" data-f="blockMin" aria-label="${tr('team.blockMin')}">–<input type="number" min="1" max="7" value="${p.blockMax}" data-i="${i}" data-f="blockMax" aria-label="${tr('team.blockMax')}"></div></td>
       <td><button class="rowbtn" data-del="${i}" aria-label="${esc(tr('team.remove', { name: p.name }))}">✕</button></td></tr>`;
   });
@@ -1214,7 +1239,7 @@ $('#teamtbl').addEventListener('change', e => {
     const old = p.name, nw = t.value.trim();
     if (old && nw && old !== nw) for (const obj of [month.req, month.result, month.prevTail]) if (obj && obj[old]) { obj[nw] = obj[old]; delete obj[old]; }
     p.name = nw; saveMonth();
-  } else if (f === 'nightHalf' || f === 'prefer') p[f] = t.value; else p[f] = Math.max(0, parseInt(t.value || '0', 10));
+  } else if (f === 'nightHalf' || f === 'mHalf' || f === 'aHalf' || f === 'prefer') p[f] = t.value; else p[f] = Math.max(0, parseInt(t.value || '0', 10));
   saveTeam();
 });
 $('#addp').addEventListener('click', () => { team.people.push(DEF_PERSON()); saveTeam(); renderTeam(); const ins = document.querySelectorAll('#teamtbl input[data-f=name]'); ins[ins.length - 1].focus(); });
@@ -1235,11 +1260,11 @@ const SHORT = new Proxy([], { get: (_, k) => tr('monthsShort')[k] });
 let VY = null; const doneCache = {};
 (function buildRing() {
   const ring = $('#mring');
-  SHORT.forEach((n, i) => {
+  for (let i = 0; i < 12; i++) { const n = SHORT[i];
     const b = document.createElement('button'); b.className = 'mo'; b.textContent = n; b.dataset.m = i + 1; b.setAttribute('aria-label', MONTHS[i]);
     b.addEventListener('click', e => { e.stopPropagation(); if (busy) return; Y = VY; M = i + 1; closeRing(); openMonth(); });
     ring.appendChild(b);
-  });
+  }
 })();
 function placeRing() {
   const open = $('#morb').classList.contains('open');
@@ -1261,7 +1286,13 @@ async function markDone(y) {
 }
 function openRing() { VY = Y; $('#morb').classList.add('open'); placeRing(); markDone(VY); }
 function closeRing() { $('#morb').classList.remove('open'); placeRing(); }
-$('#mcore').addEventListener('click', e => { e.stopPropagation(); if (busy) return; $('#morb').classList.contains('open') ? closeRing() : openRing(); });
+const CAN_HOVER = matchMedia('(hover: hover) and (pointer: fine)').matches;
+let hoverOpenedAt = 0, ringLeaveT = null;
+$('#mcore').addEventListener('click', e => { e.stopPropagation(); if (busy) return; const open = $('#morb').classList.contains('open'); if (open && Date.now() - hoverOpenedAt < 700) return; open ? closeRing() : openRing(); });
+if (CAN_HOVER) {
+  $('#morb').addEventListener('mouseenter', () => { clearTimeout(ringLeaveT); if (busy || $('#morb').classList.contains('open')) return; hoverOpenedAt = Date.now(); openRing(); });
+  $('#morb').addEventListener('mouseleave', () => { clearTimeout(ringLeaveT); ringLeaveT = setTimeout(() => { if ($('#morb').classList.contains('open')) closeRing(); }, 250); });
+}
 $('#pyr').addEventListener('click', e => { e.stopPropagation(); VY--; placeRing(); markDone(VY); });
 $('#nyr').addEventListener('click', e => { e.stopPropagation(); VY++; placeRing(); markDone(VY); });
 document.addEventListener('click', e => { if (!e.target.closest('#morb') && $('#morb').classList.contains('open')) closeRing(); });
@@ -1300,6 +1331,11 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') { const m = 
 const ICON_CAL = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>', ICON_USR = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14c2.3.2 4 1.7 4.5 4.5"/></svg>';
 document.querySelectorAll('.opt').forEach(t => t.addEventListener('click', e => { e.stopPropagation(); tab(t.dataset.tab); t.blur(); }));
 $('#core').addEventListener('click', e => { e.stopPropagation(); $('#orb').classList.toggle('open'); });
+if (CAN_HOVER) document.querySelectorAll('.opt').forEach(t => {
+  let tm = null;
+  t.addEventListener('mouseenter', () => { clearTimeout(tm); tm = setTimeout(() => { if (t.getAttribute('aria-selected') !== 'true') tab(t.dataset.tab); }, 120); });
+  t.addEventListener('mouseleave', () => clearTimeout(tm));
+});
 document.addEventListener('click', e => { if (!e.target.closest('#orb')) $('#orb').classList.remove('open'); });
 $('#prevM').addEventListener('click', () => { if (busy) return; M--; if (M < 1) { M = 12; Y--; } openMonth(); });
 $('#nextM').addEventListener('click', () => { if (busy) return; M++; if (M > 12) { M = 1; Y++; } openMonth(); });
