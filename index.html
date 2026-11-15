@@ -112,6 +112,10 @@ tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)
 .pop .sep2{grid-column:1/-1;font-size:11.5px;color:var(--muted);padding:6px 6px 0;border-top:1px solid var(--line);margin-top:2px}
 .pop button.wide{grid-column:1/-1}
 .pop small{display:block;font-weight:400;opacity:.75;font-size:11px}
+.pop button:disabled{opacity:.42;cursor:not-allowed;filter:grayscale(.6)}
+.cell.clash{box-shadow:inset 0 0 0 2px var(--bad);animation:clash 1.6s ease-in-out infinite}
+@keyframes clash{50%{box-shadow:inset 0 0 0 2px var(--bad),0 0 8px var(--bad)}}
+@media (prefers-reduced-motion:reduce){.cell.clash{animation:none}}
 .teamtbl{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px}
 .teamwrap{overflow-x:auto}
 .teamtbl th{font-weight:500;color:var(--muted);font-size:12.5px;text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
@@ -313,7 +317,7 @@ bg: {
   'e.fakeOff': '23-07 на {a}-ви → 07-16 на {d}-ви: само 1 почивен ден между тях (трябват поне 2)',
   'e.lone': 'самотна нощна на {d}-ви',
   'rules.lone': 'Самотни нощни (една 23-07 сама)', 'rules.loneAllow': 'няма проблем', 'rules.loneAvoid': 'избягвай максимално', 'rules.loneForbid': 'забрани',
-  'e.days': '{n} работни дни вместо {t}', 'e.vacMin': '{n} дни отпуск, трябва да изчисти поне {m}', 'e.vacMax': '{n} дни отпуск, а трябва {m}', 'vac.btn': 'Отпуск за чистене', 'vac.title': 'Отпуск за чистене този месец', 'vac.hint': 'Колко дни отпуск трябва да изчисти всеки агент този месец. Не нанасяш дати: при „Генерирай“ програмата сама ги слага – по възможност слепени, но където е нужно, за да излезе графикът спрямо всички останали заявки. Ръчно нанесените отпуски също се броят.', 'vac.col': 'Минимум дни', 'vac.done': 'Готово', 'e.nightMax': '{n} нощни, максимумът е {m}', 'e.nightMin': '{n} нощни, минимумът е {m}',
+  'e.days': '{n} работни дни вместо {t}', 'e.vacMin': '{n} дни отпуск, трябва да изчисти поне {m}', 'e.vacMax': '{n} дни отпуск, а трябва {m}', 'vac.btn': 'Отпуск за чистене', 'vac.title': 'Отпуск за чистене този месец', 'vac.hint': 'Колко дни отпуск трябва да изчисти всеки агент този месец. Не нанасяш дати: при „Генерирай“ програмата сама ги слага – по възможност слепени, но където е нужно, за да излезе графикът спрямо всички останали заявки. Ръчно нанесените отпуски също се броят.', 'vac.col': 'Минимум дни', 'vac.done': 'Готово', 'pop.noM': 'не може – предния ден е нощна до 07:00', 'pop.noN': 'не може – на другия ден е 07-16', 'e.nightMax': '{n} нощни, максимумът е {m}', 'e.nightMin': '{n} нощни, минимумът е {m}',
   'e.noRest': '{a} → {b} на {d}-ви (няма почивка)', 'e.run': '{n} поредни работни дни до {d}-ви', 'e.nightRun': '{n} поредни нощни до {d}-ви',
   'e.nightBlock': 'нощен блок от {n} на {d}-ви (трябват поне {m})', 'e.week': '{n} смени в седмицата от {w}', 'e.rest36': 'няма 36ч почивка в седмицата от {w}',
   'e.cov': '{d}-ви: {n} на {s}, трябват {m}', 'e.covMin': '{d}-ви: {n} на {s}, трябват поне {m}',
@@ -377,7 +381,7 @@ en: {
   'e.fakeOff': '23-07 on day {a} → 07-16 on day {d}: only 1 free day between them (at least 2 needed)',
   'e.lone': 'lone night shift on day {d}',
   'rules.lone': 'Lone nights (a single 23-07)', 'rules.loneAllow': 'fine', 'rules.loneAvoid': 'avoid as much as possible', 'rules.loneForbid': 'forbid',
-  'e.days': '{n} working days instead of {t}', 'e.vacMin': '{n} vacation days, needs to use at least {m}', 'e.vacMax': '{n} vacation days, should be {m}', 'vac.btn': 'Vacation to use', 'vac.title': 'Vacation to use this month', 'vac.hint': 'How many vacation days each agent must use this month. No dates needed: on “Generate” the program places them itself, together where possible, but wherever needed for the schedule to work with all other requests. Vacation days you entered by hand also count.', 'vac.col': 'Minimum days', 'vac.done': 'Done', 'e.nightMax': '{n} nights, the maximum is {m}', 'e.nightMin': '{n} nights, the minimum is {m}',
+  'e.days': '{n} working days instead of {t}', 'e.vacMin': '{n} vacation days, needs to use at least {m}', 'e.vacMax': '{n} vacation days, should be {m}', 'vac.btn': 'Vacation to use', 'vac.title': 'Vacation to use this month', 'vac.hint': 'How many vacation days each agent must use this month. No dates needed: on “Generate” the program places them itself, together where possible, but wherever needed for the schedule to work with all other requests. Vacation days you entered by hand also count.', 'vac.col': 'Minimum days', 'vac.done': 'Done', 'pop.noM': 'not possible – night shift until 07:00 the day before', 'pop.noN': 'not possible – 07-16 the next day', 'e.nightMax': '{n} nights, the maximum is {m}', 'e.nightMin': '{n} nights, the minimum is {m}',
   'e.noRest': '{a} → {b} on day {d} (no rest)', 'e.run': '{n} working days in a row up to day {d}', 'e.nightRun': '{n} nights in a row up to day {d}',
   'e.nightBlock': 'night block of {n} on day {d} (at least {m} needed)', 'e.week': '{n} shifts in the week from {w}', 'e.rest36': 'no 36h rest in the week from {w}',
   'e.cov': 'Day {d}: {n} on {s}, {m} needed', 'e.covMin': 'Day {d}: {n} on {s}, at least {m} needed',
@@ -441,7 +445,7 @@ el: {
   'e.fakeOff': '23-07 στις {a} → 07-16 στις {d}: μόνο 1 ελεύθερη μέρα ενδιάμεσα (χρειάζονται τουλάχιστον 2)',
   'e.lone': 'μεμονωμένη νυχτερινή στις {d}',
   'rules.lone': 'Μεμονωμένες νυχτερινές (μία 23-07 μόνη)', 'rules.loneAllow': 'κανένα πρόβλημα', 'rules.loneAvoid': 'αποφυγή όσο γίνεται', 'rules.loneForbid': 'απαγόρευση',
-  'e.days': '{n} εργάσιμες ημέρες αντί για {t}', 'e.vacMin': '{n} ημέρες άδειας, πρέπει να εξαντλήσει τουλάχιστον {m}', 'e.vacMax': '{n} ημέρες άδειας, πρέπει {m}', 'vac.btn': 'Άδεια προς εξάντληση', 'vac.title': 'Άδεια προς εξάντληση αυτόν τον μήνα', 'vac.hint': 'Πόσες ημέρες άδειας πρέπει να εξαντλήσει κάθε υπάλληλος αυτόν τον μήνα. Χωρίς ημερομηνίες: στη «Δημιουργία» το πρόγραμμα τις τοποθετεί μόνο του, μαζί όπου γίνεται, αλλιώς όπου χρειάζεται. Μετράνε και όσες έχετε βάλει χειροκίνητα.', 'vac.col': 'Ελάχιστες ημέρες', 'vac.done': 'Έτοιμο', 'e.nightMax': '{n} νυχτερινές, το μέγιστο είναι {m}', 'e.nightMin': '{n} νυχτερινές, το ελάχιστο είναι {m}',
+  'e.days': '{n} εργάσιμες ημέρες αντί για {t}', 'e.vacMin': '{n} ημέρες άδειας, πρέπει να εξαντλήσει τουλάχιστον {m}', 'e.vacMax': '{n} ημέρες άδειας, πρέπει {m}', 'vac.btn': 'Άδεια προς εξάντληση', 'vac.title': 'Άδεια προς εξάντληση αυτόν τον μήνα', 'vac.hint': 'Πόσες ημέρες άδειας πρέπει να εξαντλήσει κάθε υπάλληλος αυτόν τον μήνα. Χωρίς ημερομηνίες: στη «Δημιουργία» το πρόγραμμα τις τοποθετεί μόνο του, μαζί όπου γίνεται, αλλιώς όπου χρειάζεται. Μετράνε και όσες έχετε βάλει χειροκίνητα.', 'vac.col': 'Ελάχιστες ημέρες', 'vac.done': 'Έτοιμο', 'pop.noM': 'δεν γίνεται – νυχτερινή έως 07:00 την προηγούμενη', 'pop.noN': 'δεν γίνεται – 07-16 την επόμενη ημέρα', 'e.nightMax': '{n} νυχτερινές, το μέγιστο είναι {m}', 'e.nightMin': '{n} νυχτερινές, το ελάχιστο είναι {m}',
   'e.noRest': '{a} → {b} στις {d} (χωρίς ξεκούραση)', 'e.run': '{n} συνεχόμενες εργάσιμες ημέρες έως τις {d}', 'e.nightRun': '{n} συνεχόμενες νυχτερινές έως τις {d}',
   'e.nightBlock': 'νυχτερινό μπλοκ {n} στις {d} (χρειάζονται τουλάχιστον {m})', 'e.week': '{n} βάρδιες στην εβδομάδα από {w}', 'e.rest36': 'χωρίς 36ωρη ξεκούραση στην εβδομάδα από {w}',
   'e.cov': '{d}: {n} στη {s}, χρειάζονται {m}', 'e.covMin': '{d}: {n} στη {s}, χρειάζονται τουλάχιστον {m}',
@@ -565,7 +569,7 @@ function agentPen(cfg, ctx, a, row, detail) {
   let run = 0, nrun = 0;
   for (let i = 0; i < P + D; i++) {
     const c = ext[i];
-    if (i > 0 && i >= P - 1 + 1 - 1 && ext[i - 1] && c && BAD[ext[i - 1] + c] && i >= P) { hard++; note && note(tr('e.noRest', { a: L(ext[i - 1]), b: L(c), d: i - P + 1 })); }
+    if (i > 0 && i >= P - 1 + 1 - 1 && ext[i - 1] && c && BAD[ext[i - 1] + c] && i >= P) { hard += (ext[i - 1] === 'N' && c === 'M') ? 25 : 1; note && note(tr('e.noRest', { a: L(ext[i - 1]), b: L(c), d: i - P + 1 })); }
     // "fake off": night → one free day → 07-16. After a night there must be at least 2 full free days before an early shift
     if (i >= P && c === 'M' && i >= 2 && ext[i - 2] === 'N' && ext[i - 1] && !WORK(ext[i - 1])) { hard++; note && note(tr('e.fakeOff', { a: i - P - 1, d: i - P + 1 })); }
     if (c === null) { run = 0; } else if (WORK(c)) run++; else run = 0;
@@ -1046,13 +1050,13 @@ function render() {
     const tail = prevTailFor(p.name);
     for (let k = showPrev; k >= 1; k--) {
       const c = tail[7 - k];
-      h += `<td class="prevc${selCol === 'p' + (7 - k) ? ' csel' : ''}" data-col="p${7 - k}"><button class="cell ${c || 'empty'} ${prevRO ? 'ro' : ''}" data-prev="${7 - k}" data-p="${i}" ${prevRO ? 'tabindex="-1" aria-disabled="true"' : ''} title="${prevRO ? tr('g.prevRO') : tr('g.prevFill')}">${c ? LBL[c] : '·'}</button></td>`;
+      h += `<td class="prevc${selCol === 'p' + (7 - k) ? ' csel' : ''}" data-col="p${7 - k}"><button class="cell ${c || 'empty'} ${prevRO ? 'ro' : ''}${c === 'N' && codeAt(p.name, 1 - k + 1) === 'M' ? ' clash' : ''}" data-prev="${7 - k}" data-p="${i}" ${prevRO ? 'tabindex="-1" aria-disabled="true"' : ''} title="${prevRO ? tr('g.prevRO') : tr('g.prevFill')}">${c ? LBL[c] : '·'}</button></td>`;
     }
     const cnt = { M: 0, A: 0, N: 0, V: 0, O: 0, S: 0, X: 0 };
     for (let d = 1; d <= days; d++) {
       const { c, fixed } = cellCode(p.name, d); if (c) cnt[c]++;
       const w = ENGINE.dow(Y, M, d);
-      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}">${c ? LBL[c] : '·'}</button></td>`;
+      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}${(c === 'M' && codeAt(p.name, d - 1) === 'N') || (c === 'N' && codeAt(p.name, d + 1) === 'M') ? ' clash' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}">${c ? LBL[c] : '·'}</button></td>`;
     }
     const vmin = +((month.vacMin || {})[p.name]) || 0;
     const target = targetFor(p.name), worked = cnt.M + cnt.A + cnt.N + cnt.V + cnt.S;
@@ -1144,6 +1148,12 @@ document.addEventListener('click', e => {
   if (e.target.closest('#grid, #pop, .modalbg')) return; // the shift menu and the hours window keep the position
   lockRow = lockCol = null; showSel(null, null);
 });
+// shift code at a position: 1..D = this month, 0..-6 = last days of the previous month
+function codeAt(name, pos) {
+  if (pos >= 1) return pos <= D() ? cellCode(name, pos).c : null;
+  if (pos >= -6) return prevTailFor(name)[6 + pos] || null;
+  return null;
+}
 function openPop(btn) {
   closePop();
   const p = team.people[+btn.dataset.p]; if (!p) return;
@@ -1154,7 +1164,9 @@ function openPop(btn) {
   const cur = isPrev ? null : cellCode(p.name, d);
   let h = `<div class="hd">${esc(p.name)} · ${isPrev ? tr('pop.prev') : tr('pop.date', { d, m: tr('monthsGen')[M - 1] })}</div>`;
   const opts = [['M', '07-16'], ['A', '15-00'], ['N', '23-07'], ['V', tr('pop.V')], ['S', tr('pop.S')], ['O', tr('pop.O')]];
-  for (const [c, t] of opts) h += `<button role="menuitem" class="${c}" data-set="${c}">${t}</button>`;
+  const pos = isPrev ? +btn.dataset.prev - 6 : d;
+  const why = c => c === 'M' && codeAt(p.name, pos - 1) === 'N' ? tr('pop.noM') : c === 'N' && codeAt(p.name, pos + 1) === 'M' ? tr('pop.noN') : '';
+  for (const [c, t] of opts) { const w = why(c); h += `<button role="menuitem" class="${c}" data-set="${c}" ${w ? `disabled title="${esc(w)}"` : ''}>${t}${w ? `<small>${w}</small>` : ''}</button>`; }
   if (!isPrev) {
     const hasX = Object.values(month.req[p.name] || {}).includes('X');
     h += `<div class="sep2">${tr('pop.xHead')}</div>`;
@@ -1162,7 +1174,7 @@ function openPop(btn) {
     h += `<button role="menuitem" class="X" data-set="leaveHere">${tr('pop.leave', { d })}<small>${tr('pop.leaveSub')}</small></button>`;
     if (hasX) h += `<button role="menuitem" class="wide" data-set="clearX">${tr('pop.clearX')}</button>`;
   }
-  if (!isPrev && cur.c && !cur.fixed) h += `<button role="menuitem" data-set="pin">${tr('pop.pin')}<small>${tr('pop.pinSub')}</small></button>`;
+  if (!isPrev && cur.c && !cur.fixed && !why(cur.c)) h += `<button role="menuitem" data-set="pin">${tr('pop.pin')}<small>${tr('pop.pinSub')}</small></button>`;
   h += `<button role="menuitem" class="${!isPrev && cur.c && !cur.fixed ? '' : 'wide'}" data-set="clear">${isPrev ? tr('pop.dunno') : tr('pop.auto')}</button>`;
   pop.innerHTML = h;
   document.body.appendChild(pop);
@@ -1170,9 +1182,9 @@ function openPop(btn) {
   let left = Math.min(window.innerWidth - pw - 8, Math.max(8, r.left + r.width / 2 - pw / 2));
   let top = r.bottom + 6; if (top + ph > window.innerHeight - 8) top = Math.max(8, r.top - ph - 6);
   pop.style.left = left + 'px'; pop.style.top = top + 'px';
-  pop.querySelector('button').focus();
+  pop.querySelector('button:not(:disabled)').focus();
   pop.addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return;
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
     const v = b.dataset.set;
     if (isPrev) {
       month.prevTail = month.prevTail || {}; const arr = (month.prevTail[p.name] || [null, null, null, null, null, null, null]).slice();
