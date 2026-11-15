@@ -86,6 +86,10 @@ table.g tr.ag:hover>td,table.g tr.ag:hover>th{background-image:linear-gradient(v
 table.g tr.ag.sel>td,table.g tr.ag.sel>th{background-image:linear-gradient(var(--glow-bg),var(--glow-bg));box-shadow:inset 0 1px 0 var(--glow),inset 0 -1px 0 var(--glow);transition:box-shadow .2s,background-image .2s}
 table.g tr.ag.sel>th.name{box-shadow:inset 3px 0 0 var(--glow),inset 0 1px 0 var(--glow),inset 0 -1px 0 var(--glow),inset 10px 0 14px -10px var(--glow)}
 table.g tr.ag.sel>td:last-child{box-shadow:inset -1px 0 0 var(--glow),inset 0 1px 0 var(--glow),inset 0 -1px 0 var(--glow)}
+table.g [data-col].csel{background-image:linear-gradient(var(--glow-bg),var(--glow-bg));box-shadow:inset 1px 0 0 var(--glow),inset -1px 0 0 var(--glow)}
+table.g thead th.csel{box-shadow:inset 1px 0 0 var(--glow),inset -1px 0 0 var(--glow),inset 0 2px 0 var(--glow);color:var(--glow)}
+table.g thead th.csel b{color:var(--glow)}
+table.g tr.ag.sel>td.csel{background-image:linear-gradient(var(--glow-bg),var(--glow-bg)),linear-gradient(var(--glow-bg),var(--glow-bg));box-shadow:inset 0 0 0 1.5px var(--glow),0 0 10px var(--glow-bg);position:relative;z-index:1}
 table.g tr.ag.sel .namebtn{color:var(--glow);border-color:var(--glow);text-shadow:0 0 8px var(--glow-bg)}
 td.sum{padding:0 8px;color:var(--muted);font-size:12.5px}
 td.sum.first{border-left:1px solid var(--line)}
@@ -1020,8 +1024,8 @@ function render() {
   const prevRO = !!(prevMonth && prevMonth.result);
   const showPrev = 3;
   let h = '<table class="g"><thead><tr><th class="name">' + tr('g.agent') + '</th>';
-  for (let k = showPrev; k >= 1; k--) { const d = pD - k + 1; h += `<th class="prevc">${WD[ENGINE.dow(py, pm, d)]}<b>${d}.${String(pm).padStart(2,'0')}</b></th>`; }
-  for (let d = 1; d <= days; d++) { const w = ENGINE.dow(Y, M, d); h += `<th class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}">${WD[w]}<b>${d}</b></th>`; }
+  for (let k = showPrev; k >= 1; k--) { const d = pD - k + 1; h += `<th class="prevc${selCol === 'p' + (7 - k) ? ' csel' : ''}" data-col="p${7 - k}">${WD[ENGINE.dow(py, pm, d)]}<b>${d}.${String(pm).padStart(2,'0')}</b></th>`; }
+  for (let d = 1; d <= days; d++) { const w = ENGINE.dow(Y, M, d); h += `<th class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}">${WD[w]}<b>${d}</b></th>`; }
   h += `<th>07</th><th>15</th><th>23</th><th>${tr('g.vac')}</th><th>${tr('g.sl')}</th><th>${tr('g.days')}</th></tr></thead><tbody>`;
   const n0 = norm();
   team.people.forEach((p, i) => {
@@ -1029,13 +1033,13 @@ function render() {
     const tail = prevTailFor(p.name);
     for (let k = showPrev; k >= 1; k--) {
       const c = tail[7 - k];
-      h += `<td class="prevc"><button class="cell ${c || 'empty'} ${prevRO ? 'ro' : ''}" data-prev="${7 - k}" data-p="${i}" ${prevRO ? 'tabindex="-1" aria-disabled="true"' : ''} title="${prevRO ? tr('g.prevRO') : tr('g.prevFill')}">${c ? LBL[c] : '·'}</button></td>`;
+      h += `<td class="prevc${selCol === 'p' + (7 - k) ? ' csel' : ''}" data-col="p${7 - k}"><button class="cell ${c || 'empty'} ${prevRO ? 'ro' : ''}" data-prev="${7 - k}" data-p="${i}" ${prevRO ? 'tabindex="-1" aria-disabled="true"' : ''} title="${prevRO ? tr('g.prevRO') : tr('g.prevFill')}">${c ? LBL[c] : '·'}</button></td>`;
     }
     const cnt = { M: 0, A: 0, N: 0, V: 0, O: 0, S: 0, X: 0 };
     for (let d = 1; d <= days; d++) {
       const { c, fixed } = cellCode(p.name, d); if (c) cnt[c]++;
       const w = ENGINE.dow(Y, M, d);
-      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}">${c ? LBL[c] : '·'}</button></td>`;
+      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}">${c ? LBL[c] : '·'}</button></td>`;
     }
     const target = targetFor(p.name), worked = cnt.M + cnt.A + cnt.N + cnt.V + cnt.S;
     const hasAny = month.result || Object.keys(month.req[p.name] || {}).length;
@@ -1047,12 +1051,12 @@ function render() {
   const showCov = month.result || team.people.length;
   if (showCov) for (const s of ['M', 'A', 'N']) {
     h += `<tr class="cov"><th class="name">${LBL[s]}</th>`;
-    for (let k = 0; k < showPrev; k++) h += '<td class="prevc"></td>';
+    for (let k = 0; k < showPrev; k++) { const pc = 'p' + (7 - (showPrev - k)); h += `<td class="prevc${selCol === pc ? ' csel' : ''}" data-col="${pc}"></td>`; }
     for (let d = 1; d <= days; d++) {
       const c = g.reduce((a, r) => a + (r[d - 1] === s ? 1 : 0), 0);
       const need = team.cover[s]; const short = month.result && (s === 'N' ? c !== need : c < need);
       const w = ENGINE.dow(Y, M, d);
-      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${short ? ' short' : ''}">${month.result ? c : ''}</td>`;
+      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${short ? ' short' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}">${month.result ? c : ''}</td>`;
     }
     h += '<td colspan="6"></td></tr>';
   }
@@ -1074,12 +1078,19 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<':
 
 // ---------- popover ----------
 let popFor = null;
-let selRow = null;
+let selRow = null, selCol = null;
 function selectRow(i) {
   if (i == null || isNaN(i)) return; selRow = i;
   document.querySelectorAll('#grid tr.ag').forEach(r => r.classList.toggle('sel', +r.dataset.row === i));
 }
-for (const ev of ['click', 'focusin']) $('#grid').addEventListener(ev, e => { const r = e.target.closest('tr.ag'); if (r) selectRow(+r.dataset.row); }, true);
+function selectCol(k) {
+  selCol = k;
+  document.querySelectorAll('#grid [data-col]').forEach(x => x.classList.toggle('csel', k != null && x.dataset.col === String(k)));
+}
+for (const ev of ['click', 'focusin']) $('#grid').addEventListener(ev, e => {
+  const r = e.target.closest('tr.ag'); if (r) selectRow(+r.dataset.row);
+  const td = e.target.closest('td[data-col],th[data-col]'); if (td && r) { const k = td.dataset.col; selectCol(/^\d+$/.test(k) ? +k : k); }
+}, true);
 function openPop(btn) {
   closePop();
   const p = team.people[+btn.dataset.p]; if (!p) return;
