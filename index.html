@@ -241,6 +241,7 @@ tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)
       <button class="btn" id="normAuto" style="padding:5px 10px;font-size:13px" hidden data-i18n="bar.normAuto">Изчисли автоматично</button>
       <div class="legend" aria-hidden="true"><span><i class="sw" style="background:var(--m)"></i>07-16</span><span><i class="sw" style="background:var(--a)"></i>15-00</span><span><i class="sw" style="background:var(--n)"></i>23-07</span><span><i class="sw" style="background:var(--v)"></i><span data-i18n="leg.V">Отпуск</span></span><span><i class="sw" style="background:var(--s)"></i><span data-i18n="leg.S">SL – болничен</span></span><span><i class="sw" style="background:repeating-linear-gradient(135deg,var(--line) 0 3px,transparent 3px 7px);border:1px solid var(--line)"></i><span data-i18n="leg.X">Не е в екипа</span></span><span data-i18n="leg.pin">● закачено</span></div>
       <div class="spacer"></div>
+      <button class="btn" id="vacBtn" style="padding:5px 10px;font-size:13px"></button>
       <button class="btn" id="importX" style="padding:5px 10px;font-size:13px" data-i18n-attr="title:bar.importTitle" data-i18n="bar.import">Качи Excel</button><input type="file" id="importF" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
       <button class="btn" id="clearRes" style="padding:5px 10px;font-size:13px" data-i18n="bar.clearRes">Изчисти генерираното</button>
       <button class="btn" id="clearReq" style="padding:5px 10px;font-size:13px" data-i18n="bar.clearReq">Махни всички ръчни промени</button>
@@ -312,7 +313,7 @@ bg: {
   'e.fakeOff': '23-07 на {a}-ви → 07-16 на {d}-ви: само 1 почивен ден между тях (трябват поне 2)',
   'e.lone': 'самотна нощна на {d}-ви',
   'rules.lone': 'Самотни нощни (една 23-07 сама)', 'rules.loneAllow': 'няма проблем', 'rules.loneAvoid': 'избягвай максимално', 'rules.loneForbid': 'забрани',
-  'e.days': '{n} работни дни вместо {t}', 'e.nightMax': '{n} нощни, максимумът е {m}', 'e.nightMin': '{n} нощни, минимумът е {m}',
+  'e.days': '{n} работни дни вместо {t}', 'e.vacMin': '{n} дни отпуск, трябва да изчисти поне {m}', 'e.vacMax': '{n} дни отпуск, а трябва {m}', 'vac.btn': 'Отпуск за чистене', 'vac.title': 'Отпуск за чистене този месец', 'vac.hint': 'Колко дни отпуск трябва да изчисти всеки агент този месец. Не нанасяш дати: при „Генерирай“ програмата сама ги слага – по възможност слепени, но където е нужно, за да излезе графикът спрямо всички останали заявки. Ръчно нанесените отпуски също се броят.', 'vac.col': 'Минимум дни', 'vac.done': 'Готово', 'e.nightMax': '{n} нощни, максимумът е {m}', 'e.nightMin': '{n} нощни, минимумът е {m}',
   'e.noRest': '{a} → {b} на {d}-ви (няма почивка)', 'e.run': '{n} поредни работни дни до {d}-ви', 'e.nightRun': '{n} поредни нощни до {d}-ви',
   'e.nightBlock': 'нощен блок от {n} на {d}-ви (трябват поне {m})', 'e.week': '{n} смени в седмицата от {w}', 'e.rest36': 'няма 36ч почивка в седмицата от {w}',
   'e.cov': '{d}-ви: {n} на {s}, трябват {m}', 'e.covMin': '{d}-ви: {n} на {s}, трябват поне {m}',
@@ -376,7 +377,7 @@ en: {
   'e.fakeOff': '23-07 on day {a} → 07-16 on day {d}: only 1 free day between them (at least 2 needed)',
   'e.lone': 'lone night shift on day {d}',
   'rules.lone': 'Lone nights (a single 23-07)', 'rules.loneAllow': 'fine', 'rules.loneAvoid': 'avoid as much as possible', 'rules.loneForbid': 'forbid',
-  'e.days': '{n} working days instead of {t}', 'e.nightMax': '{n} nights, the maximum is {m}', 'e.nightMin': '{n} nights, the minimum is {m}',
+  'e.days': '{n} working days instead of {t}', 'e.vacMin': '{n} vacation days, needs to use at least {m}', 'e.vacMax': '{n} vacation days, should be {m}', 'vac.btn': 'Vacation to use', 'vac.title': 'Vacation to use this month', 'vac.hint': 'How many vacation days each agent must use this month. No dates needed: on “Generate” the program places them itself, together where possible, but wherever needed for the schedule to work with all other requests. Vacation days you entered by hand also count.', 'vac.col': 'Minimum days', 'vac.done': 'Done', 'e.nightMax': '{n} nights, the maximum is {m}', 'e.nightMin': '{n} nights, the minimum is {m}',
   'e.noRest': '{a} → {b} on day {d} (no rest)', 'e.run': '{n} working days in a row up to day {d}', 'e.nightRun': '{n} nights in a row up to day {d}',
   'e.nightBlock': 'night block of {n} on day {d} (at least {m} needed)', 'e.week': '{n} shifts in the week from {w}', 'e.rest36': 'no 36h rest in the week from {w}',
   'e.cov': 'Day {d}: {n} on {s}, {m} needed', 'e.covMin': 'Day {d}: {n} on {s}, at least {m} needed',
@@ -440,7 +441,7 @@ el: {
   'e.fakeOff': '23-07 στις {a} → 07-16 στις {d}: μόνο 1 ελεύθερη μέρα ενδιάμεσα (χρειάζονται τουλάχιστον 2)',
   'e.lone': 'μεμονωμένη νυχτερινή στις {d}',
   'rules.lone': 'Μεμονωμένες νυχτερινές (μία 23-07 μόνη)', 'rules.loneAllow': 'κανένα πρόβλημα', 'rules.loneAvoid': 'αποφυγή όσο γίνεται', 'rules.loneForbid': 'απαγόρευση',
-  'e.days': '{n} εργάσιμες ημέρες αντί για {t}', 'e.nightMax': '{n} νυχτερινές, το μέγιστο είναι {m}', 'e.nightMin': '{n} νυχτερινές, το ελάχιστο είναι {m}',
+  'e.days': '{n} εργάσιμες ημέρες αντί για {t}', 'e.vacMin': '{n} ημέρες άδειας, πρέπει να εξαντλήσει τουλάχιστον {m}', 'e.vacMax': '{n} ημέρες άδειας, πρέπει {m}', 'vac.btn': 'Άδεια προς εξάντληση', 'vac.title': 'Άδεια προς εξάντληση αυτόν τον μήνα', 'vac.hint': 'Πόσες ημέρες άδειας πρέπει να εξαντλήσει κάθε υπάλληλος αυτόν τον μήνα. Χωρίς ημερομηνίες: στη «Δημιουργία» το πρόγραμμα τις τοποθετεί μόνο του, μαζί όπου γίνεται, αλλιώς όπου χρειάζεται. Μετράνε και όσες έχετε βάλει χειροκίνητα.', 'vac.col': 'Ελάχιστες ημέρες', 'vac.done': 'Έτοιμο', 'e.nightMax': '{n} νυχτερινές, το μέγιστο είναι {m}', 'e.nightMin': '{n} νυχτερινές, το ελάχιστο είναι {m}',
   'e.noRest': '{a} → {b} στις {d} (χωρίς ξεκούραση)', 'e.run': '{n} συνεχόμενες εργάσιμες ημέρες έως τις {d}', 'e.nightRun': '{n} συνεχόμενες νυχτερινές έως τις {d}',
   'e.nightBlock': 'νυχτερινό μπλοκ {n} στις {d} (χρειάζονται τουλάχιστον {m})', 'e.week': '{n} βάρδιες στην εβδομάδα από {w}', 'e.rest36': 'χωρίς 36ωρη ξεκούραση στην εβδομάδα από {w}',
   'e.cov': '{d}: {n} στη {s}, χρειάζονται {m}', 'e.covMin': '{d}: {n} στη {s}, χρειάζονται τουλάχιστον {m}',
@@ -533,7 +534,7 @@ function agentPen(cfg, ctx, a, row, detail) {
   let hard = 0, soft = 0;
   const note = detail ? (m) => detail.push(t.name + ': ' + m) : null;
   // allowed shifts + preference
-  let nights = 0, work = 0, vac = 0;
+  let nights = 0, work = 0, vac = 0, vV = 0;
   for (let d = 0; d < D; d++) {
     const c = row[d];
     if (WORK(c)) {
@@ -549,8 +550,13 @@ function agentPen(cfg, ctx, a, row, detail) {
         if (t.nightHalf === 'second' && d < Math.floor(D / 2)) { hard++; note && note(tr('e.nightSecond', { d: d + 1 })); }
         if (t.nightHalf === 'first' && d >= Math.floor(D / 2)) { hard++; note && note(tr('e.nightFirst', { d: d + 1 })); }
       }
-    } else if (c === 'V' || c === 'S') vac++;
+    } else if (c === 'V' || c === 'S') { vac++; if (c === 'V') vV++; }
   }
+  // vacation to use: at least vacMin, no more than needed; together where possible (soft)
+  const vMin = t.vacMin || 0, vCap = Math.max(vMin, t.vacLocked || 0);
+  if (vV < vMin) { hard += vMin - vV; note && note(tr('e.vacMin', { n: vV, m: vMin })); }
+  else if (vV > vCap) { hard += vV - vCap; note && note(tr('e.vacMax', { n: vV, m: vCap })); }
+  if (vMin) { let blocks = 0; for (let d = 0; d < D; d++) if (row[d] === 'V' && row[d - 1] !== 'V') blocks++; if (blocks > 1) soft += 40 * (blocks - 1); }
   const target = (t.work != null ? t.work : cfg.norm);
   if (work + vac !== target) { hard += Math.abs(work + vac - target); note && note(tr('e.days', { n: work + vac, t: target })); }
   if (nights > t.nightMax) { hard += nights - t.nightMax; note && note(tr('e.nightMax', { n: nights, m: t.nightMax })); }
@@ -674,6 +680,14 @@ function solver(cfg, opts = {}) {
         if (L) { row[d] = L; if (L !== 'O' && L !== 'X') have++; } else free.push(d);
       }
       // shuffle free and pick
+      // vacation to use: try to place it as one block of free days
+      let vNeed = Math.max(0, (t.vacMin || 0) - row.filter(c => c === 'V').length);
+      if (vNeed) {
+        const starts = []; for (let d = 0; d + vNeed <= D; d++) { let ok = true; for (let k = 0; k < vNeed; k++) if (row[d + k] !== 'O' || (keep && keep[a] && keep[a][d + k]) || locked[a][d + k]) { ok = false; break; } if (ok) starts.push(d); }
+        const pick = starts.length ? [starts[Math.floor(R() * starts.length)]] : null;
+        const days = pick ? Array.from({ length: vNeed }, (_, k) => pick[0] + k) : free.slice().sort(() => R() - .5).slice(0, vNeed);
+        for (const d of days) { row[d] = 'V'; have++; const fi = free.indexOf(d); if (fi >= 0) free.splice(fi, 1); }
+      }
       for (let i = free.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [free[i], free[j]] = [free[j], free[i]]; }
       const need = Math.max(0, Math.min(free.length, target - have));
       const pref = (t.prefer && t.prefer.length ? t.prefer.filter(c => t.allow[c]) : opts3[a]);
@@ -711,7 +725,7 @@ function solver(cfg, opts = {}) {
       } else { // change one cell
         a1 = Math.floor(R() * A); d1 = Math.floor(R() * D); a2 = -1; d2 = -1;
         if (isFixed(a1, d1)) continue;
-        const ch = opts3[a1].concat(['O']);
+        const ch = opts3[a1].concat(cfg.team[a1].vacMin ? ['O', 'V'] : ['O']);
         const nv = ch[Math.floor(R() * ch.length)];
         if (nv === grid[a1][d1]) continue;
         o1 = grid[a1][d1]; grid[a1][d1] = nv;
@@ -998,7 +1012,7 @@ function cfg() {
   const prev = {}; team.people.forEach(p => prev[p.name] = prevTailFor(p.name));
   return {
     year: Y, month: M, norm: norm(), cover: team.cover, maxRun: team.maxRun, maxWeek: team.maxWeek, loneNight: team.loneNight || 'avoid',
-    team: team.people.map(p => ({ name: p.name, allow: { M: p.allow.includes('M'), A: p.allow.includes('A'), N: p.allow.includes('N') }, prefer: p.prefer ? p.prefer.split('') : [], nightMin: +p.nightMin || 0, nightMax: p.allow.includes('N') ? (+p.nightMax || 0) : 0, nightHalf: p.nightHalf, mHalf: p.mHalf || 'any', aHalf: p.aHalf || 'any', blockMin: +p.blockMin || 1, blockMax: +p.blockMax || 7, work: targetFor(p.name) })),
+    team: team.people.map(p => ({ name: p.name, allow: { M: p.allow.includes('M'), A: p.allow.includes('A'), N: p.allow.includes('N') }, prefer: p.prefer ? p.prefer.split('') : [], nightMin: +p.nightMin || 0, nightMax: p.allow.includes('N') ? (+p.nightMax || 0) : 0, nightHalf: p.nightHalf, mHalf: p.mHalf || 'any', aHalf: p.aHalf || 'any', blockMin: +p.blockMin || 1, blockMax: +p.blockMax || 7, work: targetFor(p.name), vacMin: Math.max(0, +((month.vacMin || {})[p.name]) || 0), vacLocked: Object.values(month.req[p.name] || {}).filter(c => c === 'V').length })),
     req: month.req, prev
   };
 }
@@ -1040,9 +1054,10 @@ function render() {
       const w = ENGINE.dow(Y, M, d);
       h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}">${c ? LBL[c] : '·'}</button></td>`;
     }
+    const vmin = +((month.vacMin || {})[p.name]) || 0;
     const target = targetFor(p.name), worked = cnt.M + cnt.A + cnt.N + cnt.V + cnt.S;
     const hasAny = month.result || Object.keys(month.req[p.name] || {}).length;
-    h += `<td class="sum first">${cnt.M}</td><td class="sum">${cnt.A}</td><td class="sum ${cnt.N > (+p.nightMax || 0) ? 'badv' : ''}">${cnt.N}</td><td class="sum">${cnt.V}</td><td class="sum">${cnt.S}</td><td class="sum ${month.result && worked !== target ? 'badv' : ''}">${hasAny ? worked : '–'}/${target}</td></tr>`;
+    h += `<td class="sum first">${cnt.M}</td><td class="sum">${cnt.A}</td><td class="sum ${cnt.N > (+p.nightMax || 0) ? 'badv' : ''}">${cnt.N}</td><td class="sum ${vmin && month.result && cnt.V < vmin ? 'badv' : ''}" ${vmin ? `title="${esc(tr('vac.col'))}: ${vmin}"` : ''}>${cnt.V}${vmin ? '/' + vmin : ''}</td><td class="sum">${cnt.S}</td><td class="sum ${month.result && worked !== target ? 'badv' : ''}">${hasAny ? worked : '–'}/${target}</td></tr>`;
   });
   if (!team.people.length) h += `<tr><td colspan="${days + 10}" style="padding:28px;color:var(--muted)">${tr('g.noPeople')}</td></tr>`;
   // coverage
@@ -1061,6 +1076,7 @@ function render() {
   }
   h += '</tbody></table>';
   $('#grid').innerHTML = h;
+  vacBtnText();
   renderStatus();
   $('#export').disabled = !month.result || busy;
 }
@@ -1077,6 +1093,31 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<':
 
 // ---------- popover ----------
 let popFor = null;
+function vacBtnText() {
+  const m = month && month.vacMin ? Object.values(month.vacMin).filter(v => +v > 0).length : 0;
+  const b = $('#vacBtn'); if (b) b.textContent = tr('vac.btn') + (m ? ' (' + m + ')' : '');
+}
+function openVac() {
+  closeVac();
+  const bg = document.createElement('div'); bg.className = 'modalbg'; bg.id = 'vacBg';
+  const vm = month.vacMin || {};
+  bg.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="vacTitle"><div class="mhead"><h2 id="vacTitle">${tr('vac.title')}</h2><button class="icon-btn" id="vacX" aria-label="${esc(tr('h.close'))}">✕</button></div>
+    <p style="margin:0 0 12px;font-size:13.5px;color:var(--muted);line-height:1.45">${tr('vac.hint')}</p>
+    <table class="htbl"><thead><tr><th>${tr('g.agent')}</th><th>${tr('vac.col')}</th></tr></thead><tbody>${team.people.map((p, i) => `<tr><td>${esc(p.name || '—')}</td><td><input class="num" type="number" min="0" max="31" data-vi="${i}" value="${+vm[p.name] || 0}" aria-label="${esc(p.name)}: ${esc(tr('vac.col'))}" style="width:64px"></td></tr>`).join('')}</tbody></table>
+    <div style="display:flex;justify-content:flex-end;margin-top:14px"><button class="btn primary" id="vacOk">${tr('vac.done')}</button></div></div>`;
+  document.body.appendChild(bg);
+  bg.addEventListener('click', e => { if (e.target === bg || e.target.closest('#vacX,#vacOk')) closeVac(); });
+  bg.addEventListener('change', e => {
+    const inp = e.target.closest('input[data-vi]'); if (!inp) return;
+    const p = team.people[+inp.dataset.vi]; const v = Math.max(0, Math.min(31, parseInt(inp.value || '0', 10) || 0)); inp.value = v;
+    month.vacMin = Object.assign({}, month.vacMin || {}); if (v) month.vacMin[p.name] = v; else delete month.vacMin[p.name];
+    saveMonth(); render();
+  });
+  const f = bg.querySelector('input'); f && f.focus();
+}
+function closeVac() { const b = $('#vacBg'); if (b) { b.remove(); $('#vacBtn').focus(); } }
+$('#vacBtn').addEventListener('click', e => { e.stopPropagation(); if (!busy) openVac(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#vacBg')) closeVac(); });
 let selRow = null, selCol = null;      // what is lit right now (render() uses these)
 let lockRow = null, lockCol = null;    // set by a click, cleared by a click outside the grid
 function showSel(r, k) {
@@ -1260,7 +1301,7 @@ $('#teamtbl').addEventListener('change', e => {
   const p = team.people[+t.dataset.i]; const f = t.dataset.f;
   if (f === 'name') {
     const old = p.name, nw = t.value.trim();
-    if (old && nw && old !== nw) for (const obj of [month.req, month.result, month.prevTail]) if (obj && obj[old]) { obj[nw] = obj[old]; delete obj[old]; }
+    if (old && nw && old !== nw) for (const obj of [month.req, month.result, month.prevTail, month.vacMin]) if (obj && obj[old]) { obj[nw] = obj[old]; delete obj[old]; }
     p.name = nw; saveMonth();
   } else if (f === 'nightHalf' || f === 'mHalf' || f === 'aHalf' || f === 'prefer') p[f] = t.value; else p[f] = Math.max(0, parseInt(t.value || '0', 10));
   saveTeam();
