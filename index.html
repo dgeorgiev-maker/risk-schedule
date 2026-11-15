@@ -82,7 +82,6 @@ table.g thead th.wkd{background:var(--wk)}
 :root[data-skin="midnight"]{--glow:#6EA8FF;--glow-bg:rgba(110,168,255,.13);--glow-hv:rgba(110,168,255,.06)}
 :root[data-skin="obsidian"]{--glow:#5EEAD4;--glow-bg:rgba(94,234,212,.09);--glow-hv:rgba(94,234,212,.045)}
 :root[data-skin="betty"]{--glow:#FFC900;--glow-bg:rgba(255,201,0,.10);--glow-hv:rgba(255,201,0,.05)}
-table.g tr.ag:hover>td,table.g tr.ag:hover>th{background-image:linear-gradient(var(--glow-hv),var(--glow-hv))}
 table.g tr.ag.sel>td,table.g tr.ag.sel>th{background-image:linear-gradient(var(--glow-bg),var(--glow-bg));box-shadow:inset 0 1px 0 var(--glow),inset 0 -1px 0 var(--glow);transition:box-shadow .2s,background-image .2s}
 table.g tr.ag.sel>th.name{box-shadow:inset 3px 0 0 var(--glow),inset 0 1px 0 var(--glow),inset 0 -1px 0 var(--glow),inset 10px 0 14px -10px var(--glow)}
 table.g tr.ag.sel>td:last-child{box-shadow:inset -1px 0 0 var(--glow),inset 0 1px 0 var(--glow),inset 0 -1px 0 var(--glow)}
@@ -1078,19 +1077,32 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<':
 
 // ---------- popover ----------
 let popFor = null;
-let selRow = null, selCol = null;
-function selectRow(i) {
-  if (i == null || isNaN(i)) return; selRow = i;
-  document.querySelectorAll('#grid tr.ag').forEach(r => r.classList.toggle('sel', +r.dataset.row === i));
-}
-function selectCol(k) {
-  selCol = k;
+let selRow = null, selCol = null;      // what is lit right now (render() uses these)
+let lockRow = null, lockCol = null;    // set by a click, cleared by a click outside the grid
+function showSel(r, k) {
+  if (r === selRow && k === selCol) return;
+  selRow = r; selCol = k;
+  document.querySelectorAll('#grid tr.ag').forEach(x => x.classList.toggle('sel', r != null && +x.dataset.row === r));
   document.querySelectorAll('#grid [data-col]').forEach(x => x.classList.toggle('csel', k != null && x.dataset.col === String(k)));
 }
+function posOf(t) {
+  const tr = t.closest && t.closest('#grid tr'); if (!tr) return null;
+  const cell = t.closest('td,th'); const k = cell && cell.dataset.col;
+  const row = tr.classList.contains('ag') ? +tr.dataset.row : null;
+  const col = k == null ? null : (/^\d+$/.test(k) ? +k : k);
+  return row == null && col == null ? null : [row, col];
+}
+$('#grid').addEventListener('mouseover', e => { const p = posOf(e.target); p ? showSel(p[0], p[1]) : showSel(lockRow, lockCol); });
+$('#grid').addEventListener('mouseleave', () => showSel(lockRow, lockCol));
 for (const ev of ['click', 'focusin']) $('#grid').addEventListener(ev, e => {
-  const r = e.target.closest('tr.ag'); if (r) selectRow(+r.dataset.row);
-  const td = e.target.closest('td[data-col],th[data-col]'); if (td && r) { const k = td.dataset.col; selectCol(/^\d+$/.test(k) ? +k : k); }
+  const p = posOf(e.target); if (!p || p[0] == null) return;
+  lockRow = p[0]; lockCol = p[1]; showSel(lockRow, lockCol);
 }, true);
+document.addEventListener('click', e => {
+  if (lockRow == null && lockCol == null) return;
+  if (e.target.closest('#grid, #pop, .modalbg')) return; // the shift menu and the hours window keep the position
+  lockRow = lockCol = null; showSel(null, null);
+});
 function openPop(btn) {
   closePop();
   const p = team.people[+btn.dataset.p]; if (!p) return;
