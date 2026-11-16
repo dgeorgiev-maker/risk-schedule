@@ -179,6 +179,8 @@ tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)
 [hidden]{display:none!important}
 .namebtn{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left;border-bottom:1px dashed var(--muted)}
 .namebtn:hover{color:var(--accent);border-color:var(--accent)}
+.cell.want{outline:2px dashed var(--muted);outline-offset:-3px}
+.cell.W{background:transparent;outline:1.5px dashed var(--muted);outline-offset:-2px}
 .modalbg{position:fixed;inset:0;z-index:70;background:rgba(10,14,20,.45);display:grid;place-items:center;padding:16px}
 .modal{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:18px 20px;width:100%;max-width:440px;max-height:90vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.3)}
 .mhead{display:flex;align-items:center;gap:12px;margin-bottom:10px}.mhead h2{margin:0;font-size:18px;font-weight:600;flex:1}
@@ -304,7 +306,7 @@ bg: {
   'bar.norm': 'Работни дни', 'bar.normAuto': 'Изчисли автоматично', 'bar.import': 'Качи Excel', 'bar.importTitle': 'Замени графика за месеца с готов Excel файл',
   'bar.clearRes': 'Изчисти генерираното', 'bar.clearReq': 'Махни всички ръчни промени',
   'leg.V': 'Отпуск', 'leg.S': 'SL – болничен', 'leg.X': 'Не е в екипа', 'leg.pin': '● закачено',
-  'rules.h': 'Правила за всички', 'rules.aMin': '15-00 при нужда минимум', 'rules.mMax': '07-16 най-много', 'e.covMax': '{d}-ви: {n} на {s}, най-много {m}', 'st.thinA': 'Не стигат хора за всички смени, затова 15-00 е с човек по-малко в {n} дни: {days}.', 'st.cap': 'Капацитет: трябват {need} смени, а хората имат {have} работни дни – поне {n} смени ще останат непокрити. Първо отстъпва 15-00, после 23-07.', 'mail.btn': 'Рекуести от мейл', 'mail.title': 'Рекуести за {m} {y}', 'mail.hint': 'Постави рекуестите от мейлите – на български или английски. Най-сигурно е всеки ред да започва с името: „Денис: почивка 4 и 5, нощни 10–12“. Може и цели мейли (с „From:“ или подпис накрая). Натисни „Разчети“, провери и „Нанеси“ – става като ръчно закачени клетки.', 'mail.ph': 'Денис: почивка на 4 и 5, нощни 10-12\nAtanas: vacation 30-31, 15-00 on 24\nНатали: искам 15-00 на 24, 25 и 26', 'mail.read': 'Разчети', 'mail.cancel': 'Затвори', 'mail.apply': 'Нанеси ({n})', 'mail.col': 'Рекуести (дни)', 'mail.none': 'Не намерих рекуести с дати.', 'mail.notes': 'Провери ръчно:', 'mail.assumed': 'Смяната е взета от предното изречение', 'mail.replaces': 'Сменя вече закачени клетки: {days}', 'mail.done': 'Нанесени рекуести: {n}. Генерирай пак, за да се нагоди графикът.', 'mail.n.unknownName': 'Не разпознах името „{arg}“ (трябва да е като в „Екип и правила“): {text}', 'mail.n.noName': 'Не е ясно за кого е: „{text}“', 'mail.n.negated': '{name}: „{text}“ – смяна, която да НЯМА, не може да се закачи като клетка. Нанеси я ръчно.', 'mail.n.noDates': '{name}: няма дати в „{text}“', 'mail.n.noKw': '{name}: има дати, но не и каква смяна в „{text}“', 'mail.n.otherMonth': '{name}: дата от друг месец в „{text}“ – пропусната', 'mail.n.badDay': '{name}: ден {arg} го няма в този месец', 'mail.n.conflict': '{name}: за ден {arg} има две различни смени – остава последната', 'rules.nMin': '23-07 при нужда минимум', 'st.thin': 'За да се спазят всички правила и заявки, {n} нощи са с по {m} души: {days}.', 'st.thin1': 'За да се спазят всички правила и заявки, 1 нощ е с {m} души: {days}.', 'rules.atLeast': 'поне', 'rules.exactly': 'точно', 'rules.people': 'души',
+  'rules.h': 'Правила за всички', 'rules.aMin': '15-00 при нужда минимум', 'rules.mMax': '07-16 най-много', 'e.covMax': '{d}-ви: {n} на {s}, най-много {m}', 'st.thinA': 'Не стигат хора за всички смени, затова 15-00 е с човек по-малко в {n} дни: {days}.', 'st.cap': 'Капацитет: трябват {need} смени, а хората имат {have} работни дни – поне {n} смени ще останат непокрити. Първо отстъпва 15-00, после 23-07.', 'mail.btn': 'Рекуести от мейл', 'mail.title': 'Рекуести за {m} {y}', 'mail.hint': 'Постави рекуестите от мейлите – на български или английски. Най-сигурно е всеки ред да започва с името: „Денис: почивка 4 и 5, нощни 10–12“. Може и цели мейли (с „From:“ или подпис накрая). Разбира и празници: Коледа/X-mas = 24–26, Бъдни вечер = 24. „На работа“ без смяна закача само, че иска да работи – смяната я избира генераторът. Натисни „Разчети“, провери и „Нанеси“ – става като ръчно закачени клетки.', 'mail.ph': 'Денис: почивка на 4 и 5, нощни 10-12\nAtanas: vacation 30-31, 15-00 on 24\nНатали: искам 15-00 на 24, 25 и 26', 'mail.read': 'Разчети', 'mail.cancel': 'Затвори', 'mail.apply': 'Нанеси ({n})', 'mail.col': 'Рекуести (дни)', 'mail.none': 'Не намерих рекуести с дати.', 'mail.notes': 'Провери ръчно:', 'mail.assumed': 'Смяната е взета от предното изречение', 'mail.replaces': 'Сменя вече закачени клетки: {days}', 'mail.done': 'Нанесени рекуести: {n}. Генерирай пак, за да се нагоди графикът.', 'mail.n.unknownName': 'Не разпознах името „{arg}“ (трябва да е като в „Екип и правила“): {text}', 'mail.n.noName': 'Не е ясно за кого е: „{text}“', 'mail.n.negated': '{name}: „{text}“ – смяна, която да НЯМА, не може да се закачи като клетка. Нанеси я ръчно.', 'mail.n.noDates': '{name}: няма дати в „{text}“', 'mail.n.noKw': '{name}: има дати, но не и каква смяна в „{text}“', 'mail.n.otherMonth': '{name}: дата от друг месец в „{text}“ – пропусната', 'mail.n.badDay': '{name}: ден {arg} го няма в този месец', 'mail.n.conflict': '{name}: за ден {arg} има две различни смени – остава последната', 'mail.n.cantWork': '{name}: „{text}“ – не може да работи, затова закачих почивка. Ако е само за част от деня, промени клетката ръчно.', 'lbl.W': 'Раб.', 'g.wantWork': ' – иска да е на работа (смяната я избира генераторът)', 'e.wantWork': 'иска да е на работа на {d}-ви', 'mail.alias': '„{arg}“ е:', 'rules.nMin': '23-07 при нужда минимум', 'st.thin': 'За да се спазят всички правила и заявки, {n} нощи са с по {m} души: {days}.', 'st.thin1': 'За да се спазят всички правила и заявки, 1 нощ е с {m} души: {days}.', 'rules.atLeast': 'поне', 'rules.exactly': 'точно', 'rules.people': 'души',
   'rules.maxRun': 'Максимум поредни работни дни', 'rules.maxWeek': 'Максимум дни в седмица (Пн–Нд)',
   'rules.hint': 'Винаги се спазват: поне 36 часа почивка всяка седмица, без 15-00 → 07-16, без 07-16 → 23-07 и без нощна → 07-16 или 15-00 на следващия ден. След нощна има поне 2 пълни почивни дни преди 07-16 (без „фалшив“ почивен ден). 15-00 → 23-07 се дава само ако няма друг вариант. Отпуските и болничните (SL) се броят към работните дни, както в Excel-а. Дните, в които човек не е в екипа, намаляват нормата му с работните дни от този период.',
   'team.h': 'Хората', 'team.add': 'Добави човек',
@@ -368,7 +370,7 @@ en: {
   'bar.norm': 'Working days', 'bar.normAuto': 'Calculate automatically', 'bar.import': 'Upload Excel', 'bar.importTitle': "Replace this month's schedule with a finished Excel file",
   'bar.clearRes': 'Clear generated', 'bar.clearReq': 'Remove all manual changes',
   'leg.V': 'Vacation', 'leg.S': 'SL – sick leave', 'leg.X': 'Not in the team', 'leg.pin': '● pinned',
-  'rules.h': 'Rules for everyone', 'rules.aMin': '15-00 if needed at least', 'rules.mMax': '07-16 at most', 'e.covMax': 'Day {d}: {n} on {s}, at most {m}', 'st.thinA': 'There are not enough people for every shift, so 15-00 runs one person short on {n} days: {days}.', 'st.cap': 'Capacity: {need} shifts are needed, but the people have {have} working days – at least {n} shifts will stay uncovered. 15-00 gives way first, then 23-07.', 'mail.btn': 'Requests from e-mail', 'mail.title': 'Requests for {m} {y}', 'mail.hint': 'Paste the requests from the e-mails – in Bulgarian or English. Safest is one line per person starting with the name: "Denis: off 4 and 5, nights 10-12". Whole e-mails work too (with "From:" or a signature at the end). Press "Read", check, then "Apply" – they become pinned cells.', 'mail.ph': 'Denis: off on 4 and 5, nights 10-12\nAtanas: vacation 30-31, 15-00 on 24\nНатали: искам 15-00 на 24, 25 и 26', 'mail.read': 'Read', 'mail.cancel': 'Close', 'mail.apply': 'Apply ({n})', 'mail.col': 'Requests (days)', 'mail.none': 'No requests with dates found.', 'mail.notes': 'Check by hand:', 'mail.assumed': 'The shift was taken from the sentence before', 'mail.replaces': 'Replaces pinned cells: {days}', 'mail.done': 'Requests applied: {n}. Generate again to fit the schedule around them.', 'mail.n.unknownName': 'Didn\'t recognise the name "{arg}" (it must match "Team and rules"): {text}', 'mail.n.noName': 'Not clear who this is for: "{text}"', 'mail.n.negated': '{name}: "{text}" – a shift someone does NOT want can\'t be pinned as a cell. Set it by hand.', 'mail.n.noDates': '{name}: no dates in "{text}"', 'mail.n.noKw': '{name}: dates but no shift in "{text}"', 'mail.n.otherMonth': '{name}: a date from another month in "{text}" – skipped', 'mail.n.badDay': '{name}: day {arg} is not in this month', 'mail.n.conflict': '{name}: day {arg} was asked with two different shifts – the last one is kept', 'rules.nMin': '23-07 if needed at least', 'st.thin': 'To keep all rules and requests, {n} nights run with {m} people: {days}.', 'st.thin1': 'To keep all rules and requests, 1 night runs with {m} people: {days}.', 'rules.atLeast': 'at least', 'rules.exactly': 'exactly', 'rules.people': 'people',
+  'rules.h': 'Rules for everyone', 'rules.aMin': '15-00 if needed at least', 'rules.mMax': '07-16 at most', 'e.covMax': 'Day {d}: {n} on {s}, at most {m}', 'st.thinA': 'There are not enough people for every shift, so 15-00 runs one person short on {n} days: {days}.', 'st.cap': 'Capacity: {need} shifts are needed, but the people have {have} working days – at least {n} shifts will stay uncovered. 15-00 gives way first, then 23-07.', 'mail.btn': 'Requests from e-mail', 'mail.title': 'Requests for {m} {y}', 'mail.hint': 'Paste the requests from the e-mails – in Bulgarian or English. Safest is one line per person starting with the name: "Denis: off 4 and 5, nights 10-12". Whole e-mails work too (with "From:" or a signature at the end). Holidays work: Christmas/X-mas = 24–26, Christmas Eve = 24. "Working" without a shift pins only that the person wants to work – the generator picks the shift. Press "Read", check, then "Apply" – they become pinned cells.', 'mail.ph': 'Denis: off on 4 and 5, nights 10-12\nAtanas: vacation 30-31, 15-00 on 24\nНатали: искам 15-00 на 24, 25 и 26', 'mail.read': 'Read', 'mail.cancel': 'Close', 'mail.apply': 'Apply ({n})', 'mail.col': 'Requests (days)', 'mail.none': 'No requests with dates found.', 'mail.notes': 'Check by hand:', 'mail.assumed': 'The shift was taken from the sentence before', 'mail.replaces': 'Replaces pinned cells: {days}', 'mail.done': 'Requests applied: {n}. Generate again to fit the schedule around them.', 'mail.n.unknownName': 'Didn\'t recognise the name "{arg}" (it must match "Team and rules"): {text}', 'mail.n.noName': 'Not clear who this is for: "{text}"', 'mail.n.negated': '{name}: "{text}" – a shift someone does NOT want can\'t be pinned as a cell. Set it by hand.', 'mail.n.noDates': '{name}: no dates in "{text}"', 'mail.n.noKw': '{name}: dates but no shift in "{text}"', 'mail.n.otherMonth': '{name}: a date from another month in "{text}" – skipped', 'mail.n.badDay': '{name}: day {arg} is not in this month', 'mail.n.conflict': '{name}: day {arg} was asked with two different shifts – the last one is kept', 'mail.n.cantWork': '{name}: "{text}" – can\'t work, so a day off was pinned. If it is only part of the day, change the cell by hand.', 'lbl.W': 'Work', 'g.wantWork': ' – wants to work (the generator picks the shift)', 'e.wantWork': 'wants to work on day {d}', 'mail.alias': '"{arg}" is:', 'rules.nMin': '23-07 if needed at least', 'st.thin': 'To keep all rules and requests, {n} nights run with {m} people: {days}.', 'st.thin1': 'To keep all rules and requests, 1 night runs with {m} people: {days}.', 'rules.atLeast': 'at least', 'rules.exactly': 'exactly', 'rules.people': 'people',
   'rules.maxRun': 'Max consecutive working days', 'rules.maxWeek': 'Max days per week (Mon–Sun)',
   'rules.hint': 'Always kept: at least 36 hours of rest every week, no 15-00 → 07-16, no 07-16 → 23-07 and no night → 07-16 or 15-00 the next day. After a night there are at least 2 full days off before a 07-16 (no "fake" day off). 15-00 → 23-07 is only given when there is no other option. Vacation and sick leave (SL) count as working days, as in the Excel. Days when someone is not in the team lower their target by the working days in that period.',
   'team.h': 'People', 'team.add': 'Add person',
@@ -432,7 +434,7 @@ el: {
   'bar.norm': 'Εργάσιμες ημέρες', 'bar.normAuto': 'Αυτόματος υπολογισμός', 'bar.import': 'Μεταφόρτωση Excel', 'bar.importTitle': 'Αντικατάσταση του προγράμματος του μήνα με έτοιμο αρχείο Excel',
   'bar.clearRes': 'Καθαρισμός παραγόμενου', 'bar.clearReq': 'Αφαίρεση όλων των χειροκίνητων αλλαγών',
   'leg.V': 'Άδεια', 'leg.S': 'SL – αναρρωτική', 'leg.X': 'Εκτός ομάδας', 'leg.pin': '● καρφιτσωμένο',
-  'rules.h': 'Κανόνες για όλους', 'rules.aMin': '15-00 αν χρειαστεί τουλάχιστον', 'rules.mMax': '07-16 το πολύ', 'e.covMax': '{d}: {n} στη {s}, το πολύ {m}', 'st.thinA': 'Δεν φτάνουν τα άτομα για όλες τις βάρδιες, γι’ αυτό η 15-00 έχει ένα άτομο λιγότερο σε {n} ημέρες: {days}.', 'st.cap': 'Χωρητικότητα: χρειάζονται {need} βάρδιες, αλλά τα άτομα έχουν {have} εργάσιμες – τουλάχιστον {n} βάρδιες θα μείνουν ακάλυπτες. Πρώτα υποχωρεί η 15-00, μετά η 23-07.', 'mail.btn': 'Αιτήματα από email', 'mail.title': 'Αιτήματα για {m} {y}', 'mail.hint': 'Επικολλήστε τα αιτήματα από τα email – στα βουλγαρικά ή στα αγγλικά. Το πιο σίγουρο είναι μία γραμμή ανά άτομο που ξεκινά με το όνομα: «Denis: off 4 and 5, nights 10-12». Πατήστε «Ανάγνωση», ελέγξτε και «Εφαρμογή» – γίνονται καρφιτσωμένα κελιά.', 'mail.ph': 'Denis: off on 4 and 5, nights 10-12\nAtanas: vacation 30-31, 15-00 on 24', 'mail.read': 'Ανάγνωση', 'mail.cancel': 'Κλείσιμο', 'mail.apply': 'Εφαρμογή ({n})', 'mail.col': 'Αιτήματα (ημέρες)', 'mail.none': 'Δεν βρέθηκαν αιτήματα με ημερομηνίες.', 'mail.notes': 'Ελέγξτε χειροκίνητα:', 'mail.assumed': 'Η βάρδια πάρθηκε από την προηγούμενη πρόταση', 'mail.replaces': 'Αντικαθιστά καρφιτσωμένα κελιά: {days}', 'mail.done': 'Εφαρμόστηκαν αιτήματα: {n}. Δημιουργήστε ξανά το πρόγραμμα.', 'mail.n.unknownName': 'Δεν αναγνωρίστηκε το όνομα «{arg}»: {text}', 'mail.n.noName': 'Δεν είναι σαφές για ποιον είναι: «{text}»', 'mail.n.negated': '{name}: «{text}» – βάρδια που ΔΕΝ θέλει κάποιος δεν μπορεί να καρφιτσωθεί. Ορίστε τη χειροκίνητα.', 'mail.n.noDates': '{name}: χωρίς ημερομηνίες στο «{text}»', 'mail.n.noKw': '{name}: ημερομηνίες χωρίς βάρδια στο «{text}»', 'mail.n.otherMonth': '{name}: ημερομηνία άλλου μήνα στο «{text}» – παραλείφθηκε', 'mail.n.badDay': '{name}: η ημέρα {arg} δεν υπάρχει σε αυτόν τον μήνα', 'mail.n.conflict': '{name}: η ημέρα {arg} ζητήθηκε με δύο βάρδιες – κρατιέται η τελευταία', 'rules.nMin': '23-07 αν χρειαστεί τουλάχιστον', 'st.thin': 'Για να τηρηθούν όλοι οι κανόνες και τα αιτήματα, {n} νύχτες έχουν {m} άτομα: {days}.', 'st.thin1': 'Για να τηρηθούν όλοι οι κανόνες και τα αιτήματα, 1 νύχτα έχει {m} άτομα: {days}.', 'rules.atLeast': 'τουλάχιστον', 'rules.exactly': 'ακριβώς', 'rules.people': 'άτομα',
+  'rules.h': 'Κανόνες για όλους', 'rules.aMin': '15-00 αν χρειαστεί τουλάχιστον', 'rules.mMax': '07-16 το πολύ', 'e.covMax': '{d}: {n} στη {s}, το πολύ {m}', 'st.thinA': 'Δεν φτάνουν τα άτομα για όλες τις βάρδιες, γι’ αυτό η 15-00 έχει ένα άτομο λιγότερο σε {n} ημέρες: {days}.', 'st.cap': 'Χωρητικότητα: χρειάζονται {need} βάρδιες, αλλά τα άτομα έχουν {have} εργάσιμες – τουλάχιστον {n} βάρδιες θα μείνουν ακάλυπτες. Πρώτα υποχωρεί η 15-00, μετά η 23-07.', 'mail.btn': 'Αιτήματα από email', 'mail.title': 'Αιτήματα για {m} {y}', 'mail.hint': 'Επικολλήστε τα αιτήματα από τα email – στα βουλγαρικά ή στα αγγλικά. Το πιο σίγουρο είναι μία γραμμή ανά άτομο που ξεκινά με το όνομα: «Denis: off 4 and 5, nights 10-12». Πατήστε «Ανάγνωση», ελέγξτε και «Εφαρμογή» – γίνονται καρφιτσωμένα κελιά.', 'mail.ph': 'Denis: off on 4 and 5, nights 10-12\nAtanas: vacation 30-31, 15-00 on 24', 'mail.read': 'Ανάγνωση', 'mail.cancel': 'Κλείσιμο', 'mail.apply': 'Εφαρμογή ({n})', 'mail.col': 'Αιτήματα (ημέρες)', 'mail.none': 'Δεν βρέθηκαν αιτήματα με ημερομηνίες.', 'mail.notes': 'Ελέγξτε χειροκίνητα:', 'mail.assumed': 'Η βάρδια πάρθηκε από την προηγούμενη πρόταση', 'mail.replaces': 'Αντικαθιστά καρφιτσωμένα κελιά: {days}', 'mail.done': 'Εφαρμόστηκαν αιτήματα: {n}. Δημιουργήστε ξανά το πρόγραμμα.', 'mail.n.unknownName': 'Δεν αναγνωρίστηκε το όνομα «{arg}»: {text}', 'mail.n.noName': 'Δεν είναι σαφές για ποιον είναι: «{text}»', 'mail.n.negated': '{name}: «{text}» – βάρδια που ΔΕΝ θέλει κάποιος δεν μπορεί να καρφιτσωθεί. Ορίστε τη χειροκίνητα.', 'mail.n.noDates': '{name}: χωρίς ημερομηνίες στο «{text}»', 'mail.n.noKw': '{name}: ημερομηνίες χωρίς βάρδια στο «{text}»', 'mail.n.otherMonth': '{name}: ημερομηνία άλλου μήνα στο «{text}» – παραλείφθηκε', 'mail.n.badDay': '{name}: η ημέρα {arg} δεν υπάρχει σε αυτόν τον μήνα', 'mail.n.conflict': '{name}: η ημέρα {arg} ζητήθηκε με δύο βάρδιες – κρατιέται η τελευταία', 'mail.n.cantWork': '{name}: «{text}» – δεν μπορεί να εργαστεί, οπότε καρφιτσώθηκε ρεπό. Αν αφορά μόνο μέρος της ημέρας, αλλάξτε το κελί χειροκίνητα.', 'lbl.W': 'Εργ.', 'g.wantWork': ' – θέλει να εργαστεί (τη βάρδια την επιλέγει το πρόγραμμα)', 'e.wantWork': 'θέλει να εργαστεί στις {d}', 'mail.alias': '«{arg}» είναι:', 'rules.nMin': '23-07 αν χρειαστεί τουλάχιστον', 'st.thin': 'Για να τηρηθούν όλοι οι κανόνες και τα αιτήματα, {n} νύχτες έχουν {m} άτομα: {days}.', 'st.thin1': 'Για να τηρηθούν όλοι οι κανόνες και τα αιτήματα, 1 νύχτα έχει {m} άτομα: {days}.', 'rules.atLeast': 'τουλάχιστον', 'rules.exactly': 'ακριβώς', 'rules.people': 'άτομα',
   'rules.maxRun': 'Μέγιστες συνεχόμενες εργάσιμες ημέρες', 'rules.maxWeek': 'Μέγιστες ημέρες ανά εβδομάδα (Δευ–Κυρ)',
   'rules.hint': 'Τηρούνται πάντα: τουλάχιστον 36 ώρες ξεκούρασης κάθε εβδομάδα, όχι 15-00 → 07-16, όχι 07-16 → 23-07 και όχι νυχτερινή → 07-16 ή 15-00 την επόμενη μέρα. Μετά από νυχτερινή υπάρχουν τουλάχιστον 2 πλήρεις ελεύθερες μέρες πριν από 07-16 (όχι «ψεύτικο» ρεπό). Το 15-00 → 23-07 δίνεται μόνο αν δεν υπάρχει άλλη επιλογή. Η άδεια και η αναρρωτική (SL) μετρούν ως εργάσιμες ημέρες, όπως στο Excel. Οι ημέρες που κάποιος είναι εκτός ομάδας μειώνουν τον στόχο του κατά τις εργάσιμες ημέρες εκείνης της περιόδου.',
   'team.h': 'Άτομα', 'team.add': 'Προσθήκη ατόμου',
@@ -544,8 +546,10 @@ function agentPen(cfg, ctx, a, row, detail) {
   const note = detail ? (m) => detail.push(t.name + ': ' + m) : null;
   // allowed shifts + preference
   let nights = 0, work = 0, vac = 0, vV = 0;
+  const rq = (cfg.req && cfg.req[t.name]) || {};
   for (let d = 0; d < D; d++) {
     const c = row[d];
+    if (rq[d + 1] === 'W' && !WORK(c)) { hard++; note && note(tr('e.wantWork', { d: d + 1 })); }
     if (WORK(c)) {
       work++;
       if (!t.allow[c]) { hard++; note && note(tr('e.notAllowed', { s: L(c), d: d + 1 })); }
@@ -701,7 +705,7 @@ function solver(cfg, opts = {}) {
   const ctx = context(cfg);
   const { D } = ctx; const A = cfg.team.length;
   const R = rng(opts.seed || (Date.now() & 0xffffff));
-  const locked = cfg.team.map(t => { const r = (cfg.req && cfg.req[t.name]) || {}; return Array.from({ length: D }, (_, d) => r[d + 1] || null); });
+  const locked = cfg.team.map(t => { const r = (cfg.req && cfg.req[t.name]) || {}; return Array.from({ length: D }, (_, d) => (r[d + 1] && r[d + 1] !== 'W') ? r[d + 1] : null); }); // W = "wants to work that day", any shift: not locked, checked in agentPen
   const keep = opts.keep || null; // grid of cells to keep fixed (locks)
   const opts3 = cfg.team.map(t => ['M', 'A', 'N'].filter(c => t.allow[c]));
   function fresh() {
@@ -724,6 +728,7 @@ function solver(cfg, opts = {}) {
         for (const d of days) { row[d] = 'V'; have++; const fi = free.indexOf(d); if (fi >= 0) free.splice(fi, 1); }
       }
       for (let i = free.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [free[i], free[j]] = [free[j], free[i]]; }
+      { const wr = (cfg.req && cfg.req[t.name]) || {}; free.sort((x, y) => (wr[y + 1] === 'W') - (wr[x + 1] === 'W')); } // days someone wants to work get a shift first
       const need = Math.max(0, Math.min(free.length, target - have));
       const pref = (t.prefer && t.prefer.length ? t.prefer.filter(c => t.allow[c]) : opts3[a]);
       for (let k = 0; k < need; k++) row[free[k]] = (pref.length ? pref : opts3[a])[Math.floor(R() * (pref.length || opts3[a].length))] || 'O';
@@ -983,6 +988,7 @@ const KW = [
   ['V', P('vacation|holiday|отпуск') + '|' + W('leave|pto|annual leave|платен|платена')],
   ['O', W("days? off|off|rest|free|не мога|не могат|can't work|cant work|cannot work|can not work|unavailable|not available|няма да мога") + '|' + P('почив|свобод|почивк')],
   ['N', P('night|нощ')],
+  ['W', W("work|working|to work|на работа|да работя|работя|работа|on duty|available to work|available|can work|happy to work|ok to work|мога да поема|мога да работя|на линия")],
   ['M', P('morning|сутр|сутрин|ранн') + '|' + W('day shifts?|early|early shifts?') + '|' + P('дневн')],
   ['A', P('afternoon|следобед|следобяд|късн|вечерн|evening') + '|' + W('late|late shifts?')]
 ];
@@ -995,8 +1001,10 @@ const monRe = new RegExp(MON.map(([e, b], i) => `(?<m${i + 1}>(?<!${L})(?:${e}${
 const WD = [['mon', 'понеделн'], ['tue', 'вторн'], ['wed', 'сряд'], ['thu', 'четвъртъ|четвърт'], ['fri', 'петък|петъц'], ['sat', 'събот'], ['sun', 'недел']];
 const dowOf = (y, m, d) => (new Date(y, m - 1, d).getDay() + 6) % 7;
 
+let ALIAS = {};
 function matchName(raw, names) {
   const t = lat(raw).split(' ').filter(Boolean); if (!t.length) return null;
+  for (const k in ALIAS) if (lat(k) === t[0] || lat(k) === t.join(' ')) return names.includes(ALIAS[k]) ? ALIAS[k] : null;
   const cand = names.map(n => ({ n, p: lat(n).split(' ') })).filter(({ p }) => {
     const a = t[0], b = p[0]; const k = Math.min(a.length, b.length);
     return k >= 3 && a.slice(0, k) === b.slice(0, k) && (a.length >= 4 || a === b);
@@ -1007,7 +1015,8 @@ function matchName(raw, names) {
   return byIni.length === 1 ? byIni[0].n : null;
 }
 
-function parse(text, { year, month, names }) {
+function parse(text, { year, month, names, aliases }) {
+  ALIAS = aliases || {};
   const D = new Date(year, month, 0).getDate();
   const items = [], notes = [];
   const lines = String(text || '').replace(/[\u2013\u2014\u2212]/g, '-').split(/\r?\n/);
@@ -1043,28 +1052,44 @@ function parse(text, { year, month, names }) {
       // drop the name (one or two words) from the start
       const words = rest.split(/\s+/); let cut = 1; if (words[1] && matchName(words[0] + ' ' + words[1], names) === hit && matchName(words[0], names) !== hit) cut = 2;
       buf.push(words.slice(cut).join(' ').replace(/^[:\-–\s]+/, ''));
-    } else if (m && /^[\p{L}]+\s*:/u.test(line) && /\d/.test(line)) {
-      flush(); who = null; notes.push({ name: null, kind: 'unknownName', text: line.trim(), arg: line.split(':')[0].trim() }); buf = [];
+    } else if (/^\s*[-*•]?\s*\p{L}{2,}\s*[:\-–]\s*\S/u.test(line) && !/^\s*(?:hi|hello|dear|from|to|subject|cc|от|до|тема|относно|здравей\p{L}*|p\.?s)\b/iu.test(line) && (/\d/.test(line) || KW.some(([, r]) => new RegExp(r, 'iu').test(line)) || /x-?mas|christmas|коледа|нова година|new year/iu.test(line))) {
+      flush(); who = null; notes.push({ name: null, kind: 'unknownName', text: line.trim(), arg: line.trim().replace(/^[-*•]\s*/, '').split(/\s*[:\-–]/)[0].trim() }); buf = [];
     } else buf.push(line);
   }
   flush();
   for (const b of blocks) {
     if (!b.who) { if (/\d/.test(b.text) && KW.some(([, r]) => new RegExp(r, 'iu').test(b.text))) notes.push({ name: null, kind: 'noName', text: b.text.trim() }); continue; }
     lastCode = null;
-    const clauses = b.text.split(/[;\n]|\.(?=\s+\p{L})|(?<!\d)\.(?!\d)|\s(?:но|but|а|and also|също така|plus)\s/iu).map(s => s.trim()).filter(Boolean);
+    const clauses = b.text.split(/[;\n?!]|\.(?=\s+\p{L})|(?<!\d)\.(?!\d)|\s(?:но|but|а|and also|също така|plus)\s/iu).map(s => s.trim()).filter(Boolean);
     for (const cl of clauses) parseClause(b.who, cl);
   }
   function parseClause(name, src) {
     let s = ' ' + src.toLowerCase() + ' ';
+    const orig = s;
     const toks = [];
     // shift times first, so their digits are not read as days
     const TIME = [['M', /0?7(?:[:.]?00)?\s*-\s*16(?:[:.]00)?/g], ['A', /15(?:[:.]?00)?\s*-\s*(?:00|24|0)(?:[:.]00)?/g], ['N', /23(?:[:.]?00)?\s*-\s*0?7(?:[:.]00)?/g]];
-    for (const [c, re] of TIME) s = s.replace(re, (x, off) => { toks.push({ pos: off, t: 'kw', c, neg: NEG.test(s.slice(0, off)) }); return ' '.repeat(x.length); });
+    for (const [c, re] of TIME) s = s.replace(re, (x, off) => { toks.push({ pos: off, t: 'kw', c, neg: NEG.test(orig.slice(0, off)) }); return ' '.repeat(x.length); });
     s = s.replace(/(?<!\d)\d{1,2}:\d{2}(?:\s*(?:ч\.?|h|часа))?|(?<!\d)\d{1,2}[.]\d{2}\s*(?:ч\.?|h|часа)(?!\p{L})/gu, x => ' '.repeat(x.length)); // clock times
+    // numbers that are not days: "shift 1", "смяна 2", "level 3"
+    s = s.replace(/(?<!\p{L})(?:shift|смяна|смени|line|level|tier|ниво|линия|page|стр\.?)\s*(?:#|no\.?|№)?\s*\d+/giu, x => x.replace(/\d/g, ' '));
+    // in December "the holidays" means Christmas
+    if (month === 12) s = s.replace(/(?<!\p{L})(?:the holidays?|holidays|празниците|празници|празничните дни|празнични дни)(?!\p{L})/giu, x => ('коледа' + ' '.repeat(x.length)).slice(0, x.length));
     for (const [c, r] of KW) {
       const re = new RegExp(r, 'giu'); let m;
-      while ((m = re.exec(s))) { toks.push({ pos: m.index, t: 'kw', c, neg: c !== 'O' && c !== 'V' && c !== 'S' && NEG.test(s.slice(0, m.index)) }); s = s.slice(0, m.index) + ' '.repeat(m[0].length) + s.slice(m.index + m[0].length); re.lastIndex = m.index + m[0].length; }
+      while ((m = re.exec(s))) { toks.push({ pos: m.index, t: 'kw', c, neg: c !== 'O' && c !== 'V' && c !== 'S' && NEG.test(orig.slice(0, m.index)) }); s = s.slice(0, m.index) + ' '.repeat(m[0].length) + s.slice(m.index + m[0].length); re.lastIndex = m.index + m[0].length; }
     }
+    // counts, not days: "max 10", "up to 5 nights", "поне 3", "около 10"
+    s = s.replace(/(?<!\p{L})(?:max|maximum|up to|at most|at least|minimum|min|around|about|approx\.?|approximately|най-много|максимум|минимум|поне|около|към|до)\s*\d+(?:\s*(?:-|до|to)\s*\d+)?(?=\s*(?:\p{L}+|$|[,.;!?]))(?!\s*(?:[./]\d|декемв|dec|ноемв|nov|януар|jan|-?ти|-?ви|th|st|nd|rd))/giu, (x, off) => /^до/iu.test(x) && /\d\s*$/.test(s.slice(0, off)) ? x : x.replace(/\d/g, ' '));
+    // holidays: Christmas = 24–26 Dec, New Year's Eve = 31 Dec, New Year's Day = 1 Jan
+    { const HOL = [[/(?<!\p{L})(?:christmas eve|x-?mas eve|бъдни вечер|бъдник)(?!\p{L})/giu, 12, [24]],
+        [/(?<!\p{L})(?:christmas day|първи ден на коледа)(?!\p{L})/giu, 12, [25]],
+        [/(?<!\p{L})(?:x-?mas|christmas|коледа|коледн\p{L}*)(?:\s+(?:holidays?|празници|празниците|дни|days))?/giu, 12, [24, 25, 26]],
+        [/(?<!\p{L})(?:new year'?s eve|нова година вечерта|навечерието на нова година|ново ?годишната нощ)/giu, 12, [31]],
+        [/(?<!\p{L})(?:new years?'?s?(?:\s+day)?|нова година|новата година|първи януари)(?!\p{L})/giu, 1, [1]]];
+      for (const [re, mo, days] of HOL) { let m; re.lastIndex = 0;
+        while ((m = re.exec(s))) { if (mo === month) toks.push({ pos: m.index, t: 'date', days: days.filter(d => d <= D) }); else notes.push({ name, kind: 'otherMonth', text: src });
+          s = s.slice(0, m.index) + ' '.repeat(m[0].length) + s.slice(m.index + m[0].length); re.lastIndex = m.index + m[0].length; } } }
     // every Friday / all weekends
     { const re = new RegExp(`(?:every|all|each|всеки|всички|всяка|всяко)\\s+(${WD.map(([e, b]) => `${e}${L}*|${b}${L}*`).join('|')}|weekends?|уикенд${L}*)`, 'giu'); let m;
       while ((m = re.exec(s))) { const w = m[1]; let set = [];
@@ -1074,7 +1099,7 @@ function parse(text, { year, month, names }) {
     // ordinals 5th, 5-ти
     s = s.replace(/(\d{1,2})\s*(?:-?(?:st|nd|rd|th|ти|ви|ри|ми|та|ия))(?!\p{L})/giu, (x, d) => d + ' '.repeat(x.length - d.length));
     // dates and ranges: 5 | 5.12 | 5/12 | 5 декември | 5-9 | от 5 до 9 | between 5 and 9
-    const ONE = '(\\d{1,2})(?:\\s*[./](\\d{1,2})(?:[./]\\d{2,4})?)?(?:\\s+(' + `[\\p{L}]{3,}` + '))?';
+    const ONE = '(\\d{1,2})(?:\\s*[./](\\d{1,2})(?:[./]\\d{2,4})?)?(?:\\s+(?:of\\s+)?(' + `[\\p{L}]{3,}` + '))?';
     const re = new RegExp(`(?<!\\d)${ONE}(?:\\s*(?:-|до|to|till|until|through|thru|and|и)\\s*${ONE})?(?!\\d)`, 'giu'); let m;
     while ((m = re.exec(s))) {
       const conn = m[0].match(/\s(and|и)\s/iu);
@@ -1099,7 +1124,7 @@ function parse(text, { year, month, names }) {
     }
     toks.sort((x, y) => x.pos - y.pos);
     const kws = toks.filter(t => t.t === 'kw'), dates = toks.filter(t => t.t === 'date');
-    if (!dates.length) { if (kws.length) notes.push({ name, kind: kws.some(k => k.neg) ? 'negated' : 'noDates', text: src }); return; }
+    if (!dates.length) { if (kws.length && !notes.some(n => n.text === src && n.kind === 'otherMonth')) notes.push({ name, kind: kws.some(k => k.neg) ? 'negated' : 'noDates', text: src }); return; }
     if (!kws.length) {
       if (lastCode) { for (const t of dates) push(name, t.days, lastCode, src, true); }
       else notes.push({ name, kind: 'noKw', text: src });
@@ -1130,6 +1155,7 @@ function parse(text, { year, month, names }) {
         if (t.t !== 'date') return;
         const k = own.get(i);
         if (!k) { if (lastCode) push(name, t.days, lastCode, src, !g.some(x => x.t === 'kw')); else notes.push({ name, kind: 'noKw', text: src }); return; }
+        if (k.neg && k.c === 'W') { push(name, t.days, 'O', src, false); notes.push({ name, kind: 'cantWork', text: src }); lastCode = 'O'; return; }
         if (k.neg) { notes.push({ name, kind: 'negated', text: src }); return; }
         push(name, t.days, k.c, src, false); lastCode = k.c;
       });
@@ -1158,7 +1184,7 @@ if (typeof module !== 'undefined') module.exports = REQPARSE;
 const $ = s => document.querySelector(s);
 const MONTHS = new Proxy([], { get: (_, k) => tr('months')[k] });
 const WD = new Proxy([], { get: (_, k) => tr('wd')[k] });
-const LBL = new Proxy({ M: '07-16', A: '15-00', N: '23-07', O: 'Off', S: 'SL', X: '—' }, { get: (o, k) => k === 'V' ? tr('lbl.V') : o[k] });
+const LBL = new Proxy({ M: '07-16', A: '15-00', N: '23-07', O: 'Off', S: 'SL', X: '—' }, { get: (o, k) => k === 'V' ? tr('lbl.V') : k === 'W' ? tr('lbl.W') : o[k] });
 const DEF_TEAM = { people: [], cover: { M: 2, A: 3, N: 3 }, maxRun: 5, maxWeek: 5 };
 const DEF_PERSON = () => ({ name: '', allow: 'MAN', prefer: '', nightMin: 0, nightMax: 10, nightHalf: 'any', mHalf: 'any', aHalf: 'any', blockMin: 1, blockMax: 5 });
 
@@ -1236,9 +1262,9 @@ function cfg() {
 }
 function cellCode(name, d) { // d 1-based
   const r = month.req[name] && month.req[name][d];
-  if (r) return { c: r, fixed: true };
+  if (r && r !== 'W') return { c: r, fixed: true };
   const res = month.result && month.result[name];
-  return { c: res ? res[d - 1] : null, fixed: false };
+  return { c: res ? res[d - 1] : null, fixed: false, want: r === 'W' }; // W: wants to work, the generator picks the shift
 }
 function gridNow() { return team.people.map(p => Array.from({ length: D() }, (_, i) => cellCode(p.name, i + 1).c || 'O')); }
 function toast(t) { const el = $('#toast'); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => el.hidden = true, 3200); }
@@ -1272,9 +1298,9 @@ function render() {
       for (let q = -6; q <= days + 1; q++) { const c = q <= days ? codeAt(p.name, q) : null; const w = c === 'M' || c === 'A' || c === 'N' || c === 'V';
         if (w && st == null) st = q; if (!w && st != null) { if (q - st > mx) for (let z = Math.max(1, st); z < q; z++) longRun.add(z); st = null; } } }
     for (let d = 1; d <= days; d++) {
-      const { c, fixed } = cellCode(p.name, d); if (c) cnt[c]++;
+      const { c, fixed, want } = cellCode(p.name, d); if (c) cnt[c]++;
       const w = ENGINE.dow(Y, M, d);
-      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}${(DAYLIKE(c) && codeAt(p.name, d - 1) === 'N') || (c === 'N' && DAYLIKE(codeAt(p.name, d + 1))) || longRun.has(d) ? ' clash' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}">${c ? LBL[c] : '·'}</button></td>`;
+      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}${want ? ' want' : ''}${(DAYLIKE(c) && codeAt(p.name, d - 1) === 'N') || (c === 'N' && DAYLIKE(codeAt(p.name, d + 1))) || longRun.has(d) ? ' clash' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}${want ? esc(tr('g.wantWork')) : ''}"${want ? ` title="${esc(tr('g.wantWork'))}"` : ''}>${c ? LBL[c] : want ? LBL.W : '·'}</button></td>`;
     }
     const vmin = +((month.vacMin || {})[p.name]) || 0;
     const target = targetFor(p.name), worked = cnt.M + cnt.A + cnt.N + cnt.V + cnt.S;
@@ -1374,7 +1400,7 @@ function renderMailPreview() {
     }
     h += '</tbody></table>';
   } else h += `<p style="color:var(--muted);font-size:13.5px">${tr('mail.none')}</p>`;
-  if (notes.length) h += `<div style="margin-top:10px;font-size:13px"><b>${tr('mail.notes')}</b><ul style="margin:6px 0 0;padding-left:18px">${notes.map(n => '<li>' + esc(mailNote(n)) + '</li>').join('')}</ul></div>`;
+  if (notes.length) h += `<div style="margin-top:10px;font-size:13px"><b>${tr('mail.notes')}</b><ul style="margin:6px 0 0;padding-left:18px">${notes.map(n => '<li>' + esc(mailNote(n)) + (n.kind === 'unknownName' ? ` <label style="white-space:nowrap">${tr('mail.alias', { arg: esc(n.arg) })} <select data-alias="${esc(n.arg)}"><option value="">—</option>${team.people.map(p => `<option value="${esc(p.name)}">${esc(p.name)}</option>`).join('')}</select></label>` : '') + '</li>').join('')}</ul></div>`;
   box.innerHTML = h;
   ok.disabled = !items.length; ok.textContent = tr('mail.apply', { n: items.length });
 }
@@ -1389,20 +1415,21 @@ function openMail() {
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px"><button class="btn" id="mailCancel">${tr('mail.cancel')}</button><button class="btn primary" id="mailOk" disabled></button></div></div>`;
   document.body.appendChild(bg);
   const ta = $('#mailTxt');
-  const read = () => { month.mailText = ta.value; saveMonth(); mailParsed = REQPARSE.parse(ta.value, { year: Y, month: M, names: team.people.map(p => p.name) }); renderMailPreview(); };
+  const read = () => { month.mailText = ta.value; saveMonth(); mailParsed = REQPARSE.parse(ta.value, { year: Y, month: M, names: team.people.map(p => p.name), aliases: team.aliases || {} }); renderMailPreview(); };
   bg.addEventListener('click', e => {
     if (e.target === bg || e.target.closest('#mailX,#mailCancel')) { month.mailText = ta.value; saveMonth(); closeMail(); return; }
     if (e.target.closest('#mailRead')) read();
     if (e.target.closest('#mailOk') && mailParsed && mailParsed.items.length) {
       for (const it of mailParsed.items) {
         month.req[it.name] = month.req[it.name] || {}; month.req[it.name][it.day] = it.code;
-        if (month.result && month.result[it.name]) month.result[it.name][it.day - 1] = it.code;
+        if (it.code !== 'W' && month.result && month.result[it.name]) month.result[it.name][it.day - 1] = it.code;
       }
       const n = mailParsed.items.length; month.mailText = ta.value;
       saveMonth(); closeMail(); render(); toast(tr('mail.done', { n }));
     }
   });
   ta.addEventListener('input', () => { if (mailParsed) { mailParsed = null; renderMailPreview(); } });
+  bg.addEventListener('change', e => { const sel = e.target.closest('select[data-alias]'); if (!sel || !sel.value) return; team.aliases = Object.assign({}, team.aliases || {}); team.aliases[sel.dataset.alias] = sel.value; saveTeam(); read(); });
   renderMailPreview(); ta.focus();
 }
 function closeMail() { const b = $('#mailBg'); if (b) { b.remove(); const t = $('#mailBtn'); t && t.focus(); } }
