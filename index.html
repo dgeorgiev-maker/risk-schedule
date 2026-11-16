@@ -494,6 +494,7 @@ const HRS = { M: [7, 16], A: [15, 24], N: [23, 31] };
 const L = c => ({ M: '07-16', A: '15-00', N: '23-07' }[c] || tr('code.' + c));
 const wk = d => d < 1 ? tr('prevEnd') : tr('dayN', { d });
 const WORK = c => c === 'M' || c === 'A' || c === 'N';
+const WORKV = c => WORK(c) || c === 'V'; // vacation counts as a working day for days-in-a-row and days-per-week
 const BAD = { AM: 1, NM: 1, NA: 1, MN: 1, NV: 1 }; // NV: vacation counts as a day shift, a night ends at 07:00 that day
 const H = 1000; // hard weight
 
@@ -572,7 +573,7 @@ function agentPen(cfg, ctx, a, row, detail) {
     if (i > 0 && i >= P - 1 + 1 - 1 && ext[i - 1] && c && BAD[ext[i - 1] + c] && i >= P) { hard += (ext[i - 1] === 'N' && (c === 'M' || c === 'V')) ? 25 : 1; note && note(tr('e.noRest', { a: L(ext[i - 1]), b: L(c), d: i - P + 1 })); }
     // "fake off": night → one free day → 07-16. After a night there must be at least 2 full free days before an early shift
     if (i >= P && c === 'M' && i >= 2 && ext[i - 2] === 'N' && ext[i - 1] && !WORK(ext[i - 1])) { hard++; note && note(tr('e.fakeOff', { a: i - P - 1, d: i - P + 1 })); }
-    if (c === null) { run = 0; } else if (WORK(c)) run++; else run = 0;
+    if (c === null) { run = 0; } else if (WORKV(c)) run++; else run = 0;
     if (run > (cfg.maxRun || 5) && i >= P) { hard++; note && note(tr('e.run', { n: run, d: i - P + 1 })); }
     // night blocks (only within month incl tail continuity)
     if (c === 'N') nrun++;
@@ -606,7 +607,7 @@ function agentPen(cfg, ctx, a, row, detail) {
   for (const w of ctx.weeks) {
     let cnt = 0, unknown = false;
     for (let i = Math.max(0, w.s); i <= Math.min(P + D - 1, w.e); i++) {
-      if (ext[i] === null) unknown = true; else if (WORK(ext[i])) cnt++;
+      if (ext[i] === null) unknown = true; else if (WORKV(ext[i])) cnt++;
     }
     if (w.s < 0) unknown = true;
     if (cnt > (cfg.maxWeek || 5)) { hard += cnt - (cfg.maxWeek || 5); note && note(tr('e.week', { n: cnt, w: wk(w.s - P + 1) })); }
@@ -1053,10 +1054,14 @@ function render() {
       h += `<td class="prevc${selCol === 'p' + (7 - k) ? ' csel' : ''}" data-col="p${7 - k}"><button class="cell ${c || 'empty'} ${prevRO ? 'ro' : ''}${c === 'N' && DAYLIKE(codeAt(p.name, 1 - k + 1)) ? ' clash' : ''}" data-prev="${7 - k}" data-p="${i}" ${prevRO ? 'tabindex="-1" aria-disabled="true"' : ''} title="${prevRO ? tr('g.prevRO') : tr('g.prevFill')}">${c ? LBL[c] : '·'}</button></td>`;
     }
     const cnt = { M: 0, A: 0, N: 0, V: 0, O: 0, S: 0, X: 0 };
+    // days that sit in too many days in a row (vacation counts as a working day)
+    const longRun = new Set(); { const mx = team.maxRun || 5; let st = null;
+      for (let q = -6; q <= days + 1; q++) { const c = q <= days ? codeAt(p.name, q) : null; const w = c === 'M' || c === 'A' || c === 'N' || c === 'V';
+        if (w && st == null) st = q; if (!w && st != null) { if (q - st > mx) for (let z = Math.max(1, st); z < q; z++) longRun.add(z); st = null; } } }
     for (let d = 1; d <= days; d++) {
       const { c, fixed } = cellCode(p.name, d); if (c) cnt[c]++;
       const w = ENGINE.dow(Y, M, d);
-      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}${(DAYLIKE(c) && codeAt(p.name, d - 1) === 'N') || (c === 'N' && DAYLIKE(codeAt(p.name, d + 1))) ? ' clash' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}">${c ? LBL[c] : '·'}</button></td>`;
+      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}${(DAYLIKE(c) && codeAt(p.name, d - 1) === 'N') || (c === 'N' && DAYLIKE(codeAt(p.name, d + 1))) || longRun.has(d) ? ' clash' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}">${c ? LBL[c] : '·'}</button></td>`;
     }
     const vmin = +((month.vacMin || {})[p.name]) || 0;
     const target = targetFor(p.name), worked = cnt.M + cnt.A + cnt.N + cnt.V + cnt.S;
