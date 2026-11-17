@@ -96,6 +96,9 @@ td.sum.badv{color:var(--bad);font-weight:600}
 tr.cov th.name{font-weight:400;color:var(--muted)}
 tr.cov td{font-size:12px;color:var(--muted);height:24px}
 tr.cov td.short{color:var(--bad);font-weight:700;background:var(--bad-bg)}
+tr.cov td.short .covfix{all:unset;box-sizing:border-box;display:block;width:100%;height:100%;min-height:22px;text-align:center;cursor:pointer;border-radius:4px;color:inherit;font:inherit}
+tr.cov td.short .covfix:hover{box-shadow:inset 0 0 0 2px var(--bad)}
+tr.cov td.short .covfix:focus-visible{outline:2px solid var(--bad);outline-offset:1px}
 tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)}
 .status{margin:14px 0 0;border-radius:12px;padding:12px 16px;font-size:14px}
 .status.ok{background:var(--ok-bg);color:var(--ok)}
@@ -303,7 +306,7 @@ bg: {
   wd: ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'],
   'gate.h': 'Влез, за да продължиш', 'gate.msg': 'Достъп имат само одобрените акаунти.', 'gate.login': 'Вход с Google',
   'gate.noCfg': 'Липсват настройките на Firebase в config.js.', 'gate.fail': 'Входът не стана: {e}', 'gate.noAccess': '{email} няма достъп. Помоли собственика да добави имейла ти.',
-  'btn.gen': 'Генерирай', 'btn.fix': 'Поправи текущия', 'btn.fixTitle': 'Запазва графика и сменя само смените, които нарушават правило', 'st.fixing': 'Поправям графика, като местя възможно най-малко смени…', 'st.fixed': 'Готово. Сменени са {n} клетки – маркирани са с пунктир.', 'st.fixedNone': 'Нищо не трябваше да се мести.', 'rules.late': '15-00 → 23-07 на следващия ден', 'e.lateNight': '15-00 → 23-07 на {d}-ви (без почивен ден между тях)', 'btn.export': 'Свали Excel', 'btn.theme': 'Тема', 'btn.logout': 'Изход', 'btn.lang': 'Език',
+  'btn.gen': 'Генерирай', 'btn.fix': 'Поправи текущия', 'btn.fixTitle': 'Запазва графика и сменя само смените, които нарушават правило', 'st.fixing': 'Поправям графика, като местя възможно най-малко смени…', 'st.fixed': 'Готово. Сменени са {n} клетки – маркирани са с пунктир.', 'st.fixedNone': 'Нищо не трябваше да се мести.', 'g.fill': 'Попълни {s} на {d}-ви, като местиш възможно най-малко', 'st.filled': 'Попълних {s} на {d}. Сменени са {n} клетки – маркирани са с пунктир.', 'st.newShort': 'За сметка на това сега не стига човек на: {list}.', 't.fillFail': 'Не може да се попълни {s} на {d}, без да се наруши правило или ръчна смяна. Графикът е непроменен.', 'rules.late': '15-00 → 23-07 на следващия ден', 'e.lateNight': '15-00 → 23-07 на {d}-ви (без почивен ден между тях)', 'btn.export': 'Свали Excel', 'btn.theme': 'Тема', 'btn.logout': 'Изход', 'btn.lang': 'Език',
   'nav.aria': 'Месец и изглед', 'nav.prevM': 'Предишен месец', 'nav.nextM': 'Следващ месец', 'nav.pickM': 'Избери месец', 'nav.prevY': 'Предишна година', 'nav.nextY': 'Следваща година',
   'view.month': 'Месец', 'view.team': 'Екип и правила', 'view.switch': 'Смени изгледа',
   'bar.norm': 'Работни дни', 'bar.normAuto': 'Изчисли автоматично', 'bar.import': 'Качи Excel', 'bar.importTitle': 'Замени графика за месеца с готов Excel файл',
@@ -367,7 +370,7 @@ en: {
   wd: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
   'gate.h': 'Sign in to continue', 'gate.msg': 'Only approved accounts have access.', 'gate.login': 'Sign in with Google',
   'gate.noCfg': 'Firebase settings are missing in config.js.', 'gate.fail': 'Sign-in failed: {e}', 'gate.noAccess': '{email} has no access. Ask the owner to add your email.',
-  'btn.gen': 'Generate', 'btn.fix': 'Fix current', 'btn.fixTitle': 'Keeps the schedule and changes only the shifts that break a rule', 'st.fixing': 'Fixing the schedule, moving as few shifts as possible…', 'st.fixed': 'Done. {n} cells changed – they are marked with a dashed outline.', 'st.fixedNone': 'Nothing needed to move.', 'rules.late': '15-00 → 23-07 the next day', 'e.lateNight': '15-00 → 23-07 on day {d} (no day off between)', 'btn.export': 'Download Excel', 'btn.theme': 'Theme', 'btn.logout': 'Sign out', 'btn.lang': 'Language',
+  'btn.gen': 'Generate', 'btn.fix': 'Fix current', 'btn.fixTitle': 'Keeps the schedule and changes only the shifts that break a rule', 'st.fixing': 'Fixing the schedule, moving as few shifts as possible…', 'st.fixed': 'Done. {n} cells changed – they are marked with a dashed outline.', 'st.fixedNone': 'Nothing needed to move.', 'g.fill': 'Fill {s} on day {d}, moving as little as possible', 'st.filled': 'Filled {s} on {d}. {n} cells changed – they are marked with a dashed outline.', 'st.newShort': 'In exchange, these are now short: {list}.', 't.fillFail': "Can't fill {s} on {d} without breaking a rule or a manual shift. The schedule is unchanged.", 'rules.late': '15-00 → 23-07 the next day', 'e.lateNight': '15-00 → 23-07 on day {d} (no day off between)', 'btn.export': 'Download Excel', 'btn.theme': 'Theme', 'btn.logout': 'Sign out', 'btn.lang': 'Language',
   'nav.aria': 'Month and view', 'nav.prevM': 'Previous month', 'nav.nextM': 'Next month', 'nav.pickM': 'Choose month', 'nav.prevY': 'Previous year', 'nav.nextY': 'Next year',
   'view.month': 'Month', 'view.team': 'Team and rules', 'view.switch': 'Switch view',
   'bar.norm': 'Working days', 'bar.normAuto': 'Calculate automatically', 'bar.import': 'Upload Excel', 'bar.importTitle': "Replace this month's schedule with a finished Excel file",
@@ -431,7 +434,7 @@ el: {
   wd: ['Δευ','Τρι','Τετ','Πεμ','Παρ','Σαβ','Κυρ'],
   'gate.h': 'Συνδεθείτε για να συνεχίσετε', 'gate.msg': 'Πρόσβαση έχουν μόνο εγκεκριμένοι λογαριασμοί.', 'gate.login': 'Σύνδεση με Google',
   'gate.noCfg': 'Λείπουν οι ρυθμίσεις Firebase στο config.js.', 'gate.fail': 'Η σύνδεση απέτυχε: {e}', 'gate.noAccess': 'Το {email} δεν έχει πρόσβαση. Ζητήστε από τον κάτοχο να προσθέσει το email σας.',
-  'btn.gen': 'Δημιουργία', 'btn.fix': 'Διόρθωση τρέχοντος', 'btn.fixTitle': 'Κρατά το πρόγραμμα και αλλάζει μόνο τις βάρδιες που παραβιάζουν κανόνα', 'st.fixing': 'Διόρθωση προγράμματος με όσο το δυνατόν λιγότερες αλλαγές…', 'st.fixed': 'Έτοιμο. Άλλαξαν {n} κελιά – σημειώνονται με διακεκομμένο περίγραμμα.', 'st.fixedNone': 'Δεν χρειάστηκε καμία αλλαγή.', 'rules.late': '15-00 → 23-07 την επόμενη μέρα', 'e.lateNight': '15-00 → 23-07 στις {d} (χωρίς ρεπό ενδιάμεσα)', 'btn.export': 'Λήψη Excel', 'btn.theme': 'Θέμα', 'btn.logout': 'Αποσύνδεση', 'btn.lang': 'Γλώσσα',
+  'btn.gen': 'Δημιουργία', 'btn.fix': 'Διόρθωση τρέχοντος', 'btn.fixTitle': 'Κρατά το πρόγραμμα και αλλάζει μόνο τις βάρδιες που παραβιάζουν κανόνα', 'st.fixing': 'Διόρθωση προγράμματος με όσο το δυνατόν λιγότερες αλλαγές…', 'st.fixed': 'Έτοιμο. Άλλαξαν {n} κελιά – σημειώνονται με διακεκομμένο περίγραμμα.', 'st.fixedNone': 'Δεν χρειάστηκε καμία αλλαγή.', 'g.fill': 'Συμπλήρωση {s} στις {d} με όσο το δυνατόν λιγότερες αλλαγές', 'st.filled': 'Συμπληρώθηκε {s} στις {d}. Άλλαξαν {n} κελιά – σημειώνονται με διακεκομμένο περίγραμμα.', 'st.newShort': 'Σε αντάλλαγμα λείπει τώρα άτομο σε: {list}.', 't.fillFail': 'Δεν μπορεί να συμπληρωθεί {s} στις {d} χωρίς παραβίαση κανόνα ή χειροκίνητης βάρδιας. Το πρόγραμμα δεν άλλαξε.', 'rules.late': '15-00 → 23-07 την επόμενη μέρα', 'e.lateNight': '15-00 → 23-07 στις {d} (χωρίς ρεπό ενδιάμεσα)', 'btn.export': 'Λήψη Excel', 'btn.theme': 'Θέμα', 'btn.logout': 'Αποσύνδεση', 'btn.lang': 'Γλώσσα',
   'nav.aria': 'Μήνας και προβολή', 'nav.prevM': 'Προηγούμενος μήνας', 'nav.nextM': 'Επόμενος μήνας', 'nav.pickM': 'Επιλογή μήνα', 'nav.prevY': 'Προηγούμενο έτος', 'nav.nextY': 'Επόμενο έτος',
   'view.month': 'Μήνας', 'view.team': 'Ομάδα και κανόνες', 'view.switch': 'Αλλαγή προβολής',
   'bar.norm': 'Εργάσιμες ημέρες', 'bar.normAuto': 'Αυτόματος υπολογισμός', 'bar.import': 'Μεταφόρτωση Excel', 'bar.importTitle': 'Αντικατάσταση του προγράμματος του μήνα με έτοιμο αρχείο Excel',
@@ -667,6 +670,12 @@ function dayPen(cfg, ctx, grid, d, detail) {
   else if (a < cv.A) soft += 1000 * (cv.A - a);
   if (m < cv.M) { hard += cv.M - m; detail && detail.push(tr('e.covMin', { d: d + 1, n: m, s: '07-16', m: cv.M })); }
   if (m > mMax) { hard += m - mMax; detail && detail.push(tr('e.covMax', { d: d + 1, n: m, s: '07-16', m: mMax })); }
+  // targeted fix: the day and shift the user clicked must be fully staffed
+  if (cfg.focus && cfg.focus.d === d) {
+    const f = cfg.focus.s;
+    if (f === 'N' && n !== cv.N) hard += Math.abs(cv.N - n);
+    if (f === 'A' && a < cv.A) hard += cv.A - a;
+  }
   // extras
   const exM = Math.max(0, m - cv.M), exA = Math.max(0, a - cv.A);
   if (ctx.weekend[d]) soft += 4 * (exM + exA);
@@ -757,46 +766,52 @@ function solver(cfg, opts = {}) {
   const total = opts.iters || 400000;
   let it = 0; let T0 = opts.T0 || 300, T1 = opts.T1 || 0.3;
   let restarts = 0;
+  // repair runs can start with a soft hard-weight (opts.Hs) that grows to the full weight, so the search can pass through a broken rule on its way to a better schedule
+  let curH = 0, curS = 0; for (const p of ap) { curH += p[0]; curS += p[1]; } for (const p of dp) { curH += p[0]; curS += p[1]; }
   function step(n) {
     for (let k = 0; k < n && it < total; k++, it++) {
       const T = T0 * Math.pow(T1 / T0, it / total);
+      const Hc = opts.Hs ? opts.Hs * Math.pow(H / opts.Hs, Math.min(1, it / (total * 0.7))) : H;
       const mv = R();
-      let a1, a2, d1, d2, o1, o2, o3, o4;
-      if (mv < 0.45) { // swap two agents same day
-        d1 = Math.floor(R() * D); a1 = Math.floor(R() * A); a2 = Math.floor(R() * A);
+      const undo = []; const set = (a, d, v) => { undo.push([a, d, grid[a][d]]); grid[a][d] = v; };
+      let agents, days;
+      if (opts.wide && mv < 0.15) { // swap two agents over 2–4 days in a row (moves whole night blocks)
+        const L = 2 + Math.floor(R() * 3), d1 = Math.floor(R() * (D - L + 1)), a1 = Math.floor(R() * A), a2 = Math.floor(R() * A);
+        if (a1 === a2) continue;
+        let ok = true, diff = false; for (let q = d1; q < d1 + L; q++) { if (isFixed(a1, q) || isFixed(a2, q)) { ok = false; break; } if (grid[a1][q] !== grid[a2][q]) diff = true; }
+        if (!ok || !diff) continue;
+        for (let q = d1; q < d1 + L; q++) { const x = grid[a1][q], y = grid[a2][q]; set(a1, q, y); set(a2, q, x); }
+        agents = [a1, a2]; days = Array.from({ length: L }, (_, q) => d1 + q);
+      } else if (mv < 0.45) { // swap two agents same day
+        const d1 = Math.floor(R() * D), a1 = Math.floor(R() * A), a2 = Math.floor(R() * A);
         if (a1 === a2 || isFixed(a1, d1) || isFixed(a2, d1) || grid[a1][d1] === grid[a2][d1]) continue;
-        o1 = grid[a1][d1]; o2 = grid[a2][d1];
-        grid[a1][d1] = o2; grid[a2][d1] = o1; d2 = -1;
+        const x = grid[a1][d1], y = grid[a2][d1]; set(a1, d1, y); set(a2, d1, x);
+        agents = [a1, a2]; days = [d1];
       } else if (mv < 0.8) { // swap two days same agent
-        a1 = Math.floor(R() * A); d1 = Math.floor(R() * D); d2 = Math.floor(R() * D); a2 = -1;
+        const a1 = Math.floor(R() * A), d1 = Math.floor(R() * D), d2 = Math.floor(R() * D);
         if (d1 === d2 || isFixed(a1, d1) || isFixed(a1, d2) || grid[a1][d1] === grid[a1][d2]) continue;
-        o1 = grid[a1][d1]; o2 = grid[a1][d2];
-        grid[a1][d1] = o2; grid[a1][d2] = o1;
+        const x = grid[a1][d1], y = grid[a1][d2]; set(a1, d1, y); set(a1, d2, x);
+        agents = [a1]; days = [d1, d2];
       } else { // change one cell
-        a1 = Math.floor(R() * A); d1 = Math.floor(R() * D); a2 = -1; d2 = -1;
+        const a1 = Math.floor(R() * A), d1 = Math.floor(R() * D);
         if (isFixed(a1, d1)) continue;
         const ch = opts3[a1].concat(cfg.team[a1].vacMin ? ['O', 'V'] : ['O']);
         const nv = ch[Math.floor(R() * ch.length)];
         if (nv === grid[a1][d1]) continue;
-        o1 = grid[a1][d1]; grid[a1][d1] = nv;
+        set(a1, d1, nv); agents = [a1]; days = [d1];
       }
-      // delta
-      const oldParts = [];
-      let delta = 0;
-      const agents = a2 >= 0 ? [a1, a2] : [a1];
-      const days = d2 >= 0 ? [d1, d2] : [d1];
       const na = agents.map(a => agentPen(cfg, ctx, a, grid[a]));
       const nd = days.map(d => dayPen(cfg, ctx, grid, d));
-      agents.forEach((a, i) => { delta += score(na[i][0], na[i][1]) - score(ap[a][0], ap[a][1]); });
-      days.forEach((d, i) => { delta += score(nd[i][0], nd[i][1]) - score(dp[d][0], dp[d][1]); });
+      let dh = 0, ds = 0;
+      agents.forEach((a, i) => { dh += na[i][0] - ap[a][0]; ds += na[i][1] - ap[a][1]; });
+      days.forEach((d, i) => { dh += nd[i][0] - dp[d][0]; ds += nd[i][1] - dp[d][1]; });
+      const delta = dh * Hc + ds;
       if (delta <= 0 || R() < Math.exp(-delta / T)) {
         agents.forEach((a, i) => ap[a] = na[i]); days.forEach((d, i) => dp[d] = nd[i]);
-        cur += delta;
+        curH += dh; curS += ds; cur = score(curH, curS);
         if (cur < best.score) best = { grid: grid.map(r => r.slice()), score: cur };
       } else {
-        if (a2 >= 0) { grid[a1][d1] = o1; grid[a2][d1] = o2; }
-        else if (d2 >= 0) { grid[a1][d1] = o1; grid[a1][d2] = o2; }
-        else grid[a1][d1] = o1;
+        for (let q = undo.length - 1; q >= 0; q--) grid[undo[q][0]][undo[q][1]] = undo[q][2];
       }
     }
     return { done: it >= total, progress: it / total, bestHard: Math.floor(best.score / H), best };
@@ -1328,7 +1343,7 @@ function render() {
       const c = g.reduce((a, r) => a + (r[d - 1] === s ? 1 : 0), 0);
       const need = team.cover[s]; const mMax = team.coverMMax != null ? team.coverMMax : team.cover.M + 1; const short = month.result && (s === 'N' ? c !== need : c < need || (s === 'M' && c > mMax));
       const w = ENGINE.dow(Y, M, d);
-      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${short ? ' short' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}">${month.result ? c : ''}</td>`;
+      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${short ? ' short' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}">${month.result ? (short && !busy && ((s === 'N' && c < need) || (s === 'A' && c < need)) ? `<button class="covfix" data-s="${s}" data-d="${d}" title="${esc(tr('g.fill', { s: LBL[s], d }))}" aria-label="${esc(tr('g.fill', { s: LBL[s], d }))}">${c}</button>` : c) : ''}</td>`;
     }
     h += '<td colspan="6"></td></tr>';
   }
@@ -1580,27 +1595,47 @@ async function generate() {
 
 // ---------- repair: keep the current schedule, move only what breaks a rule ----------
 var changed = new Set(); // "row-day" of cells the last repair moved
-async function repair() {
+function shortList(g) { // ["N-3", ...] shift-day pairs that are below the wanted number
+  const out = new Set(), mMax = team.coverMMax != null ? team.coverMMax : team.cover.M + 1;
+  for (let d = 0; d < D(); d++) for (const s of ['M', 'A', 'N']) {
+    const n = g.reduce((x, r) => x + (r[d] === s ? 1 : 0), 0), need = team.cover[s];
+    if (s === 'N' ? n !== need : n < need || (s === 'M' && n > mMax)) out.add(s + '-' + (d + 1));
+  }
+  return out;
+}
+const SL = s => ({ M: '07-16', A: '15-00', N: '23-07' }[s]);
+async function repair(focus) {
   if (busy || !team.people.length || !month.result) return;
   const before = gridNow();
-  const c = Object.assign(cfg(), { base: before, baseW: 50 });
+  const c = Object.assign(cfg(), { base: before, baseW: focus ? 300 : 50, focus: focus || null });
+  const probsBefore = ENGINE.problems(cfg(), before).length, shortBefore = shortList(before);
   busy = true; $('#gen').disabled = true; $('#fix').disabled = true; $('#export').disabled = true;
   const el = $('#status'); el.className = 'status info'; el.innerHTML = tr('st.fixing') + ' <div class="progress"><i id="pg"></i></div>';
   const tries = 4, iters = 400000; let best = null;
   for (let t = 0; t < tries; t++) {
-    const s = ENGINE.solver(c, { seed: (Date.now() + t * 7919) & 0xffffff, iters, start: before, T0: 60, T1: 0.2 });
+    const s = ENGINE.solver(c, { seed: (Date.now() + t * 7919) & 0xffffff, iters, start: before, T0: 60, T1: 0.2, wide: true, Hs: focus ? 2000 : 0 });
     let r;
     do { r = s.step(20000); const pg = $('#pg'); if (pg) pg.style.width = (((t + r.progress) / tries) * 100).toFixed(1) + '%'; await new Promise(f => setTimeout(f, 0)); } while (!r.done);
     if (!best || r.best.score < best.score) best = r.best;
   }
+  if (focus) { // keep the old schedule if the clicked gap could not be filled, or filling it would break a rule
+    const after = shortList(best.grid), probsAfter = ENGINE.problems(cfg(), best.grid).length;
+    if (after.has(focus.s + '-' + (focus.d + 1)) || probsAfter > probsBefore) {
+      busy = false; $('#gen').disabled = false; render(); renderStatus();
+      toast(tr('t.fillFail', { s: SL(focus.s), d: focus.d + 1 + '.' + String(M).padStart(2, '0') }));
+      return;
+    }
+  }
   changed = new Set();
   best.grid.forEach((row, i) => row.forEach((v, d) => { if (v !== before[i][d]) changed.add(i + '-' + (d + 1)); }));
+  const newShort = [...shortList(best.grid)].filter(k => !shortBefore.has(k)).map(k => { const [s, d] = k.split('-'); return SL(s) + ' ' + d + '.' + String(M).padStart(2, '0'); });
   month.result = {}; team.people.forEach((p, i) => month.result[p.name] = best.grid[i]);
   delete month.imported;
   saveMonth();
   busy = false; $('#gen').disabled = false;
   render();
-  renderStatus(changed.size ? tr('st.fixed', { n: changed.size }) : tr('st.fixedNone'));
+  const msg = focus ? tr('st.filled', { s: SL(focus.s), d: focus.d + 1 + '.' + String(M).padStart(2, '0'), n: changed.size }) : (changed.size ? tr('st.fixed', { n: changed.size }) : tr('st.fixedNone'));
+  renderStatus(msg + (newShort.length ? ' ' + tr('st.newShort', { list: newShort.join(', ') }) : ''));
   if (ENGINE.problems(cfg(), gridNow()).length) toast(tr('t.notAll'));
 }
 
@@ -1772,7 +1807,8 @@ document.addEventListener('click', e => { if (!e.target.closest('#orb')) $('#orb
 $('#prevM').addEventListener('click', () => { if (busy) return; M--; if (M < 1) { M = 12; Y--; } openMonth(); });
 $('#nextM').addEventListener('click', () => { if (busy) return; M++; if (M > 12) { M = 1; Y++; } openMonth(); });
 $('#gen').addEventListener('click', generate);
-$('#fix').addEventListener('click', repair);
+$('#fix').addEventListener('click', () => repair());
+$('#grid').addEventListener('click', e => { const b = e.target.closest('.covfix'); if (!b || busy) return; repair({ s: b.dataset.s, d: +b.dataset.d - 1 }); });
 $('#export').addEventListener('click', doExport);
 $('#norm').addEventListener('change', e => { const v = parseInt(e.target.value, 10); month.norm = isNaN(v) ? null : v; saveMonth(); render(); });
 $('#normAuto').addEventListener('click', () => { month.norm = null; saveMonth(); render(); });
