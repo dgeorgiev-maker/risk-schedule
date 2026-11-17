@@ -116,6 +116,7 @@ tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)
 .cell.clash{box-shadow:inset 0 0 0 2px var(--bad);animation:clash 1.6s ease-in-out infinite}
 @keyframes clash{50%{box-shadow:inset 0 0 0 2px var(--bad),0 0 8px var(--bad)}}
 @media (prefers-reduced-motion:reduce){.cell.clash{animation:none}}
+.cell.chg{outline:2px dashed currentColor;outline-offset:-4px}
 .teamtbl{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px}
 .teamwrap{overflow-x:auto}
 .teamtbl th{font-weight:500;color:var(--muted);font-size:12.5px;text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
@@ -213,6 +214,7 @@ tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)
     </div>
     <div class="spacer"></div>
     <button class="btn primary" id="gen" data-i18n="btn.gen">Генерирай</button>
+    <button class="btn" id="fix" disabled data-i18n="btn.fix" data-i18n-attr="title:btn.fixTitle" title="Запазва графика и сменя само смените, които нарушават правило">Поправи текущия</button>
     <button class="btn" id="export" disabled data-i18n="btn.export">Свали Excel</button>
     <button class="btn skinbtn" id="skinBtn" aria-haspopup="true" data-i18n-attr="aria-label:btn.theme"><span class="dots" id="skinDots"></span><span data-i18n="btn.theme">Тема</span></button>
     <button class="btn skinbtn" id="langBtn" aria-haspopup="true" data-i18n-attr="aria-label:btn.lang"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg><span id="langShort">BG</span></button>
@@ -267,9 +269,10 @@ tr.cov:first-of-type th,tr.cov:first-of-type td{border-top:1px solid var(--line)
       <label><span data-i18n="rules.mMax">07-16 най-много</span> <input class="num" id="covMMax" type="number" min="0"> <span data-i18n="rules.people">души</span></label>
       <label><span data-i18n="rules.maxRun">Максимум поредни работни дни</span> <input class="num" id="maxRun" type="number" min="1" max="7"></label>
       <label><span data-i18n="rules.lone">Самотни нощни (една 23-07 сама)</span> <select id="loneNight" class="num" style="width:auto"><option value="allow" data-i18n="rules.loneAllow">няма проблем</option><option value="avoid" data-i18n="rules.loneAvoid">избягвай максимално</option><option value="forbid" data-i18n="rules.loneForbid">забрани</option></select></label>
+      <label><span data-i18n="rules.late">15-00 → 23-07 на следващия ден</span> <select id="lateNight" class="num" style="width:auto"><option value="allow" data-i18n="rules.loneAllow">няма проблем</option><option value="avoid" data-i18n="rules.loneAvoid">избягвай максимално</option><option value="forbid" data-i18n="rules.loneForbid">забрани</option></select></label>
       <label><span data-i18n="rules.maxWeek">Максимум дни в седмица (Пн–Нд)</span> <input class="num" id="maxWeek" type="number" min="1" max="7"></label>
     </div>
-    <p class="hint" data-i18n="rules.hint">Винаги се спазват: поне 36 часа почивка всяка седмица, без 15-00 → 07-16, без 07-16 → 23-07 и без нощна → 07-16 или 15-00 на следващия ден. След нощна има поне 2 пълни почивни дни преди 07-16 (без „фалшив“ почивен ден). 15-00 → 23-07 се дава само ако няма друг вариант. Отпуските и болничните (SL) се броят към работните дни, както в Excel-а. Дните, в които човек не е в екипа, намаляват нормата му с работните дни от този период.</p>
+    <p class="hint" data-i18n="rules.hint">Винаги се спазват: поне 36 часа почивка всяка седмица, без 15-00 → 07-16, без 07-16 → 23-07 и без нощна → 07-16 или 15-00 на следващия ден. След нощна има поне 2 пълни почивни дни преди 07-16 (без „фалшив“ почивен ден). Отпуските и болничните (SL) се броят към работните дни, както в Excel-а. Дните, в които човек не е в екипа, намаляват нормата му с работните дни от този период.</p>
     <div class="section" data-i18n="team.h">Хората</div>
     <p class="hint" data-i18n="team.hint">„Може да работи“ – цъкни смяната, за да я разрешиш или забраниш (оцветена = разрешена). „Предпочита“ – програмата ще дава тези смени, когато може. Нощният блок задава колко нощни подред: например 2–3 за Натали значи на блокове по 2 или 3. Редът тук е редът в Excel-а.</p>
     <div class="teamwrap" id="teamtbl"></div>
@@ -300,7 +303,7 @@ bg: {
   wd: ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'],
   'gate.h': 'Влез, за да продължиш', 'gate.msg': 'Достъп имат само одобрените акаунти.', 'gate.login': 'Вход с Google',
   'gate.noCfg': 'Липсват настройките на Firebase в config.js.', 'gate.fail': 'Входът не стана: {e}', 'gate.noAccess': '{email} няма достъп. Помоли собственика да добави имейла ти.',
-  'btn.gen': 'Генерирай', 'btn.export': 'Свали Excel', 'btn.theme': 'Тема', 'btn.logout': 'Изход', 'btn.lang': 'Език',
+  'btn.gen': 'Генерирай', 'btn.fix': 'Поправи текущия', 'btn.fixTitle': 'Запазва графика и сменя само смените, които нарушават правило', 'st.fixing': 'Поправям графика, като местя възможно най-малко смени…', 'st.fixed': 'Готово. Сменени са {n} клетки – маркирани са с пунктир.', 'st.fixedNone': 'Нищо не трябваше да се мести.', 'rules.late': '15-00 → 23-07 на следващия ден', 'e.lateNight': '15-00 → 23-07 на {d}-ви (без почивен ден между тях)', 'btn.export': 'Свали Excel', 'btn.theme': 'Тема', 'btn.logout': 'Изход', 'btn.lang': 'Език',
   'nav.aria': 'Месец и изглед', 'nav.prevM': 'Предишен месец', 'nav.nextM': 'Следващ месец', 'nav.pickM': 'Избери месец', 'nav.prevY': 'Предишна година', 'nav.nextY': 'Следваща година',
   'view.month': 'Месец', 'view.team': 'Екип и правила', 'view.switch': 'Смени изгледа',
   'bar.norm': 'Работни дни', 'bar.normAuto': 'Изчисли автоматично', 'bar.import': 'Качи Excel', 'bar.importTitle': 'Замени графика за месеца с готов Excel файл',
@@ -308,7 +311,7 @@ bg: {
   'leg.V': 'Отпуск', 'leg.S': 'SL – болничен', 'leg.X': 'Не е в екипа', 'leg.pin': '● закачено',
   'rules.h': 'Правила за всички', 'rules.aMin': '15-00 при нужда минимум', 'rules.mMax': '07-16 най-много', 'e.covMax': '{d}-ви: {n} на {s}, най-много {m}', 'st.thinA': 'Не стигат хора за всички смени, затова 15-00 е с човек по-малко в {n} дни: {days}.', 'st.cap': 'Капацитет: трябват {need} смени, а хората имат {have} работни дни – поне {n} смени ще останат непокрити. Първо отстъпва 15-00, после 23-07.', 'mail.btn': 'Рекуести от мейл', 'mail.title': 'Рекуести за {m} {y}', 'mail.hint': 'Постави рекуестите от мейлите – на български или английски. Най-сигурно е всеки ред да започва с името: „Денис: почивка 4 и 5, нощни 10–12“. Може и цели мейли (с „From:“ или подпис накрая). Разбира и празници: Коледа/X-mas = 24–26, Бъдни вечер = 24. „На работа“ без смяна закача само, че иска да работи – смяната я избира генераторът. Натисни „Разчети“, провери и „Нанеси“ – става като ръчно закачени клетки.', 'mail.ph': 'Денис: почивка на 4 и 5, нощни 10-12\nAtanas: vacation 30-31, 15-00 on 24\nНатали: искам 15-00 на 24, 25 и 26', 'mail.read': 'Разчети', 'mail.cancel': 'Затвори', 'mail.apply': 'Нанеси ({n})', 'mail.col': 'Рекуести (дни)', 'mail.none': 'Не намерих рекуести с дати.', 'mail.notes': 'Провери ръчно:', 'mail.assumed': 'Смяната е взета от предното изречение', 'mail.replaces': 'Сменя вече закачени клетки: {days}', 'mail.done': 'Нанесени рекуести: {n}. Генерирай пак, за да се нагоди графикът.', 'mail.n.unknownName': 'Не разпознах името „{arg}“ (трябва да е като в „Екип и правила“): {text}', 'mail.n.noName': 'Не е ясно за кого е: „{text}“', 'mail.n.negated': '{name}: „{text}“ – смяна, която да НЯМА, не може да се закачи като клетка. Нанеси я ръчно.', 'mail.n.noDates': '{name}: няма дати в „{text}“', 'mail.n.noKw': '{name}: има дати, но не и каква смяна в „{text}“', 'mail.n.otherMonth': '{name}: дата от друг месец в „{text}“ – пропусната', 'mail.n.badDay': '{name}: ден {arg} го няма в този месец', 'mail.n.conflict': '{name}: за ден {arg} има две различни смени – остава последната', 'mail.n.cantWork': '{name}: „{text}“ – не може да работи, затова закачих почивка. Ако е само за част от деня, промени клетката ръчно.', 'lbl.W': 'Раб.', 'g.wantWork': ' – иска да е на работа (смяната я избира генераторът)', 'e.wantWork': 'иска да е на работа на {d}-ви', 'mail.alias': '„{arg}“ е:', 'rules.nMin': '23-07 при нужда минимум', 'st.thin': 'За да се спазят всички правила и заявки, {n} нощи са с по {m} души: {days}.', 'st.thin1': 'За да се спазят всички правила и заявки, 1 нощ е с {m} души: {days}.', 'rules.atLeast': 'поне', 'rules.exactly': 'точно', 'rules.people': 'души',
   'rules.maxRun': 'Максимум поредни работни дни', 'rules.maxWeek': 'Максимум дни в седмица (Пн–Нд)',
-  'rules.hint': 'Винаги се спазват: поне 36 часа почивка всяка седмица, без 15-00 → 07-16, без 07-16 → 23-07 и без нощна → 07-16 или 15-00 на следващия ден. След нощна има поне 2 пълни почивни дни преди 07-16 (без „фалшив“ почивен ден). 15-00 → 23-07 се дава само ако няма друг вариант. Отпуските и болничните (SL) се броят към работните дни, както в Excel-а. Дните, в които човек не е в екипа, намаляват нормата му с работните дни от този период.',
+  'rules.hint': 'Винаги се спазват: поне 36 часа почивка всяка седмица, без 15-00 → 07-16, без 07-16 → 23-07 и без нощна → 07-16 или 15-00 на следващия ден. След нощна има поне 2 пълни почивни дни преди 07-16 (без „фалшив“ почивен ден). Отпуските и болничните (SL) се броят към работните дни, както в Excel-а. Дните, в които човек не е в екипа, намаляват нормата му с работните дни от този период.',
   'team.h': 'Хората', 'team.add': 'Добави човек',
   'team.hint': '„Може да работи“ – цъкни смяната, за да я разрешиш или забраниш (оцветена = разрешена). „Предпочита“ – програмата ще дава тези смени, когато може. Нощният блок задава колко нощни подред: например 2–3 значи на блокове по 2 или 3. Редът тук е редът в Excel-а.',
   'team.name': 'Име', 'team.allow': 'Може да работи', 'team.prefer': 'Предпочита', 'team.nights': 'Нощни (мин–макс)', 'team.nightWhen': 'Нощни кога', 'team.dayWhen': 'Дневни (07-16) кога', 'team.aftWhen': 'Следобедни (15-00) кога', 'team.block': 'Нощен блок (дни)',
@@ -364,7 +367,7 @@ en: {
   wd: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
   'gate.h': 'Sign in to continue', 'gate.msg': 'Only approved accounts have access.', 'gate.login': 'Sign in with Google',
   'gate.noCfg': 'Firebase settings are missing in config.js.', 'gate.fail': 'Sign-in failed: {e}', 'gate.noAccess': '{email} has no access. Ask the owner to add your email.',
-  'btn.gen': 'Generate', 'btn.export': 'Download Excel', 'btn.theme': 'Theme', 'btn.logout': 'Sign out', 'btn.lang': 'Language',
+  'btn.gen': 'Generate', 'btn.fix': 'Fix current', 'btn.fixTitle': 'Keeps the schedule and changes only the shifts that break a rule', 'st.fixing': 'Fixing the schedule, moving as few shifts as possible…', 'st.fixed': 'Done. {n} cells changed – they are marked with a dashed outline.', 'st.fixedNone': 'Nothing needed to move.', 'rules.late': '15-00 → 23-07 the next day', 'e.lateNight': '15-00 → 23-07 on day {d} (no day off between)', 'btn.export': 'Download Excel', 'btn.theme': 'Theme', 'btn.logout': 'Sign out', 'btn.lang': 'Language',
   'nav.aria': 'Month and view', 'nav.prevM': 'Previous month', 'nav.nextM': 'Next month', 'nav.pickM': 'Choose month', 'nav.prevY': 'Previous year', 'nav.nextY': 'Next year',
   'view.month': 'Month', 'view.team': 'Team and rules', 'view.switch': 'Switch view',
   'bar.norm': 'Working days', 'bar.normAuto': 'Calculate automatically', 'bar.import': 'Upload Excel', 'bar.importTitle': "Replace this month's schedule with a finished Excel file",
@@ -372,7 +375,7 @@ en: {
   'leg.V': 'Vacation', 'leg.S': 'SL – sick leave', 'leg.X': 'Not in the team', 'leg.pin': '● pinned',
   'rules.h': 'Rules for everyone', 'rules.aMin': '15-00 if needed at least', 'rules.mMax': '07-16 at most', 'e.covMax': 'Day {d}: {n} on {s}, at most {m}', 'st.thinA': 'There are not enough people for every shift, so 15-00 runs one person short on {n} days: {days}.', 'st.cap': 'Capacity: {need} shifts are needed, but the people have {have} working days – at least {n} shifts will stay uncovered. 15-00 gives way first, then 23-07.', 'mail.btn': 'Requests from e-mail', 'mail.title': 'Requests for {m} {y}', 'mail.hint': 'Paste the requests from the e-mails – in Bulgarian or English. Safest is one line per person starting with the name: "Denis: off 4 and 5, nights 10-12". Whole e-mails work too (with "From:" or a signature at the end). Holidays work: Christmas/X-mas = 24–26, Christmas Eve = 24. "Working" without a shift pins only that the person wants to work – the generator picks the shift. Press "Read", check, then "Apply" – they become pinned cells.', 'mail.ph': 'Denis: off on 4 and 5, nights 10-12\nAtanas: vacation 30-31, 15-00 on 24\nНатали: искам 15-00 на 24, 25 и 26', 'mail.read': 'Read', 'mail.cancel': 'Close', 'mail.apply': 'Apply ({n})', 'mail.col': 'Requests (days)', 'mail.none': 'No requests with dates found.', 'mail.notes': 'Check by hand:', 'mail.assumed': 'The shift was taken from the sentence before', 'mail.replaces': 'Replaces pinned cells: {days}', 'mail.done': 'Requests applied: {n}. Generate again to fit the schedule around them.', 'mail.n.unknownName': 'Didn\'t recognise the name "{arg}" (it must match "Team and rules"): {text}', 'mail.n.noName': 'Not clear who this is for: "{text}"', 'mail.n.negated': '{name}: "{text}" – a shift someone does NOT want can\'t be pinned as a cell. Set it by hand.', 'mail.n.noDates': '{name}: no dates in "{text}"', 'mail.n.noKw': '{name}: dates but no shift in "{text}"', 'mail.n.otherMonth': '{name}: a date from another month in "{text}" – skipped', 'mail.n.badDay': '{name}: day {arg} is not in this month', 'mail.n.conflict': '{name}: day {arg} was asked with two different shifts – the last one is kept', 'mail.n.cantWork': '{name}: "{text}" – can\'t work, so a day off was pinned. If it is only part of the day, change the cell by hand.', 'lbl.W': 'Work', 'g.wantWork': ' – wants to work (the generator picks the shift)', 'e.wantWork': 'wants to work on day {d}', 'mail.alias': '"{arg}" is:', 'rules.nMin': '23-07 if needed at least', 'st.thin': 'To keep all rules and requests, {n} nights run with {m} people: {days}.', 'st.thin1': 'To keep all rules and requests, 1 night runs with {m} people: {days}.', 'rules.atLeast': 'at least', 'rules.exactly': 'exactly', 'rules.people': 'people',
   'rules.maxRun': 'Max consecutive working days', 'rules.maxWeek': 'Max days per week (Mon–Sun)',
-  'rules.hint': 'Always kept: at least 36 hours of rest every week, no 15-00 → 07-16, no 07-16 → 23-07 and no night → 07-16 or 15-00 the next day. After a night there are at least 2 full days off before a 07-16 (no "fake" day off). 15-00 → 23-07 is only given when there is no other option. Vacation and sick leave (SL) count as working days, as in the Excel. Days when someone is not in the team lower their target by the working days in that period.',
+  'rules.hint': 'Always kept: at least 36 hours of rest every week, no 15-00 → 07-16, no 07-16 → 23-07 and no night → 07-16 or 15-00 the next day. After a night there are at least 2 full days off before a 07-16 (no "fake" day off). Vacation and sick leave (SL) count as working days, as in the Excel. Days when someone is not in the team lower their target by the working days in that period.',
   'team.h': 'People', 'team.add': 'Add person',
   'team.hint': '"Can work" – click a shift to allow or forbid it (coloured = allowed). "Prefers" – the program gives these shifts when it can. The night block sets how many nights in a row: e.g. 2–3 means blocks of 2 or 3. The order here is the order in the Excel.',
   'team.name': 'Name', 'team.allow': 'Can work', 'team.prefer': 'Prefers', 'team.nights': 'Nights (min–max)', 'team.nightWhen': 'Nights when', 'team.dayWhen': 'Days (07-16) when', 'team.aftWhen': 'Afternoons (15-00) when', 'team.block': 'Night block (days)',
@@ -428,7 +431,7 @@ el: {
   wd: ['Δευ','Τρι','Τετ','Πεμ','Παρ','Σαβ','Κυρ'],
   'gate.h': 'Συνδεθείτε για να συνεχίσετε', 'gate.msg': 'Πρόσβαση έχουν μόνο εγκεκριμένοι λογαριασμοί.', 'gate.login': 'Σύνδεση με Google',
   'gate.noCfg': 'Λείπουν οι ρυθμίσεις Firebase στο config.js.', 'gate.fail': 'Η σύνδεση απέτυχε: {e}', 'gate.noAccess': 'Το {email} δεν έχει πρόσβαση. Ζητήστε από τον κάτοχο να προσθέσει το email σας.',
-  'btn.gen': 'Δημιουργία', 'btn.export': 'Λήψη Excel', 'btn.theme': 'Θέμα', 'btn.logout': 'Αποσύνδεση', 'btn.lang': 'Γλώσσα',
+  'btn.gen': 'Δημιουργία', 'btn.fix': 'Διόρθωση τρέχοντος', 'btn.fixTitle': 'Κρατά το πρόγραμμα και αλλάζει μόνο τις βάρδιες που παραβιάζουν κανόνα', 'st.fixing': 'Διόρθωση προγράμματος με όσο το δυνατόν λιγότερες αλλαγές…', 'st.fixed': 'Έτοιμο. Άλλαξαν {n} κελιά – σημειώνονται με διακεκομμένο περίγραμμα.', 'st.fixedNone': 'Δεν χρειάστηκε καμία αλλαγή.', 'rules.late': '15-00 → 23-07 την επόμενη μέρα', 'e.lateNight': '15-00 → 23-07 στις {d} (χωρίς ρεπό ενδιάμεσα)', 'btn.export': 'Λήψη Excel', 'btn.theme': 'Θέμα', 'btn.logout': 'Αποσύνδεση', 'btn.lang': 'Γλώσσα',
   'nav.aria': 'Μήνας και προβολή', 'nav.prevM': 'Προηγούμενος μήνας', 'nav.nextM': 'Επόμενος μήνας', 'nav.pickM': 'Επιλογή μήνα', 'nav.prevY': 'Προηγούμενο έτος', 'nav.nextY': 'Επόμενο έτος',
   'view.month': 'Μήνας', 'view.team': 'Ομάδα και κανόνες', 'view.switch': 'Αλλαγή προβολής',
   'bar.norm': 'Εργάσιμες ημέρες', 'bar.normAuto': 'Αυτόματος υπολογισμός', 'bar.import': 'Μεταφόρτωση Excel', 'bar.importTitle': 'Αντικατάσταση του προγράμματος του μήνα με έτοιμο αρχείο Excel',
@@ -436,7 +439,7 @@ el: {
   'leg.V': 'Άδεια', 'leg.S': 'SL – αναρρωτική', 'leg.X': 'Εκτός ομάδας', 'leg.pin': '● καρφιτσωμένο',
   'rules.h': 'Κανόνες για όλους', 'rules.aMin': '15-00 αν χρειαστεί τουλάχιστον', 'rules.mMax': '07-16 το πολύ', 'e.covMax': '{d}: {n} στη {s}, το πολύ {m}', 'st.thinA': 'Δεν φτάνουν τα άτομα για όλες τις βάρδιες, γι’ αυτό η 15-00 έχει ένα άτομο λιγότερο σε {n} ημέρες: {days}.', 'st.cap': 'Χωρητικότητα: χρειάζονται {need} βάρδιες, αλλά τα άτομα έχουν {have} εργάσιμες – τουλάχιστον {n} βάρδιες θα μείνουν ακάλυπτες. Πρώτα υποχωρεί η 15-00, μετά η 23-07.', 'mail.btn': 'Αιτήματα από email', 'mail.title': 'Αιτήματα για {m} {y}', 'mail.hint': 'Επικολλήστε τα αιτήματα από τα email – στα βουλγαρικά ή στα αγγλικά. Το πιο σίγουρο είναι μία γραμμή ανά άτομο που ξεκινά με το όνομα: «Denis: off 4 and 5, nights 10-12». Πατήστε «Ανάγνωση», ελέγξτε και «Εφαρμογή» – γίνονται καρφιτσωμένα κελιά.', 'mail.ph': 'Denis: off on 4 and 5, nights 10-12\nAtanas: vacation 30-31, 15-00 on 24', 'mail.read': 'Ανάγνωση', 'mail.cancel': 'Κλείσιμο', 'mail.apply': 'Εφαρμογή ({n})', 'mail.col': 'Αιτήματα (ημέρες)', 'mail.none': 'Δεν βρέθηκαν αιτήματα με ημερομηνίες.', 'mail.notes': 'Ελέγξτε χειροκίνητα:', 'mail.assumed': 'Η βάρδια πάρθηκε από την προηγούμενη πρόταση', 'mail.replaces': 'Αντικαθιστά καρφιτσωμένα κελιά: {days}', 'mail.done': 'Εφαρμόστηκαν αιτήματα: {n}. Δημιουργήστε ξανά το πρόγραμμα.', 'mail.n.unknownName': 'Δεν αναγνωρίστηκε το όνομα «{arg}»: {text}', 'mail.n.noName': 'Δεν είναι σαφές για ποιον είναι: «{text}»', 'mail.n.negated': '{name}: «{text}» – βάρδια που ΔΕΝ θέλει κάποιος δεν μπορεί να καρφιτσωθεί. Ορίστε τη χειροκίνητα.', 'mail.n.noDates': '{name}: χωρίς ημερομηνίες στο «{text}»', 'mail.n.noKw': '{name}: ημερομηνίες χωρίς βάρδια στο «{text}»', 'mail.n.otherMonth': '{name}: ημερομηνία άλλου μήνα στο «{text}» – παραλείφθηκε', 'mail.n.badDay': '{name}: η ημέρα {arg} δεν υπάρχει σε αυτόν τον μήνα', 'mail.n.conflict': '{name}: η ημέρα {arg} ζητήθηκε με δύο βάρδιες – κρατιέται η τελευταία', 'mail.n.cantWork': '{name}: «{text}» – δεν μπορεί να εργαστεί, οπότε καρφιτσώθηκε ρεπό. Αν αφορά μόνο μέρος της ημέρας, αλλάξτε το κελί χειροκίνητα.', 'lbl.W': 'Εργ.', 'g.wantWork': ' – θέλει να εργαστεί (τη βάρδια την επιλέγει το πρόγραμμα)', 'e.wantWork': 'θέλει να εργαστεί στις {d}', 'mail.alias': '«{arg}» είναι:', 'rules.nMin': '23-07 αν χρειαστεί τουλάχιστον', 'st.thin': 'Για να τηρηθούν όλοι οι κανόνες και τα αιτήματα, {n} νύχτες έχουν {m} άτομα: {days}.', 'st.thin1': 'Για να τηρηθούν όλοι οι κανόνες και τα αιτήματα, 1 νύχτα έχει {m} άτομα: {days}.', 'rules.atLeast': 'τουλάχιστον', 'rules.exactly': 'ακριβώς', 'rules.people': 'άτομα',
   'rules.maxRun': 'Μέγιστες συνεχόμενες εργάσιμες ημέρες', 'rules.maxWeek': 'Μέγιστες ημέρες ανά εβδομάδα (Δευ–Κυρ)',
-  'rules.hint': 'Τηρούνται πάντα: τουλάχιστον 36 ώρες ξεκούρασης κάθε εβδομάδα, όχι 15-00 → 07-16, όχι 07-16 → 23-07 και όχι νυχτερινή → 07-16 ή 15-00 την επόμενη μέρα. Μετά από νυχτερινή υπάρχουν τουλάχιστον 2 πλήρεις ελεύθερες μέρες πριν από 07-16 (όχι «ψεύτικο» ρεπό). Το 15-00 → 23-07 δίνεται μόνο αν δεν υπάρχει άλλη επιλογή. Η άδεια και η αναρρωτική (SL) μετρούν ως εργάσιμες ημέρες, όπως στο Excel. Οι ημέρες που κάποιος είναι εκτός ομάδας μειώνουν τον στόχο του κατά τις εργάσιμες ημέρες εκείνης της περιόδου.',
+  'rules.hint': 'Τηρούνται πάντα: τουλάχιστον 36 ώρες ξεκούρασης κάθε εβδομάδα, όχι 15-00 → 07-16, όχι 07-16 → 23-07 και όχι νυχτερινή → 07-16 ή 15-00 την επόμενη μέρα. Μετά από νυχτερινή υπάρχουν τουλάχιστον 2 πλήρεις ελεύθερες μέρες πριν από 07-16 (όχι «ψεύτικο» ρεπό). Η άδεια και η αναρρωτική (SL) μετρούν ως εργάσιμες ημέρες, όπως στο Excel. Οι ημέρες που κάποιος είναι εκτός ομάδας μειώνουν τον στόχο του κατά τις εργάσιμες ημέρες εκείνης της περιόδου.',
   'team.h': 'Άτομα', 'team.add': 'Προσθήκη ατόμου',
   'team.hint': '«Μπορεί να δουλέψει» – κάντε κλικ σε μια βάρδια για να την επιτρέψετε ή να την απαγορεύσετε (χρωματισμένη = επιτρέπεται). «Προτιμά» – το πρόγραμμα δίνει αυτές τις βάρδιες όταν μπορεί. Το νυχτερινό μπλοκ ορίζει πόσες νυχτερινές στη σειρά: π.χ. 2–3 σημαίνει μπλοκ των 2 ή 3. Η σειρά εδώ είναι η σειρά στο Excel.',
   'team.name': 'Όνομα', 'team.allow': 'Μπορεί να δουλέψει', 'team.prefer': 'Προτιμά', 'team.nights': 'Νυχτερινές (ελάχ.–μέγ.)', 'team.nightWhen': 'Πότε νυχτερινές', 'team.dayWhen': 'Πότε πρωινές (07-16)', 'team.aftWhen': 'Πότε απογευματινές (15-00)', 'team.block': 'Νυχτερινό μπλοκ (ημέρες)',
@@ -606,11 +609,17 @@ function agentPen(cfg, ctx, a, row, detail) {
     if (i > P && i < P + D - 1 && WORK(ext[i]) && ext[i - 1] && !WORK(ext[i - 1]) && ext[i + 1] && !WORK(ext[i + 1])) soft += 6;
     // single day off squeezed between two working days: keep as rare as possible
     if (i >= P && i < P + D - 1 && c === 'O' && WORK(ext[i - 1]) && WORK(ext[i + 1])) soft += 25 + (ext[i - 1] === 'N' ? 10 : 0);
-    // 15-00 -> 23-07 next day: allowed, but only when nothing else fits
-    if (i >= P && ext[i - 1] === 'A' && c === 'N') soft += 120;
+    // 15-00 -> 23-07 next day: forbidden by default; can be set to "avoid" or "fine" in the rules
+    if (i >= P && ext[i - 1] === 'A' && c === 'N') {
+      const ln = cfg.lateNight || 'forbid';
+      if (ln === 'forbid') { hard++; note && note(tr('e.lateNight', { d: i - P + 1 })); }
+      else soft += ln === 'allow' ? 5 : 120;
+    }
     // volatility
     if (i > P && WORK(c) && WORK(ext[i - 1]) && c !== ext[i - 1]) soft += 1;
   }
+  // repair mode: every cell that differs from the schedule we started from costs a little, so as few cells as possible move
+  if (cfg.base && cfg.base[a]) { const b = cfg.base[a], w = cfg.baseW || 50; for (let d = 0; d < D; d++) if (b[d] != null && row[d] !== b[d]) soft += w; }
   // weekly checks
   for (const w of ctx.weeks) {
     let cnt = 0, unknown = false;
@@ -738,6 +747,7 @@ function solver(cfg, opts = {}) {
   }
   const isFixed = (a, d) => !!((keep && keep[a] && keep[a][d]) || locked[a][d]);
   let grid = fresh();
+  if (opts.start) grid = opts.start.map((r, a) => r.map((c, d) => (keep && keep[a] && keep[a][d]) || locked[a][d] || c || 'O')); // repair: begin from the current schedule
   let ap = grid.map((r, a) => agentPen(cfg, ctx, a, r));
   let dp = Array.from({ length: D }, (_, d) => dayPen(cfg, ctx, grid, d));
   const score = (h, s) => h * H + s;
@@ -745,7 +755,7 @@ function solver(cfg, opts = {}) {
   recalc();
   let best = { grid: grid.map(r => r.slice()), score: cur };
   const total = opts.iters || 400000;
-  let it = 0; let T0 = opts.T0 || 300, T1 = 0.3;
+  let it = 0; let T0 = opts.T0 || 300, T1 = opts.T1 || 0.3;
   let restarts = 0;
   function step(n) {
     for (let k = 0; k < n && it < total; k++, it++) {
@@ -1255,7 +1265,7 @@ function prevTailFor(name) {
 function cfg() {
   const prev = {}; team.people.forEach(p => prev[p.name] = prevTailFor(p.name));
   return {
-    year: Y, month: M, norm: norm(), cover: team.cover, coverNMin: team.coverNMin != null ? team.coverNMin : Math.max(0, team.cover.N - 1), coverAMin: team.coverAMin != null ? team.coverAMin : Math.max(0, team.cover.A - 1), coverMMax: team.coverMMax != null ? team.coverMMax : team.cover.M + 1, maxRun: team.maxRun, maxWeek: team.maxWeek, loneNight: team.loneNight || 'avoid',
+    year: Y, month: M, norm: norm(), cover: team.cover, coverNMin: team.coverNMin != null ? team.coverNMin : Math.max(0, team.cover.N - 1), coverAMin: team.coverAMin != null ? team.coverAMin : Math.max(0, team.cover.A - 1), coverMMax: team.coverMMax != null ? team.coverMMax : team.cover.M + 1, maxRun: team.maxRun, maxWeek: team.maxWeek, loneNight: team.loneNight || 'avoid', lateNight: team.lateNight || 'forbid',
     team: team.people.map(p => ({ name: p.name, allow: { M: p.allow.includes('M'), A: p.allow.includes('A'), N: p.allow.includes('N') }, prefer: p.prefer ? p.prefer.split('') : [], nightMin: +p.nightMin || 0, nightMax: p.allow.includes('N') ? (+p.nightMax || 0) : 0, nightHalf: p.nightHalf, mHalf: p.mHalf || 'any', aHalf: p.aHalf || 'any', blockMin: +p.blockMin || 1, blockMax: +p.blockMax || 7, work: targetFor(p.name), vacMin: Math.max(0, +((month.vacMin || {})[p.name]) || 0), vacLocked: Object.values(month.req[p.name] || {}).filter(c => c === 'V').length })),
     req: month.req, prev
   };
@@ -1300,7 +1310,7 @@ function render() {
     for (let d = 1; d <= days; d++) {
       const { c, fixed, want } = cellCode(p.name, d); if (c) cnt[c]++;
       const w = ENGINE.dow(Y, M, d);
-      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}${want ? ' want' : ''}${(DAYLIKE(c) && codeAt(p.name, d - 1) === 'N') || (c === 'N' && DAYLIKE(codeAt(p.name, d + 1))) || longRun.has(d) ? ' clash' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}${want ? esc(tr('g.wantWork')) : ''}"${want ? ` title="${esc(tr('g.wantWork'))}"` : ''}>${c ? LBL[c] : want ? LBL.W : '·'}</button></td>`;
+      h += `<td class="${w >= 5 ? 'wkd' : ''}${d === 1 ? ' sep' : ''}${selCol === d ? ' csel' : ''}" data-col="${d}"><button class="cell ${c || 'empty'} ${fixed ? 'fixed' : ''}${want ? ' want' : ''}${(DAYLIKE(c) && codeAt(p.name, d - 1) === 'N') || (c === 'N' && DAYLIKE(codeAt(p.name, d + 1))) || longRun.has(d) || ((team.lateNight || 'forbid') === 'forbid' && ((c === 'N' && codeAt(p.name, d - 1) === 'A') || (c === 'A' && codeAt(p.name, d + 1) === 'N'))) ? ' clash' : ''}${changed.has(i + '-' + d) ? ' chg' : ''}" data-p="${i}" data-d="${d}" aria-label="${esc(tr('g.cell', { name: p.name, d, v: c ? LBL[c] : tr('g.empty') }))}${fixed ? tr('g.pinned') : ''}${want ? esc(tr('g.wantWork')) : ''}"${want ? ` title="${esc(tr('g.wantWork'))}"` : ''}>${c ? LBL[c] : want ? LBL.W : '·'}</button></td>`;
     }
     const vmin = +((month.vacMin || {})[p.name]) || 0;
     const target = targetFor(p.name), worked = cnt.M + cnt.A + cnt.N + cnt.V + cnt.S;
@@ -1327,6 +1337,7 @@ function render() {
   vacBtnText();
   renderStatus();
   $('#export').disabled = !month.result || busy;
+  $('#fix').disabled = !month.result || busy;
 }
 function renderStatus(extra) {
   const el = $('#status');
@@ -1531,7 +1542,7 @@ function saveMonth() { save(key(Y, M), month); }
 
 // ---------- month switch ----------
 async function openMonth() {
-  closePop();
+  closePop(); changed = new Set();
   $('#grid').innerHTML = '<div style="padding:30px;color:var(--muted)">' + tr('st.loading') + '</div>';
   const py = M === 1 ? Y - 1 : Y, pm = M === 1 ? 12 : M - 1;
   const [m, p] = await Promise.all([load(key(Y, M)), load(key(py, pm))]);
@@ -1545,7 +1556,8 @@ async function generate() {
   if (busy || !team.people.length) return;
   const c = cfg();
   const bad = team.people.filter(p => !p.name.trim()); if (bad.length) { toast(tr('t.noName')); return; }
-  busy = true; $('#gen').disabled = true; $('#export').disabled = true;
+  changed = new Set();
+  busy = true; $('#gen').disabled = true; $('#fix').disabled = true; $('#export').disabled = true;
   const el = $('#status'); el.className = 'status info'; el.innerHTML = tr('st.working') + capTxt() + ' <div class="progress"><i id="pg"></i></div>';
   let tries = 3; const iters = 1000000; let best = null;
   for (let t = 0; t < tries; t++) {
@@ -1563,6 +1575,32 @@ async function generate() {
   busy = false; $('#gen').disabled = false;
   render();
   renderStatus(tr('st.done'));
+  if (ENGINE.problems(cfg(), gridNow()).length) toast(tr('t.notAll'));
+}
+
+// ---------- repair: keep the current schedule, move only what breaks a rule ----------
+var changed = new Set(); // "row-day" of cells the last repair moved
+async function repair() {
+  if (busy || !team.people.length || !month.result) return;
+  const before = gridNow();
+  const c = Object.assign(cfg(), { base: before, baseW: 50 });
+  busy = true; $('#gen').disabled = true; $('#fix').disabled = true; $('#export').disabled = true;
+  const el = $('#status'); el.className = 'status info'; el.innerHTML = tr('st.fixing') + ' <div class="progress"><i id="pg"></i></div>';
+  const tries = 4, iters = 400000; let best = null;
+  for (let t = 0; t < tries; t++) {
+    const s = ENGINE.solver(c, { seed: (Date.now() + t * 7919) & 0xffffff, iters, start: before, T0: 60, T1: 0.2 });
+    let r;
+    do { r = s.step(20000); const pg = $('#pg'); if (pg) pg.style.width = (((t + r.progress) / tries) * 100).toFixed(1) + '%'; await new Promise(f => setTimeout(f, 0)); } while (!r.done);
+    if (!best || r.best.score < best.score) best = r.best;
+  }
+  changed = new Set();
+  best.grid.forEach((row, i) => row.forEach((v, d) => { if (v !== before[i][d]) changed.add(i + '-' + (d + 1)); }));
+  month.result = {}; team.people.forEach((p, i) => month.result[p.name] = best.grid[i]);
+  delete month.imported;
+  saveMonth();
+  busy = false; $('#gen').disabled = false;
+  render();
+  renderStatus(changed.size ? tr('st.fixed', { n: changed.size }) : tr('st.fixedNone'));
   if (ENGINE.problems(cfg(), gridNow()).length) toast(tr('t.notAll'));
 }
 
@@ -1588,7 +1626,7 @@ async function doExport() {
 // ---------- team tab ----------
 function renderTeam() {
   const c = team.cover;
-  $('#covM').value = c.M; $('#covA').value = c.A; $('#covN').value = c.N; $('#covNMin').value = team.coverNMin != null ? team.coverNMin : Math.max(0, c.N - 1); $('#covAMin').value = team.coverAMin != null ? team.coverAMin : Math.max(0, c.A - 1); $('#covMMax').value = team.coverMMax != null ? team.coverMMax : c.M + 1; $('#maxRun').value = team.maxRun; $('#maxWeek').value = team.maxWeek; $('#loneNight').value = team.loneNight || 'avoid';
+  $('#covM').value = c.M; $('#covA').value = c.A; $('#covN').value = c.N; $('#covNMin').value = team.coverNMin != null ? team.coverNMin : Math.max(0, c.N - 1); $('#covAMin').value = team.coverAMin != null ? team.coverAMin : Math.max(0, c.A - 1); $('#covMMax').value = team.coverMMax != null ? team.coverMMax : c.M + 1; $('#maxRun').value = team.maxRun; $('#maxWeek').value = team.maxWeek; $('#loneNight').value = team.loneNight || 'avoid'; $('#lateNight').value = team.lateNight || 'forbid';
   let h = `<table class="teamtbl"><thead><tr><th></th><th>${tr('team.name')}</th><th>${tr('team.allow')}</th><th>${tr('team.prefer')}</th><th>${tr('team.nights')}</th><th>${tr('team.nightWhen')}</th><th>${tr('team.dayWhen')}</th><th>${tr('team.aftWhen')}</th><th>${tr('team.block')}</th><th></th></tr></thead><tbody>`;
   const whenSel = (i, f, v, lbl) => { v = v || 'any'; return `<td><select data-i="${i}" data-f="${f}" aria-label="${tr(lbl)}">${[['any', 'team.whenAny'], ['second', 'team.whenEnd'], ['first', 'team.whenStart']].map(([k, t]) => `<option value="${k}" ${v === k ? 'selected' : ''}>${tr(t)}</option>`).join('')}</select></td>`; };
   team.people.forEach((p, i) => {
@@ -1625,6 +1663,7 @@ $('#teamtbl').addEventListener('click', e => {
   saveTeam(); renderTeam();
 });
 $('#loneNight').addEventListener('change', e => { team.loneNight = e.target.value; saveTeam(); });
+$('#lateNight').addEventListener('change', e => { team.lateNight = e.target.value; saveTeam(); if (month) render(); });
 $('#teamtbl').addEventListener('change', e => {
   const t = e.target; if (t.dataset.i == null) return;
   const p = team.people[+t.dataset.i]; const f = t.dataset.f;
@@ -1733,6 +1772,7 @@ document.addEventListener('click', e => { if (!e.target.closest('#orb')) $('#orb
 $('#prevM').addEventListener('click', () => { if (busy) return; M--; if (M < 1) { M = 12; Y--; } openMonth(); });
 $('#nextM').addEventListener('click', () => { if (busy) return; M++; if (M > 12) { M = 1; Y++; } openMonth(); });
 $('#gen').addEventListener('click', generate);
+$('#fix').addEventListener('click', repair);
 $('#export').addEventListener('click', doExport);
 $('#norm').addEventListener('change', e => { const v = parseInt(e.target.value, 10); month.norm = isNaN(v) ? null : v; saveMonth(); render(); });
 $('#normAuto').addEventListener('click', () => { month.norm = null; saveMonth(); render(); });
@@ -1768,7 +1808,7 @@ $('#importF').addEventListener('change', async e => {
   Y = r.year; M = r.month; await openMonth();
   toast(tr('imp.done', { m: MONTHS[r.month - 1], y: r.year }));
 });
-$('#clearRes').addEventListener('click', () => { if (!month.result || !confirm(tr('c.clearRes'))) return; month.result = null; saveMonth(); render(); });
+$('#clearRes').addEventListener('click', () => { if (!month.result || !confirm(tr('c.clearRes'))) return; month.result = null; changed = new Set(); saveMonth(); render(); });
 $('#clearReq').addEventListener('click', () => {
   if (busy) return;
   const n = Object.values(month.req || {}).reduce((a, r) => a + Object.keys(r || {}).length, 0);
